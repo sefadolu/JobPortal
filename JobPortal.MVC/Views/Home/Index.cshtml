@@ -1,8 +1,52 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Anasayfa";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <header>
+        <div class="logo-container">
+            <img src="~/images/logo2.jpg" alt="Site Logosu" />
+        </div>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="@Url.Action("Login", "JobSeeker")">İş Arayan Girişi</a></li>
+            <li><a href="@Url.Action("Register", "JobSeeker")">İş Arayan Kayıt</a></li>
+            <li><a href="@Url.Action("Login", "Employer")">İşveren Girişi</a></li>
+            <li><a href="@Url.Action("Register", "Employer")">İşveren Kayıt</a></li>
+        </ul>
+    </nav>
 </div>
+
+<style>
+    .logo-container {
+        display: flex;
+        justify-content: center; /* Yatayda ortalar */
+        align-items: center; /* Dikeyde ortalar */
+        height: 400px; /* Konteyner yüksekliği */
+    }
+
+    header img {
+        max-width: 900px; /* Logonun maksimum genişliği */
+        height: auto; /* Yüksekliğin otomatik ayarlanması */
+    }
+
+    nav ul {
+        list-style: none;
+        padding: 0;
+        text-align: center; /* Menü öğelerini ortalar */
+        margin-top: 30px; /* Menü ve logo arasına boşluk ekler */
+    }
+
+        nav ul li {
+            display: inline-block;
+            margin-right: 40px; /* Menü öğeleri arasındaki boşluk */
+        }
+
+            nav ul li a {
+                text-decoration: none;
+                color: black;
+                font-weight: bold;
+                font-size: 16px;
+            }
+</style>

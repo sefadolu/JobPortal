@@ -90,17 +90,17 @@ namespace JobPortal.Entities.Migrations
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");
 
                     b.Property<string>("Location")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Website")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("varchar(200)");
 
@@ -148,7 +148,7 @@ namespace JobPortal.Entities.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CompanyProfileId")
+                    b.Property<int?>("CompanyProfileId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -227,7 +227,6 @@ namespace JobPortal.Entities.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");
 
@@ -252,28 +251,35 @@ namespace JobPortal.Entities.Migrations
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("varchar(15)");
 
                     b.Property<string>("ProfilePicture")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("Resume")
-                        .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("varchar(1000)");
 
                     b.Property<string>("Skills")
-                        .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("varchar(1000)");
 
                     b.HasKey("Id");
 
                     b.ToTable("JobSeekers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "ali.veli@example.com",
+                            FirstName = "Ali",
+                            LastName = "Veli",
+                            Password = "password123",
+                            PhoneNumber = "1234567890"
+                        });
                 });
 
             modelBuilder.Entity("JobPortal.Entities.Models.Concrete.Application", b =>
@@ -311,8 +317,7 @@ namespace JobPortal.Entities.Migrations
                     b.HasOne("JobPortal.Entities.Models.Concrete.CompanyProfile", "CompanyProfile")
                         .WithOne("Employer")
                         .HasForeignKey("JobPortal.Entities.Models.Concrete.Employer", "CompanyProfileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("CompanyProfile");
                 });
@@ -343,8 +348,7 @@ namespace JobPortal.Entities.Migrations
 
             modelBuilder.Entity("JobPortal.Entities.Models.Concrete.CompanyProfile", b =>
                 {
-                    b.Navigation("Employer")
-                        .IsRequired();
+                    b.Navigation("Employer");
                 });
 
             modelBuilder.Entity("JobPortal.Entities.Models.Concrete.Employer", b =>

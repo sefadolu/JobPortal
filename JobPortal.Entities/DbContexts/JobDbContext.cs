@@ -3,10 +3,13 @@ using JobPortal.Entities.Models.Concrete;
 using Microsoft.EntityFrameworkCore;
 
 
+
 namespace JobPortal.Entities.DbContexts
 {
     public class JobDbContext : DbContext
     {
+
+
         public JobDbContext(DbContextOptions<JobDbContext> options) : base(options)
         {
         }
@@ -18,6 +21,8 @@ namespace JobPortal.Entities.DbContexts
         public DbSet<EducationAndCertification> EducationAndCertifications { get; set; }
         public DbSet<CompanyProfile> CompanyProfiles { get; set; }
         public DbSet<Category> Categories { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -31,6 +36,21 @@ namespace JobPortal.Entities.DbContexts
             modelBuilder.ApplyConfiguration(new CompanyProfileConfig());
             modelBuilder.ApplyConfiguration(new EducationAndCertificationConfig());
             modelBuilder.ApplyConfiguration(new CategoryConfig());
+            modelBuilder.Entity<JobSeeker>().HasData(
+                new JobSeeker
+                {
+                    Id = 1,
+                    FirstName = "Ali",
+                    LastName = "Veli",
+                    Email = "ali.veli@example.com",
+                    PhoneNumber = "1234567890",
+                    Password = "password123"
+                    // Diğer gerekli alanlar...
+                }
+            );
+
+
         }
+
     }
 }

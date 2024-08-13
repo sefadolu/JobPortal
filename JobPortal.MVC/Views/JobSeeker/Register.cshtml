@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "İş Arayan Kayıt";
+}
+
+<h2>İş Arayan Kayıt</h2>
+
+<form method="post" action="@Url.Action("Register", "JobSeeker")">
+    <div>
+        <label for="FirstName">Ad</label>
+        <input type="text" id="FirstName" name="FirstName" required />
+    </div>
+    <div>
+        <label for="LastName">Soyad</label>
+        <input type="text" id="LastName" name="LastName" required />
+    </div>
+    <div>
+        <label for="Email">Email</label>
+        <input type="email" id="Email" name="Email" required />
+    </div>
+    <div>
+        <label for="Password">Şifre</label>
+        <input type="password" id="Password" name="Password" required />
+    </div>
+    <div>
+        <label for="ConfirmPassword">Şifre Tekrar</label>
+        <input type="password" id="ConfirmPassword" name="ConfirmPassword" required />
+    </div>
+    <button type="submit">Kayıt Ol</button>
+</form>
