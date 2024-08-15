@@ -1,7 +1,21 @@
 ﻿
 @model JobPortal.Entities.Models.Concrete.JobSeeker
 
+@if (!string.IsNullOrEmpty(ViewContext.HttpContext.Request.Query["Message"]))
+{
+    <div class="alert alert-success">
+        @ViewContext.HttpContext.Request.Query["Message"]
+    </div>
+}
+
 <h2>Profil</h2>
+
+<div>
+    @if (!string.IsNullOrEmpty(Model.ProfilePicture))
+    {
+        <img src="@Url.Content($"~/profilepictures/{Model.ProfilePicture}")" alt="Profil Fotoğrafı" width="150" height="150" />
+    }
+</div>
 
 <div>
     <label>Ad:</label>
@@ -23,13 +37,22 @@
     <label>Adres:</label>
     <span>@Model.Address</span>
 </div>
-<div>
-    <label>Özgeçmiş:</label>
-    <span>@Model.Resume</span>
-</div>
+
 <div>
     <label>Yetenekler:</label>
     <span>@Model.Skills</span>
 </div>
 
+<div>
+    <label>Özgeçmiş:</label>
+    @if (!string.IsNullOrEmpty(Model.Resume))
+    {
+        <a href="@Url.Content($"~/resumes/{Model.Resume}")" target="_blank">Özgeçmişi Görüntüle</a>
+    }
+</div>
+
 <a href="@Url.Action("EditProfile", "JobSeekerProfile")">Profili Düzenle</a>
+<div>
+    <a href="@Url.Action("ChangePassword", "JobSeekerProfile")">Şifremi Değiştir</a>
+
+</div>

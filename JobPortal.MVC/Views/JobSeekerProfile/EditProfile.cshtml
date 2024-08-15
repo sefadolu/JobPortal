@@ -2,7 +2,7 @@
 
 <h2>Profili Düzenle</h2>
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     <div>
         <label for="FirstName">Ad:</label>
         <input type="text" id="FirstName" name="FirstName" value="@Model.FirstName" />
@@ -20,8 +20,12 @@
         <input type="text" id="Address" name="Address" value="@Model.Address" />
     </div>
     <div>
-        <label for="Resume">Özgeçmiş:</label>
-        <input type="text" id="Resume" name="Resume" value="@Model.Resume" />
+        <label for="Resume">Özgeçmiş Yükle (PDF):</label>
+        <input type="file" id="Resume" name="ResumeFile" accept=".pdf" />
+    </div>
+    <div>
+        <label for="ProfilePicture">Profil Fotoğrafı Yükle (JPG, PNG):</label>
+        <input type="file" id="ProfilePicture" name="profilePictureFile" accept="image/*" />
     </div>
     <div>
         <label for="Skills">Yetenekler:</label>
