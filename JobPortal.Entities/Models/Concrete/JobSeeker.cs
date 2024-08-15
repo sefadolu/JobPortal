@@ -9,7 +9,6 @@ namespace JobPortal.Entities.Models.Concrete
         public string? Email { get; set; }
         public string? PhoneNumber { get; set; }
         public string? Address { get; set; }
-        public string? Password { get; set; }
         public string? Resume { get; set; }
         public string? ProfilePicture { get; set; }
         public string? Skills { get; set; }

@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "İş Arayan Girişi";
+}
+
+<h2>İş Arayan Girişi</h2>
+
+<form method="post" action="@Url.Action("Login", "JobSeekerLogin")">
+    <div>
+        <label for="Email">Email</label>
+        <input type="email" id="Email" name="Email" required />
+    </div>
+    <div>
+        <label for="Password">Şifre</label>
+        <input type="password" id="Password" name="Password" required />
+    </div>
+
+    <button type="submit">Giriş Yap</button>
+</form>
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <div class="alert alert-danger">
+        @ViewBag.ErrorMessage
+    </div>
+}

@@ -18,8 +18,10 @@ namespace JobPortal.MVC
                 options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
                     new MySqlServerVersion(new Version(8, 0, 38))));
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            .AddEntityFrameworkStores<JobDbContext>();
+            // Configure Identity services
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<JobDbContext>()
+                .AddDefaultTokenProviders();
 
             var app = builder.Build();
 
@@ -35,15 +37,12 @@ namespace JobPortal.MVC
 
             app.UseRouting();
 
-            app.UseAuthentication(); // Add this line
+            app.UseAuthentication(); // Kimlik doðrulama middleware'i ekleyin
             app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
-
-            app.MapRazorPages(); // Add this line for Identity UI pages
-
 
             app.Run();
         }

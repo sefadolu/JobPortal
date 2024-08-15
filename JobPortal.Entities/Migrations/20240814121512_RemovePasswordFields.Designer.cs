@@ -4,6 +4,7 @@ using JobPortal.Entities.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JobPortal.Entities.Migrations
 {
     [DbContext(typeof(JobDbContext))]
-    partial class JobDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240814121512_RemovePasswordFields")]
+    partial class RemovePasswordFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -161,6 +164,11 @@ namespace JobPortal.Entities.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CompanyProfileId")
@@ -240,6 +248,11 @@ namespace JobPortal.Entities.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
                     b.Property<string>("PhoneNumber")
                         .HasMaxLength(15)
                         .HasColumnType("varchar(15)");
@@ -267,6 +280,7 @@ namespace JobPortal.Entities.Migrations
                             Email = "ali.veli@example.com",
                             FirstName = "Ali",
                             LastName = "Veli",
+                            Password = "password123",
                             PhoneNumber = "1234567890"
                         });
                 });

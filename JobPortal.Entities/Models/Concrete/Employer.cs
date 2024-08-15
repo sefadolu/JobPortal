@@ -6,7 +6,6 @@ namespace JobPortal.Entities.Models.Concrete
     {
         public string Name { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
         public int? CompanyProfileId { get; set; }
 
         public CompanyProfile CompanyProfile { get; set; }

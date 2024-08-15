@@ -31,9 +31,7 @@ namespace JobPortal.Entities.EntityConfigs.Concrete
             builder.Property(js => js.Address)
                 .HasMaxLength(500);
 
-            builder.Property(js => js.Password)
-                .IsRequired()
-                .HasMaxLength(255); // Şifre uzunluğunu belirleyebilirsin
+            
 
             builder.Property(js => js.Resume)
                 .HasMaxLength(1000);

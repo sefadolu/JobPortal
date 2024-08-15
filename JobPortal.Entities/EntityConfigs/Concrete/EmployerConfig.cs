@@ -21,9 +21,7 @@ namespace JobPortal.Entities.EntityConfigs.Concrete
                 .IsRequired()
                 .HasMaxLength(100);
 
-            builder.Property(e => e.Password)
-                .IsRequired()
-                .HasMaxLength(255); // Genellikle şifreler hash'lenmiş ve uzun olabilir
+            
 
             builder.HasOne(e => e.CompanyProfile)
                 .WithOne(cp => cp.Employer)

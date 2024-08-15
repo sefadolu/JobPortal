@@ -4,26 +4,26 @@
 
 <h2>İş Arayan Kayıt</h2>
 
-<form method="post" action="@Url.Action("Register", "JobSeeker")">
+<form method="post" action="@Url.Action("Register", "JobSeekerRegister")">
     <div>
         <label for="FirstName">Ad</label>
-        <input type="text" id="FirstName" name="FirstName" required />
+        <input type="text" id="FirstName" name="firstName" required />
     </div>
     <div>
         <label for="LastName">Soyad</label>
-        <input type="text" id="LastName" name="LastName" required />
+        <input type="text" id="LastName" name="lastName" required />
     </div>
     <div>
         <label for="Email">Email</label>
-        <input type="email" id="Email" name="Email" required />
+        <input type="email" id="Email" name="email" required />
     </div>
     <div>
         <label for="Password">Şifre</label>
-        <input type="password" id="Password" name="Password" required />
+        <input type="password" id="Password" name="password" required />
     </div>
     <div>
         <label for="ConfirmPassword">Şifre Tekrar</label>
-        <input type="password" id="ConfirmPassword" name="ConfirmPassword" required />
+        <input type="password" id="ConfirmPassword" name="confirmPassword" required />
     </div>
     <button type="submit">Kayıt Ol</button>
 </form>

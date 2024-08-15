@@ -1,12 +1,13 @@
 ﻿using JobPortal.Entities.EntityConfigs.Concrete;
 using JobPortal.Entities.Models.Concrete;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 
 
 namespace JobPortal.Entities.DbContexts
 {
-    public class JobDbContext : DbContext
+    public class JobDbContext : IdentityDbContext
     {
 
 
@@ -43,8 +44,7 @@ namespace JobPortal.Entities.DbContexts
                     FirstName = "Ali",
                     LastName = "Veli",
                     Email = "ali.veli@example.com",
-                    PhoneNumber = "1234567890",
-                    Password = "password123"
+                    PhoneNumber = "1234567890"
                     // Diğer gerekli alanlar...
                 }
             );

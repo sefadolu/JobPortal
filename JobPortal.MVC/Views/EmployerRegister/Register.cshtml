@@ -4,27 +4,27 @@
 
 <h2>İşveren Kayıt</h2>
 
-<form method="post" action="@Url.Action("Register", "Employer")">
+<form method="post" action="@Url.Action("Register", "EmployerRegister")">
     <div>
         <label for="name">Şirket Adı</label>
         <input type="text" class="form-control" id="name" name="name" required>
     </div>
     <div>
         <label for="Email">Email</label>
-        <input type="email" id="Email" name="Email" required />
+        <input type="email" id="Email" name="email" required />
     </div>
     <div>
         <label for="PhoneNumber">Telefon Numarası</label>
-        <input type="tel" id="PhoneNumber" name="PhoneNumber" required />
+        <input type="tel" id="PhoneNumber" name="phoneNumber" required />
     </div>
     <div>
         <label for="Password">Şifre</label>
-        <input type="password" id="Password" name="Password" required />
+        <input type="password" id="Password" name="password" required />
     </div>
     <div>
         <label for="ConfirmPassword">Şifre Tekrar</label>
-        <input type="password" id="ConfirmPassword" name="ConfirmPassword" required />
+        <input type="password" id="ConfirmPassword" name="confirmPassword" required />
     </div>
-    
+
     <button type="submit">Kayıt Ol</button>
 </form>
