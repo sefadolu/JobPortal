@@ -1,0 +1,35 @@
+﻿
+@model JobPortal.Entities.Models.Concrete.JobSeeker
+
+<h2>Profil</h2>
+
+<div>
+    <label>Ad:</label>
+    <span>@Model.FirstName</span>
+</div>
+<div>
+    <label>Soyad:</label>
+    <span>@Model.LastName</span>
+</div>
+<div>
+    <label>Email:</label>
+    <span>@Model.Email</span>
+</div>
+<div>
+    <label>Telefon Numarası:</label>
+    <span>@Model.PhoneNumber</span>
+</div>
+<div>
+    <label>Adres:</label>
+    <span>@Model.Address</span>
+</div>
+<div>
+    <label>Özgeçmiş:</label>
+    <span>@Model.Resume</span>
+</div>
+<div>
+    <label>Yetenekler:</label>
+    <span>@Model.Skills</span>
+</div>
+
+<a href="@Url.Action("EditProfile", "JobSeekerProfile")">Profili Düzenle</a>

@@ -27,4 +27,8 @@
     <ProjectReference Include="..\JobPortal.Entities\JobPortal.Entities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Account\" />
+  </ItemGroup>
+
 </Project>

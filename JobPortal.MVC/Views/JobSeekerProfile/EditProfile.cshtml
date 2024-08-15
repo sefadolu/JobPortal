@@ -1,0 +1,32 @@
+﻿@model JobPortal.Entities.Models.Concrete.JobSeeker
+
+<h2>Profili Düzenle</h2>
+
+<form method="post">
+    <div>
+        <label for="FirstName">Ad:</label>
+        <input type="text" id="FirstName" name="FirstName" value="@Model.FirstName" />
+    </div>
+    <div>
+        <label for="LastName">Soyad:</label>
+        <input type="text" id="LastName" name="LastName" value="@Model.LastName" />
+    </div>
+    <div>
+        <label for="PhoneNumber">Telefon Numarası:</label>
+        <input type="text" id="PhoneNumber" name="PhoneNumber" value="@Model.PhoneNumber" />
+    </div>
+    <div>
+        <label for="Address">Adres:</label>
+        <input type="text" id="Address" name="Address" value="@Model.Address" />
+    </div>
+    <div>
+        <label for="Resume">Özgeçmiş:</label>
+        <input type="text" id="Resume" name="Resume" value="@Model.Resume" />
+    </div>
+    <div>
+        <label for="Skills">Yetenekler:</label>
+        <input type="text" id="Skills" name="Skills" value="@Model.Skills" />
+    </div>
+
+    <button type="submit">Kaydet</button>
+</form>
