@@ -10,12 +10,14 @@ namespace JobPortal.MVC.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly JobDbContext _context;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public JobSeekerRegisterController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, JobDbContext context)
+        public JobSeekerRegisterController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, JobDbContext context, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
+            _roleManager = roleManager;
         }
 
         [HttpGet]
@@ -33,28 +35,48 @@ namespace JobPortal.MVC.Controllers
                 return View();
             }
 
-            var user = new IdentityUser { UserName = email, Email = email };
-            var result = await _userManager.CreateAsync(user, password);
-
-            if (result.Succeeded)
+            try
             {
-                var jobSeeker = new JobSeeker
+                var user = new IdentityUser { UserName = email, Email = email };
+                var result = await _userManager.CreateAsync(user, password);
+
+                if (result.Succeeded)
                 {
-                    FirstName = firstName,
-                    LastName = lastName,
-                    Email = email
-                };
+                    // "JobSeeker" rolünü kontrol et ve varsa kullanıcıya ata
+                    if (!await _roleManager.RoleExistsAsync("JobSeeker"))
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole("JobSeeker"));
+                    }
 
-                _context.JobSeekers.Add(jobSeeker);
-                await _context.SaveChangesAsync();
-                await _signInManager.SignInAsync(user, isPersistent: false);
+                    await _userManager.AddToRoleAsync(user, "JobSeeker"); // "JobSeeker" rolünü ata
 
-                return RedirectToAction("Index", "Home");
+                    // JobSeeker verilerini kaydet
+                    var jobSeeker = new JobSeeker
+                    {
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = email
+                    };
+
+                    _context.JobSeekers.Add(jobSeeker);
+                    await _context.SaveChangesAsync();
+
+                    // Kullanıcıyı sisteme giriş yap
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
             }
-
-            foreach (var error in result.Errors)
+            catch (Exception ex)
             {
-                ModelState.AddModelError(string.Empty, error.Description);
+                ModelState.AddModelError("", $"Kayıt sırasında bir hata oluştu: {ex.Message}");
             }
 
             return View();

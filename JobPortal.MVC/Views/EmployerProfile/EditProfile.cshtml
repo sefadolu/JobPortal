@@ -1,0 +1,32 @@
+﻿@model JobPortal.Entities.Models.Concrete.Employer
+
+<h2>İşveren Profilini Düzenle</h2>
+
+<form method="post">
+    <div>
+        <label for="CompanyName">Şirket Adı:</label>
+        <input type="text" id="CompanyName" name="CompanyProfile.CompanyName" value="@Model.CompanyProfile?.CompanyName" />
+    </div>
+    <div>
+        <label for="Email">Email:</label>
+        <input type="email" id="Email" name="Email" value="@Model.Email" />
+    </div>
+    <div>
+        <label for="PhoneNumber">Telefon Numarası:</label>
+        <input type="text" id="PhoneNumber" name="CompanyProfile.PhoneNumber" value="@Model.CompanyProfile?.PhoneNumber" />
+    </div>
+    <div>
+        <label for="Website">Website:</label>
+        <input type="text" id="Website" name="CompanyProfile.Website" value="@Model.CompanyProfile?.Website" />
+    </div>
+    <div>
+        <label for="Location">Lokasyon:</label>
+        <input type="text" id="Location" name="CompanyProfile.Location" value="@Model.CompanyProfile?.Location" />
+    </div>
+    <div>
+        <label for="Description">Şirket Açıklaması:</label>
+        <textarea id="Description" name="CompanyProfile.Description">@Model.CompanyProfile?.Description</textarea>
+    </div>
+
+    <button type="submit">Kaydet</button>
+</form>

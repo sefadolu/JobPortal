@@ -28,7 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Account\" />
     <Folder Include="wwwroot\profilepictures\" />
     <Folder Include="wwwroot\resumes\" />
   </ItemGroup>

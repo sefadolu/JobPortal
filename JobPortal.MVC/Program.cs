@@ -6,7 +6,7 @@ namespace JobPortal.MVC
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +24,14 @@ namespace JobPortal.MVC
                 .AddDefaultTokenProviders();
 
             var app = builder.Build();
+
+            // Rollerin oluþturulmasý için gerekli servisleri oluþturun
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                await CreateRolesAsync(roleManager); // Rolleri oluþturma iþlemi
+            }
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -45,6 +53,20 @@ namespace JobPortal.MVC
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.Run();
+        }
+
+        // Rolleri oluþturacak method
+        private static async Task CreateRolesAsync(RoleManager<IdentityRole> roleManager)
+        {
+            // Gerekli roller burada tanýmlanýr
+            var roles = new[] { "JobSeeker", "Employer" };
+            foreach (var role in roles)
+            {
+                if (!await roleManager.RoleExistsAsync(role))
+                {
+                    await roleManager.CreateAsync(new IdentityRole(role));
+                }
+            }
         }
     }
 }

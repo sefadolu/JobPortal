@@ -1,10 +1,12 @@
 ﻿using JobPortal.Entities.DbContexts;
 using JobPortal.Entities.Models.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JobPortal.MVC.Controllers
 {
+    [Authorize(Roles = "JobSeeker")]
     public class JobSeekerProfileController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;

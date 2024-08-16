@@ -10,12 +10,14 @@ namespace JobPortal.MVC.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly JobDbContext _context;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public EmployerRegisterController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, JobDbContext context)
+        public EmployerRegisterController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, JobDbContext context, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
+            _roleManager = roleManager;
         }
 
         [HttpGet]
@@ -40,6 +42,15 @@ namespace JobPortal.MVC.Controllers
 
                 if (result.Succeeded)
                 {
+                    // "Employer" rolünü kontrol et ve varsa kullanıcıya ata
+                    if (!await _roleManager.RoleExistsAsync("Employer"))
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole("Employer"));
+                    }
+
+                    await _userManager.AddToRoleAsync(user, "Employer"); // "Employer" rolünü ata
+
+                    // İşveren verilerini kaydet
                     var employer = new Employer
                     {
                         Name = name,
@@ -49,6 +60,8 @@ namespace JobPortal.MVC.Controllers
 
                     _context.Employers.Add(employer);
                     await _context.SaveChangesAsync();
+
+                    // Kullanıcıyı sisteme giriş yap
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
                     return RedirectToAction("Index", "Home");

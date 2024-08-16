@@ -1,0 +1,36 @@
+﻿@model JobPortal.Entities.Models.Concrete.Employer
+
+<h2>İşveren Profil</h2>
+
+<div>
+    <h3>Şirket Bilgileri</h3>
+    <div>
+        <label>Şirket Adı:</label>
+        <span>@Model.CompanyProfile?.CompanyName </span>
+    </div>
+    <div>
+        <label>Email:</label>
+        <span>@Model.Email</span>
+    </div>
+    <div>
+        <label>Telefon Numarası:</label>
+        <span>@Model.CompanyProfile?.PhoneNumber </span>
+    </div>
+    <div>
+        <label>Website:</label>
+        <span>@Model.CompanyProfile?.Website </span>
+    </div>
+    <div>
+        <label>Lokasyon:</label>
+        <span>@Model.CompanyProfile?.Location </span>
+    </div>
+    <div>
+        <label>Şirket Açıklaması:</label>
+        <span>@Model.CompanyProfile?.Description </span>
+    </div>
+
+    <a href="@Url.Action("EditProfile", "EmployerProfile")">Profili Düzenle</a>
+    <div>
+    <a href="@Url.Action("ChangePassword", "EmployerProfile")">Şifremi Değiştir</a>
+    </div>
+</div>
