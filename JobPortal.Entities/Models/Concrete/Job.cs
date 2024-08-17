@@ -1,4 +1,5 @@
 ﻿using JobPortal.Entities.Models.Abstract;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace JobPortal.Entities.Models.Concrete
 {

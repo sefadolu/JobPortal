@@ -1,43 +1,49 @@
-﻿@model JobPortal.Entities.Models.Concrete.Job
+﻿@model JobPortal.MVC.ViewModels.JobViewModel
 
 <h2>İş İlanı Ver</h2>
 
 <form asp-action="AddJob" method="post">
     <div>
         <label for="Title">Başlık:</label>
-        <input type="text" id="Title" name="Title" value="@Model.Title" required />
+        <input type="text" id="Title" name="Job.Title" value="@Model.Job.Title" required />
     </div>
 
     <div>
         <label for="Description">Açıklama:</label>
-        <textarea id="Description" name="Description" rows="5" required>@Model.Description</textarea>
+        <textarea id="Description" name="Job.Description" rows="5" required>@Model.Job.Description</textarea>
     </div>
 
     <div>
         <label for="Location">Konum:</label>
-        <input type="text" id="Location" name="Location" value="@Model.Location" required />
+        <input type="text" id="Location" name="Job.Location" value="@Model.Job.Location" required />
     </div>
 
     <div>
         <label for="Salary">Maaş:</label>
-        <input type="number" id="Salary" name="Salary" value="@Model.Salary" required />
+        <input type="number" id="Salary" name="Job.Salary" value="@Model.Job.Salary" required />
     </div>
 
     <div>
         <label for="SectorId">Sektör:</label>
-        @Html.DropDownList("SectorId", new SelectList(ViewBag.Sectors, "Id", "Name"), "Sektör Seçin", new { @class = "form-control", required = "required" })
+        <select id="SectorId" name="SectorId" required>
+            <option value="">Sektör Seçin</option>
+            @foreach (var sector in Model.Sectors)
+            {
+                <option value="@sector.Value">@sector.Text</option>
+            }
+        </select>
     </div>
 
     <div>
         <label for="DepartmentId">Departman:</label>
-        @Html.DropDownList("DepartmentId", new SelectList(ViewBag.Departments, "Id", "Name"), "Departman Seçin", new { @class = "form-control", required = "required" })
+        <select id="DepartmentId" name="DepartmentId" required>
+            <option value="">Departman Seçin</option>
+            @foreach (var department in Model.Departments)
+            {
+                <option value="@department.Value">@department.Text</option>
+            }
+        </select>
     </div>
 
     <button type="submit">İlan Ver</button>
 </form>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}

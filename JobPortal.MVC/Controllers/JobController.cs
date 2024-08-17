@@ -1,8 +1,10 @@
 ﻿using JobPortal.Entities.DbContexts;
 using JobPortal.Entities.Models.Concrete;
+using JobPortal.MVC.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -22,60 +24,68 @@ namespace JobPortal.MVC.Controllers
 
         // İş ilanı verme formu
         [HttpGet]
-        public IActionResult AddJob()
+        public async Task<IActionResult> AddJob()
         {
-            // Sektör ve Departman verilerini getiriyoruz
-            var sectors = _context.Sectors.AsNoTracking().ToList();
-            var departments = _context.Departments.AsNoTracking().ToList();
+            var jobViewModel = new JobViewModel
+            {
+                Job = new Job(),
+                Sectors = await _context.Sectors.Select(s => new SelectListItem
+                {
+                    Value = s.Id.ToString(),
+                    Text = s.Name
+                }).ToListAsync(),
+                Departments = await _context.Departments.Select(d => new SelectListItem
+                {
+                    Value = d.Id.ToString(),
+                    Text = d.Name
+                }).ToListAsync()
+            };
 
-            // View'de kullanmak için Sectors ve Departments verilerini ViewBag'e ekliyoruz
-            ViewBag.Sectors = sectors;
-            ViewBag.Departments = departments;
-
-            var jobModel = new Job();
-            return View(jobModel); // Boş bir Job modelini View'e gönderiyoruz
+            return View(jobViewModel);
         }
 
         // İş ilanı verme işlemi
         [HttpPost]
-        public async Task<IActionResult> AddJob(Job model, int SectorId, int DepartmentId)
+        public async Task<IActionResult> AddJob(JobViewModel model)
         {
-            // Sektör ve Departmanları tekrar ViewBag'e ekleyelim ki form hata durumunda kaybolmasın
-            var sectors = _context.Sectors.AsNoTracking().ToList();
-            var departments = _context.Departments.AsNoTracking().ToList();
-            ViewBag.Sectors = sectors;
-            ViewBag.Departments = departments;
-
-            if (SectorId == 0 || DepartmentId == 0)
+            if (model.SectorId == 0 || model.DepartmentId == 0)
             {
                 ModelState.AddModelError("", "Geçerli bir sektör veya departman seçmediniz.");
+                model.Sectors = await _context.Sectors.Select(s => new SelectListItem
+                {
+                    Value = s.Id.ToString(),
+                    Text = s.Name
+                }).ToListAsync();
+                model.Departments = await _context.Departments.Select(d => new SelectListItem
+                {
+                    Value = d.Id.ToString(),
+                    Text = d.Name
+                }).ToListAsync();
+
                 return View(model);
             }
 
-            if (!ModelState.IsValid)
-            {
-                return View(model); // Form hatalıysa aynı sayfayı tekrar göster
-            }
-
+            // Kullanıcı ve işveren bilgilerini al
             var user = await _userManager.GetUserAsync(User);
             var employer = await _context.Employers.FirstOrDefaultAsync(e => e.Email == user.Email);
 
             if (employer == null)
             {
-                ModelState.AddModelError("", "İşveren bulunamadı."); // Hata mesajı ekleyin
+                ModelState.AddModelError("", "İşveren bulunamadı.");
                 return View(model);
             }
 
-            // Job modelini güncelleme
-            model.EmployerId = employer.Id;  // İlanı işverene bağlama
-            model.PostedDate = DateTime.Now; // İlanın verildiği tarih
-            model.SectorId = SectorId;       // Seçilen sektör Id'sini atama
-            model.DepartmentId = DepartmentId; // Seçilen departman Id'sini atama
+            model.Job.EmployerId = employer.Id;
+            model.Job.PostedDate = DateTime.Now;
+            // Seçilen SectorId ve DepartmentId'yi Job modeline atayın
+            model.Job.SectorId = model.SectorId;
+            model.Job.DepartmentId = model.DepartmentId;
 
-            _context.Jobs.Add(model); // Yeni iş ilanı veritabanına ekleniyor
-            await _context.SaveChangesAsync(); // Değişiklikler kaydediliyor
+            // Veritabanına ekle
+            _context.Jobs.Add(model.Job);
+            await _context.SaveChangesAsync();
 
-            return RedirectToAction("JobList"); // İlanlar listesine yönlendirme
+            return RedirectToAction("JobList");
         }
 
         // İşverenin ilanlarının listesi
@@ -92,10 +102,11 @@ namespace JobPortal.MVC.Controllers
 
             var jobs = await _context.Jobs
                 .Where(j => j.EmployerId == employer.Id)
-                .Include(j => j.Applications) // İlanlara gelen başvuruları da ekliyoruz
+                .Include(j => j.Sector) // Sektörü de dahil edelim
+                .Include(j => j.Department) // Departmanı da dahil edelim
                 .ToListAsync();
 
-            return View(jobs); // İş ilanları listesi döndürülür
+            return View(jobs);
         }
 
         // İlan detaylarını görüntüleme
@@ -103,7 +114,8 @@ namespace JobPortal.MVC.Controllers
         public async Task<IActionResult> JobDetails(int id)
         {
             var job = await _context.Jobs
-                .Include(j => j.Applications)
+                .Include(j => j.Sector)
+                .Include(j => j.Department)
                 .FirstOrDefaultAsync(j => j.Id == id);
 
             if (job == null)
@@ -111,7 +123,7 @@ namespace JobPortal.MVC.Controllers
                 return NotFound("İlan bulunamadı.");
             }
 
-            return View(job); // İlan detayları döndürülür
+            return View(job);
         }
     }
 }
