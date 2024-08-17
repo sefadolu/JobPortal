@@ -7,6 +7,7 @@ namespace JobPortal.MVC.ViewModels
     public class JobViewModel
     {
         public Job Job { get; set; }
+        public IEnumerable<Job> Jobs { get; set; }
 
         [Required(ErrorMessage = "Sektör seçilmelidir.")]
         public int SectorId { get; set; }
@@ -15,6 +16,7 @@ namespace JobPortal.MVC.ViewModels
         public int DepartmentId { get; set; }
         public List<SelectListItem> Sectors { get; set; }
         public List<SelectListItem> Departments { get; set; }
+
 
     }
 }

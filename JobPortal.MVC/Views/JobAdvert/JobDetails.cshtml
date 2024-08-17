@@ -1,0 +1,12 @@
+﻿@model JobPortal.Entities.Models.Concrete.Job
+
+<h2>@Model.Title</h2>
+<p>@Model.Description</p>
+<p><strong>Konum:</strong> @Model.Location</p>
+<p><strong>Sektör:</strong> @Model.Sector.Name</p>
+<p><strong>Departman:</strong> @Model.Department.Name</p>
+<p><strong>Maaş:</strong> @Model.Salary TL</p>
+
+<form method="post" asp-action="Apply" asp-route-jobId="@Model.Id">
+    <button type="submit">Başvur</button>
+</form>

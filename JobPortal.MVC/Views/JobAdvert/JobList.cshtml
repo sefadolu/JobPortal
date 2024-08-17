@@ -1,0 +1,40 @@
+﻿@model JobPortal.MVC.ViewModels.JobViewModel
+
+<h2>İş İlanları</h2>
+
+<form method="get">
+    <input type="text" name="search" placeholder="Arama yap" value="@Context.Request.Query["search"]" />
+    <select name="sectorId">
+        <option value="">Sektör Seç</option>
+        @foreach (var sector in Model.Sectors)
+        {
+            <option value="@sector.Value">@sector.Text</option>
+        }
+    </select>
+    <select name="departmentId">
+        <option value="">Departman Seç</option>
+        @foreach (var department in Model.Departments)
+        {
+            <option value="@department.Value">@department.Text</option>
+        }
+    </select>
+    <button type="submit">Filtrele</button>
+</form>
+
+<ul>
+    @foreach (var job in Model.Jobs)
+    {
+        <li>
+            <strong>@job.Title</strong> - @job.Location - @job.Salary TL
+            <br />
+            <strong>Sektör:</strong> @job.Sector.Name
+            <br />
+            <strong>Departman:</strong> @job.Department.Name
+            <br />
+            <a href="@Url.Action("JobDetails", new { id = job.Id })">Detaylar</a>
+            <form method="post" asp-action="Apply" asp-route-jobId="@job.Id">
+                <button type="submit">Başvur</button>
+            </form>
+        </li>
+    }
+</ul>

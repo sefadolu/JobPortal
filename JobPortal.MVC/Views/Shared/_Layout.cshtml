@@ -104,6 +104,7 @@
                 <a href="@Url.Action("Index", "Home")">JobPortal</a>
             </div>
             <div class="navbar-right">
+                <a href="@Url.Action("JobList", "JobAdvert")">İş İlanları</a> <!-- İş İlanları Linki -->
                 @if (User.Identity.IsAuthenticated)
                 {
                     <div class="dropdown">
