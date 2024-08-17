@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace JobPortal.DAL.Repository.Concrete
 {
-    public class CategoryRepository : Repository<Category>
+    public class DepartmentRepository : Repository<Department>
     {
-        public CategoryRepository(JobDbContext context) : base(context)
+        public DepartmentRepository(JobDbContext context) : base(context)
         {
         }
 
-        // Tüm kategorileri getiren metod
-        public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
+        // Tüm departmanları getiren metod
+        public async Task<IEnumerable<Department>> GetAllDepartmentsAsync()
         {
             return await _dbSet.ToListAsync();
         }

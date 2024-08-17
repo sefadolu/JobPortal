@@ -4,8 +4,16 @@ namespace JobPortal.BL.Abstract
 {
     public interface IJobManager : IManager<Job>
     {
-        Task<IEnumerable<Job>> GetJobsByCategoryAsync(int categoryId);
+        // Sektöre göre iş ilanlarını getiren metod
+        Task<IEnumerable<Job>> GetJobsBySectorAsync(int sectorId);
+
+        // Departmana göre iş ilanlarını getiren metod
+        Task<IEnumerable<Job>> GetJobsByDepartmentAsync(int departmentId);
+
+        // İş arayanın başvurduğu iş ilanlarını getiren metod
         Task<IEnumerable<Job>> GetJobsBySeekerIdAsync(int seekerId);
+
+        // Belirli bir iş ilanına başvuran iş arayanları getiren metod
         Task<IEnumerable<JobSeeker>> GetApplicantsForJobAsync(int jobId);
     }
 }

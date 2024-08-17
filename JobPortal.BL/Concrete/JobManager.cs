@@ -13,9 +13,16 @@ namespace JobPortal.BL.Concrete
             _jobRepository = jobRepository;
         }
 
-        public async Task<IEnumerable<Job>> GetJobsByCategoryAsync(int categoryId)
+        // Sektöre göre iş ilanlarını getiren metod
+        public async Task<IEnumerable<Job>> GetJobsBySectorAsync(int sectorId)
         {
-            return await _jobRepository.GetJobsByCategoryAsync(categoryId);
+            return await _jobRepository.GetJobsBySectorAsync(sectorId);
+        }
+
+        // Departmana göre iş ilanlarını getiren metod
+        public async Task<IEnumerable<Job>> GetJobsByDepartmentAsync(int departmentId)
+        {
+            return await _jobRepository.GetJobsByDepartmentAsync(departmentId);
         }
 
         public async Task<IEnumerable<Job>> GetJobsBySeekerIdAsync(int seekerId)

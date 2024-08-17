@@ -1,0 +1,15 @@
+﻿@model IEnumerable<JobPortal.Entities.Models.Concrete.Job>
+
+<h2>İş İlanları Listesi</h2>
+
+<ul>
+    @foreach (var job in Model)
+    {
+        <li>
+            <strong>@job.Title</strong> - @job.Location - @job.Salary TL <br />
+            <strong>Sektör:</strong> @job.Sector?.Name <br />
+            <strong>Departman:</strong> @job.Department?.Name <br />
+            <a href="@Url.Action("JobDetails", "Job", new { id = job.Id })">Detaylar</a>
+        </li>
+    }
+</ul>

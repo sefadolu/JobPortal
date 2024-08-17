@@ -21,10 +21,16 @@ namespace JobPortal.DAL.Repository.Concrete
             await DeleteAsync(jobId);
         }
 
-        // Kategoriye göre iş ilanlarını filtreleyen metod
-        public async Task<IEnumerable<Job>> GetJobsByCategoryAsync(int categoryId)
+        // Sektöre göre iş ilanlarını filtreleyen metod
+        public async Task<IEnumerable<Job>> GetJobsBySectorAsync(int sectorId)
         {
-            return await _dbSet.Where(job => job.CategoryId == categoryId).ToListAsync();
+            return await _dbSet.Where(job => job.SectorId == sectorId).ToListAsync();
+        }
+
+        // Departmana göre iş ilanlarını filtreleyen metod
+        public async Task<IEnumerable<Job>> GetJobsByDepartmentAsync(int departmentId)
+        {
+            return await _dbSet.Where(job => job.DepartmentId == departmentId).ToListAsync();
         }
 
         // İş arayan tarafından başvurulmuş iş ilanlarını getiren metod

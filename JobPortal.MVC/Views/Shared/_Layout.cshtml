@@ -116,6 +116,8 @@
                             else if (User.IsInRole("Employer"))
                             {
                                 <a href="@Url.Action("Profile", "EmployerProfile")">Profil</a>
+                                <a href="@Url.Action("AddJob", "Job")">İş İlanı Ver</a>
+                                <a href="@Url.Action("JobList", "Job")">İlanlar</a>
                             }
                             <form method="post" action="@Url.Action("Logout", "Account")" style="margin: 0;">
                                 <button type="submit">Çıkış Yap</button>

@@ -11,9 +11,11 @@ namespace JobPortal.Entities.Models.Concrete
         public DateTime PostedDate { get; set; }
         public int EmployerId { get; set; }
 
-        public int CategoryId { get; set; } // Bu özellik `Category` ile çakışabilir
+        public int SectorId { get; set; }     // Sektör ID
+        public int DepartmentId { get; set; } // Departman ID
         public Employer Employer { get; set; }
-        public Category Category { get; set; } // İkinci kez `Category` tanımı
+        public Sector Sector { get; set; }    // Sektör ilişkisi
+        public Department Department { get; set; } // Departman ilişkisi
         public ICollection<Application> Applications { get; set; }
     }
 
