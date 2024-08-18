@@ -20,7 +20,7 @@
     </div>
 
     <!-- Profil Bilgileri -->
-    <div style="margin-top: 20px;">
+    <div style="margin-top: 20px; text-align:center;">
         <label><strong>Ad:</strong></label>
         <span>@Model.FirstName</span>
     </div>
@@ -46,7 +46,7 @@
     </div>
 
     <!-- Özgeçmiş -->
-    <div>
+    <div style="margin-top:20px;">
         <label><strong>Özgeçmiş:</strong></label>
         @if (!string.IsNullOrEmpty(Model.Resume))
         {
@@ -54,8 +54,28 @@
         }
     </div>
 
+    <!-- Eğitim ve Sertifikalar -->
+    @if (Model.EducationAndCertifications != null && Model.EducationAndCertifications.Any())
+    {
+        <h3>Eğitim ve Sertifikalar</h3>
+        <ul>
+            @foreach (var education in Model.EducationAndCertifications)
+            {
+                <li>
+                    <strong>Enstitü Adı:</strong> @education.InstitutionName <br />
+                    <strong>Derece:</strong> @education.Degree <br />
+                    <strong>Mezuniyet Tarihi:</strong> @education.GraduationDate.ToString("dd/MM/yyyy") <br />
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>Henüz eklenmiş eğitim veya sertifika bilgisi bulunmuyor.</p>
+    }
+
     <!-- Profili Düzenle ve Şifre Değiştir -->
-    <div style="margin-top: 20px;">
+    <div style="margin-top: 30px;">
         <a href="@Url.Action("EditProfile", "JobSeekerProfile")" class="btn btn-primary">Profili Düzenle</a>
     </div>
     <div>

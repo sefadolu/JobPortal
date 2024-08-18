@@ -32,5 +32,50 @@
         <input type="text" id="Skills" name="Skills" value="@Model.Skills" />
     </div>
 
+    <!-- Eğitim ve Sertifikalar -->
+    <h3>Eğitim ve Sertifikalar</h3>
+    <div id="education-certifications">
+        @if (Model.EducationAndCertifications != null && Model.EducationAndCertifications.Any())
+        {
+            var index = 0;
+            foreach (var certification in Model.EducationAndCertifications)
+            {
+                <div class="education-certification-item">
+                    <input type="hidden" name="EducationAndCertifications[@index].Id" value="@certification.Id" />
+                    <label for="InstitutionName">Enstitü Adı:</label>
+                    <input type="text" name="EducationAndCertifications[@index].InstitutionName" value="@certification.InstitutionName" /><br />
+
+                    <label for="Degree">Derece:</label>
+                    <input type="text" name="EducationAndCertifications[@index].Degree" value="@certification.Degree" /><br />
+
+                    <label for="GraduationDate">Mezuniyet Tarihi:</label>
+                    <input type="date" name="EducationAndCertifications[@index].GraduationDate" value="@certification.GraduationDate.ToString("yyyy-MM-dd")" /><br />
+                </div>
+                index++;
+            }
+        }
+    </div>
+    <button type="button" onclick="addEducationCertification()">Yeni Eğitim/Sertifika Ekle</button>
+
     <button type="submit">Kaydet</button>
 </form>
+
+<script>
+    function addEducationCertification() {
+        var container = document.getElementById("education-certifications");
+        var index = container.getElementsByClassName('education-certification-item').length;
+        var template = `
+                <div class="education-certification-item">
+                    <input type="hidden" name="EducationAndCertifications[` + index + `].Id" value="0" />
+                    <label for="InstitutionName">Enstitü Adı:</label>
+                    <input type="text" name="EducationAndCertifications[` + index + `].InstitutionName" /><br />
+
+                    <label for="Degree">Derece:</label>
+                    <input type="text" name="EducationAndCertifications[` + index + `].Degree" /><br />
+
+                    <label for="GraduationDate">Mezuniyet Tarihi:</label>
+                    <input type="date" name="EducationAndCertifications[` + index + `].GraduationDate" /><br />
+                </div>`;
+        container.innerHTML += template;
+    }
+</script>

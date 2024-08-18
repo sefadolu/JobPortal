@@ -3,6 +3,7 @@ using JobPortal.Entities.Models.Concrete;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace JobPortal.MVC.Controllers
 {
@@ -31,7 +32,10 @@ namespace JobPortal.MVC.Controllers
                 return RedirectToAction("Login", "JobSeekerLogin");
             }
 
-            var jobSeeker = _context.JobSeekers.FirstOrDefault(js => js.Email == user.Email);
+            var jobSeeker = _context.JobSeekers
+                .Include(js => js.EducationAndCertifications)
+                .FirstOrDefault(js => js.Email == user.Email);
+
             if (jobSeeker == null)
             {
                 return NotFound("Profil bulunamadı.");
@@ -49,7 +53,10 @@ namespace JobPortal.MVC.Controllers
                 return RedirectToAction("Login", "JobSeekerLogin");
             }
 
-            var jobSeeker = _context.JobSeekers.FirstOrDefault(js => js.Email == user.Email);
+            var jobSeeker = _context.JobSeekers
+                .Include(js => js.EducationAndCertifications)
+                .FirstOrDefault(js => js.Email == user.Email);
+
             if (jobSeeker == null)
             {
                 return NotFound("Profil bulunamadı.");
@@ -67,7 +74,10 @@ namespace JobPortal.MVC.Controllers
                 return RedirectToAction("Login", "JobSeekerLogin");
             }
 
-            var jobSeeker = _context.JobSeekers.FirstOrDefault(js => js.Email == user.Email);
+            var jobSeeker = _context.JobSeekers
+                .Include(js => js.EducationAndCertifications)
+                .FirstOrDefault(js => js.Email == user.Email);
+
             if (jobSeeker == null)
             {
                 return NotFound("Profil bulunamadı.");
@@ -79,6 +89,25 @@ namespace JobPortal.MVC.Controllers
             jobSeeker.PhoneNumber = !string.IsNullOrEmpty(model.PhoneNumber) ? model.PhoneNumber : jobSeeker.PhoneNumber;
             jobSeeker.Address = !string.IsNullOrEmpty(model.Address) ? model.Address : jobSeeker.Address;
             jobSeeker.Skills = !string.IsNullOrEmpty(model.Skills) ? model.Skills : jobSeeker.Skills;
+
+            // Eğitim ve sertifikaları güncelle veya yeni kayıt ekle
+            foreach (var education in model.EducationAndCertifications)
+            {
+                if (education.Id == 0) // Yeni eğitim kaydı
+                {
+                    jobSeeker.EducationAndCertifications.Add(education);
+                }
+                else // Mevcut eğitim kaydı güncelleniyor
+                {
+                    var existingEducation = jobSeeker.EducationAndCertifications.FirstOrDefault(e => e.Id == education.Id);
+                    if (existingEducation != null)
+                    {
+                        existingEducation.InstitutionName = education.InstitutionName;
+                        existingEducation.Degree = education.Degree;
+                        existingEducation.GraduationDate = education.GraduationDate;
+                    }
+                }
+            }
 
             // Eğer bir özgeçmiş dosyası yüklendiyse
             if (resumeFile != null && resumeFile.Length > 0)
