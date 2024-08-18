@@ -1,5 +1,4 @@
-﻿
-@model JobPortal.Entities.Models.Concrete.JobSeeker
+﻿@model JobPortal.Entities.Models.Concrete.JobSeeker
 
 @if (!string.IsNullOrEmpty(ViewContext.HttpContext.Request.Query["Message"]))
 {
@@ -8,51 +7,58 @@
     </div>
 }
 
-<h2>Profil</h2>
+<h2 style="text-align: center;">Profil</h2>
 
-<div>
-    @if (!string.IsNullOrEmpty(Model.ProfilePicture))
-    {
-        <img src="@Url.Content($"~/profilepictures/{Model.ProfilePicture}")" alt="Profil Fotoğrafı" width="150" height="150" />
-    }
-</div>
+<div style="display: flex; flex-direction: column; align-items: center;">
 
-<div>
-    <label>Ad:</label>
-    <span>@Model.FirstName</span>
-</div>
-<div>
-    <label>Soyad:</label>
-    <span>@Model.LastName</span>
-</div>
-<div>
-    <label>Email:</label>
-    <span>@Model.Email</span>
-</div>
-<div>
-    <label>Telefon Numarası:</label>
-    <span>@Model.PhoneNumber</span>
-</div>
-<div>
-    <label>Adres:</label>
-    <span>@Model.Address</span>
-</div>
+    <!-- Profil Fotoğrafı -->
+    <div>
+        @if (!string.IsNullOrEmpty(Model.ProfilePicture))
+        {
+            <img src="@Url.Content($"~/profilepictures/{Model.ProfilePicture}")" alt="Profil Fotoğrafı" width="120" height="120" style="border-radius: 50%; object-fit: contain;" />
+        }
+    </div>
 
-<div>
-    <label>Yetenekler:</label>
-    <span>@Model.Skills</span>
-</div>
+    <!-- Profil Bilgileri -->
+    <div style="margin-top: 20px;">
+        <label><strong>Ad:</strong></label>
+        <span>@Model.FirstName</span>
+    </div>
+    <div>
+        <label><strong>Soyad:</strong></label>
+        <span>@Model.LastName</span>
+    </div>
+    <div>
+        <label><strong>Email:</strong></label>
+        <span>@Model.Email</span>
+    </div>
+    <div>
+        <label><strong>Telefon Numarası:</strong></label>
+        <span>@Model.PhoneNumber</span>
+    </div>
+    <div>
+        <label><strong>Adres:</strong></label>
+        <span>@Model.Address</span>
+    </div>
+    <div>
+        <label><strong>Yetenekler:</strong></label>
+        <span>@Model.Skills</span>
+    </div>
 
-<div>
-    <label>Özgeçmiş:</label>
-    @if (!string.IsNullOrEmpty(Model.Resume))
-    {
-        <a href="@Url.Content($"~/resumes/{Model.Resume}")" target="_blank">Özgeçmişi Görüntüle</a>
-    }
-</div>
+    <!-- Özgeçmiş -->
+    <div>
+        <label><strong>Özgeçmiş:</strong></label>
+        @if (!string.IsNullOrEmpty(Model.Resume))
+        {
+            <a href="@Url.Content($"~/resumes/{Model.Resume}")" target="_blank">Özgeçmişi Görüntüle</a>
+        }
+    </div>
 
-<a href="@Url.Action("EditProfile", "JobSeekerProfile")">Profili Düzenle</a>
-<div>
-    <a href="@Url.Action("ChangePassword", "JobSeekerProfile")">Şifremi Değiştir</a>
-
+    <!-- Profili Düzenle ve Şifre Değiştir -->
+    <div style="margin-top: 20px;">
+        <a href="@Url.Action("EditProfile", "JobSeekerProfile")" class="btn btn-primary">Profili Düzenle</a>
+    </div>
+    <div>
+        <a href="@Url.Action("ChangePassword", "JobSeekerProfile")" class="btn btn-secondary">Şifremi Değiştir</a>
+    </div>
 </div>

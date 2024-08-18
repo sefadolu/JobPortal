@@ -5,7 +5,12 @@
 <p><strong>Konum:</strong> @Model.Job.Location</p>
 <p><strong>Sektör:</strong> @Model.Job.Sector.Name</p>
 <p><strong>Departman:</strong> @Model.Job.Department.Name</p>
-<p><strong>Maaş:</strong> @Model.Job.Salary TL</p>
+<p>
+    <strong>Şirket:</strong>
+    <a href="@Url.Action("CompanyProfile", "JobAdvert", new { employerId = Model.Job.Employer.Id })">
+        @Model.Job.Employer.CompanyProfile.CompanyName
+    </a>
+</p>
 
 @if (User.Identity.IsAuthenticated && User.IsInRole("JobSeeker"))
 {
@@ -19,4 +24,9 @@
             <button type="submit">Başvur</button>
         </form>
     }
+}
+
+else if (!User.Identity.IsAuthenticated)
+{
+    <p><strong>Başvurmak için lütfen <a href="@Url.Action("Login", "JobSeekerLogin")">giriş yapınız</a></strong></p>
 }

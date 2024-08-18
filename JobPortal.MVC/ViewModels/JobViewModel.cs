@@ -11,6 +11,7 @@ namespace JobPortal.MVC.ViewModels
 
         [Required(ErrorMessage = "Sektör seçilmelidir.")]
         public int SectorId { get; set; }
+        public string CompanyName { get; set; }  // Şirket Adı
 
         [Required(ErrorMessage = "Departman seçilmelidir.")]
         public int DepartmentId { get; set; }

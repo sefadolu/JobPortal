@@ -25,11 +25,16 @@
     @foreach (var job in Model.Jobs)
     {
         <li>
-            <strong>@job.Title</strong> - @job.Location - @job.Salary TL
+            <strong>@job.Title</strong> - @job.Location 
             <br />
             <strong>Sektör:</strong> @job.Sector.Name
             <br />
             <strong>Departman:</strong> @job.Department.Name
+            <br />
+            <strong>Şirket:</strong> 
+            <a href="@Url.Action("CompanyProfile", "JobAdvert", new { employerId = job.Employer.Id })">
+                @job.Employer.CompanyProfile.CompanyName
+            </a>
             <br />
             <a href="@Url.Action("JobDetails", new { id = job.Id })">Detaylar</a>
 

@@ -125,5 +125,34 @@ namespace JobPortal.MVC.Controllers
 
             return View(job);
         }
+
+        [Authorize(Roles = "Employer")]
+        [HttpGet]
+        public async Task<IActionResult> Applicants(int jobId)
+        {
+            // Giriş yapmış kullanıcıyı al
+            var user = await _userManager.GetUserAsync(User);
+            var employer = await _context.Employers.FirstOrDefaultAsync(e => e.Email == user.Email);
+
+            if (employer == null)
+            {
+                return NotFound("İşveren bulunamadı.");
+            }
+
+            // İş ilanını ve başvuran adayları bul
+            var job = await _context.Jobs
+                .Include(j => j.Applications)
+                .ThenInclude(a => a.JobSeeker)
+                .FirstOrDefaultAsync(j => j.Id == jobId && j.EmployerId == employer.Id);
+
+            if (job == null)
+            {
+                return NotFound("İlan bulunamadı."); // İlan bulunamazsa hata
+            }
+
+            var applicants = job.Applications.Select(a => a.JobSeeker).ToList();
+
+            return View(applicants);
+        }
     }
 }

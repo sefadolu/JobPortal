@@ -44,6 +44,8 @@ namespace JobPortal.MVC.Controllers
             var filteredJobs = await jobs
                 .Include(j => j.Sector)
                 .Include(j => j.Department)
+                .Include(j => j.Employer)
+                    .ThenInclude(e => e.CompanyProfile) // Şirket profilini dahil ediyoruz
                 .ToListAsync();
 
             var jobViewModel = new JobViewModel
@@ -87,6 +89,8 @@ namespace JobPortal.MVC.Controllers
             var job = await _context.Jobs
                 .Include(j => j.Sector)
                 .Include(j => j.Department)
+                .Include(j => j.Employer)
+                    .ThenInclude(e => e.CompanyProfile) // Şirket profilini dahil ediyoruz
                 .FirstOrDefaultAsync(j => j.Id == id);
 
             if (job == null)
@@ -116,6 +120,22 @@ namespace JobPortal.MVC.Controllers
             }
 
             return View(jobViewModel);
+        }
+
+        // Şirket profilini görüntüleme
+        [HttpGet]
+        public async Task<IActionResult> CompanyProfile(int employerId)
+        {
+            var employer = await _context.Employers
+                .Include(e => e.CompanyProfile)
+                .FirstOrDefaultAsync(e => e.Id == employerId);
+
+            if (employer == null || employer.CompanyProfile == null)
+            {
+                return NotFound("Şirket profili bulunamadı.");
+            }
+
+            return View(employer.CompanyProfile); // Sadece CompanyProfile modelini view'e gönderiyoruz
         }
 
         // Başvuru işlemi

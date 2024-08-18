@@ -1,0 +1,35 @@
+﻿@model IEnumerable<JobPortal.Entities.Models.Concrete.JobSeeker>
+
+<h2>Başvuran Adaylar</h2>
+
+@if (Model != null && Model.Any())
+{
+    <ul style="list-style-type: none; padding: 0;">
+        @foreach (var applicant in Model)
+        {
+            <li style="text-align: center; margin-bottom: 30px; border-bottom: 1px solid #ddd; padding-bottom: 20px;">
+                <!-- Profil Fotoğrafı: En üstte yuvarlak şekilde ortalanmış -->
+                <div style="margin-bottom: 10px;">
+                    <img src="@Url.Content($"~/profilepictures/{applicant.ProfilePicture}")" alt="Profil Fotoğrafı"
+                         style="width: 120px; height: 120px; border-radius: 50%; object-fit: contain;" />
+                </div>
+
+                <!-- Adı, Email, Telefon ve CV linki: Ortalanmış şekilde -->
+                <div>
+                    <strong>Adı Soyadı:</strong> @applicant.FirstName @applicant.LastName <br />
+                    <strong>Email:</strong> @applicant.Email <br />
+                    <strong>Telefon:</strong> @applicant.PhoneNumber <br />
+                    <strong>Adres:</strong> @applicant.Address <br />
+                    <strong>Yetenekler:</strong> @applicant.Skills <br />
+
+                    <strong>Özgeçmiş:</strong>
+                    <a href="@Url.Content($"~/resumes/{applicant.Resume}")" target="_blank">CV'yi Görüntüle</a>
+                </div>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>Bu ilana henüz başvuran yok.</p>
+}

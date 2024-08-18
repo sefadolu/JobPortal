@@ -7,4 +7,9 @@
     <strong>Maaş:</strong> @Model.Salary TL <br />
     <strong>Sektör:</strong> @Model.Sector.Name <br />
     <strong>Departman:</strong> @Model.Department.Name <br />
+
+    @if (User.IsInRole("Employer"))
+    {
+        <a href="@Url.Action("Applicants", "Job", new { jobId = Model.Id })">Başvuranları Görüntüle</a>
+    }
 </p>
