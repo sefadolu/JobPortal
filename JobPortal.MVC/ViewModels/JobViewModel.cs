@@ -16,6 +16,8 @@ namespace JobPortal.MVC.ViewModels
         public int DepartmentId { get; set; }
         public List<SelectListItem> Sectors { get; set; }
         public List<SelectListItem> Departments { get; set; }
+        public List<int> AppliedJobIds { get; set; } // Başvurulan ilanların ID'lerini tutan liste
+
 
 
     }

@@ -58,8 +58,24 @@ namespace JobPortal.MVC.Controllers
                 {
                     Value = d.Id.ToString(),
                     Text = d.Name
-                }).ToListAsync()
+                }).ToListAsync(),
+                AppliedJobIds = new List<int>()
             };
+
+            // Sadece iş arayanlar için başvurularını çekiyoruz
+            if (User.Identity.IsAuthenticated && User.IsInRole("JobSeeker"))
+            {
+                var user = await _userManager.GetUserAsync(User);
+                var jobSeeker = await _context.JobSeekers.FirstOrDefaultAsync(js => js.Email == user.Email);
+
+                if (jobSeeker != null)
+                {
+                    jobViewModel.AppliedJobIds = await _context.Applications
+                        .Where(a => a.JobSeekerId == jobSeeker.Id)
+                        .Select(a => a.JobId)
+                        .ToListAsync();
+                }
+            }
 
             return View(jobViewModel);
         }
@@ -78,7 +94,28 @@ namespace JobPortal.MVC.Controllers
                 return NotFound("İlan bulunamadı.");
             }
 
-            return View(job);
+            var jobViewModel = new JobViewModel
+            {
+                Job = job,
+                AppliedJobIds = new List<int>()
+            };
+
+            // İş arayanlar için başvuru kontrolü
+            if (User.Identity.IsAuthenticated && User.IsInRole("JobSeeker"))
+            {
+                var user = await _userManager.GetUserAsync(User);
+                var jobSeeker = await _context.JobSeekers.FirstOrDefaultAsync(js => js.Email == user.Email);
+
+                if (jobSeeker != null)
+                {
+                    jobViewModel.AppliedJobIds = await _context.Applications
+                        .Where(a => a.JobSeekerId == jobSeeker.Id)
+                        .Select(a => a.JobId)
+                        .ToListAsync();
+                }
+            }
+
+            return View(jobViewModel);
         }
 
         // Başvuru işlemi
@@ -92,6 +129,16 @@ namespace JobPortal.MVC.Controllers
             if (jobSeeker == null)
             {
                 return RedirectToAction("Login", "JobSeekerLogin");
+            }
+
+            var existingApplication = await _context.Applications
+                .FirstOrDefaultAsync(a => a.JobId == jobId && a.JobSeekerId == jobSeeker.Id);
+
+            if (existingApplication != null)
+            {
+                // Zaten başvurduysa hata mesajı göster
+                ModelState.AddModelError("", "Bu ilana zaten başvurdunuz.");
+                return RedirectToAction("JobDetails", new { id = jobId });
             }
 
             var application = new Application

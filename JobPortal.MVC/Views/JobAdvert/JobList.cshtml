@@ -32,9 +32,20 @@
             <strong>Departman:</strong> @job.Department.Name
             <br />
             <a href="@Url.Action("JobDetails", new { id = job.Id })">Detaylar</a>
-            <form method="post" asp-action="Apply" asp-route-jobId="@job.Id">
-                <button type="submit">Başvur</button>
-            </form>
+
+            @if (User.IsInRole("JobSeeker"))
+            {
+                @if (Model.AppliedJobIds.Contains(job.Id))
+                {
+                    <span style="color: green;">Başvuruldu</span> <!-- Başvurulan iş ilanları için işaret -->
+                }
+                else
+                {
+                    <form method="post" asp-action="Apply" asp-route-jobId="@job.Id">
+                        <button type="submit">Başvur</button>
+                    </form>
+                }
+            }
         </li>
     }
 </ul>

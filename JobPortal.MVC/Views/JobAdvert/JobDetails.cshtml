@@ -1,12 +1,22 @@
-﻿@model JobPortal.Entities.Models.Concrete.Job
+﻿@model JobPortal.MVC.ViewModels.JobViewModel
 
-<h2>@Model.Title</h2>
-<p>@Model.Description</p>
-<p><strong>Konum:</strong> @Model.Location</p>
-<p><strong>Sektör:</strong> @Model.Sector.Name</p>
-<p><strong>Departman:</strong> @Model.Department.Name</p>
-<p><strong>Maaş:</strong> @Model.Salary TL</p>
+<h2>@Model.Job.Title</h2>
+<p>@Model.Job.Description</p>
+<p><strong>Konum:</strong> @Model.Job.Location</p>
+<p><strong>Sektör:</strong> @Model.Job.Sector.Name</p>
+<p><strong>Departman:</strong> @Model.Job.Department.Name</p>
+<p><strong>Maaş:</strong> @Model.Job.Salary TL</p>
 
-<form method="post" asp-action="Apply" asp-route-jobId="@Model.Id">
-    <button type="submit">Başvur</button>
-</form>
+@if (User.Identity.IsAuthenticated && User.IsInRole("JobSeeker"))
+{
+    if (Model.AppliedJobIds.Contains(Model.Job.Id))
+    {
+        <p><strong>Bu ilana zaten başvurdunuz.</strong></p>
+    }
+    else
+    {
+        <form method="post" asp-action="Apply" asp-route-jobId="@Model.Job.Id">
+            <button type="submit">Başvur</button>
+        </form>
+    }
+}
