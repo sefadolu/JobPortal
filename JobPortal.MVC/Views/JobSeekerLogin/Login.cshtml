@@ -16,9 +16,12 @@
 
     <button type="submit">Giriş Yap</button>
 </form>
-@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+@if (ViewData["ErrorMessage"] != null)
 {
-    <div class="alert alert-danger">
-        @ViewBag.ErrorMessage
-    </div>
+    <p style="color: red;">@ViewData["ErrorMessage"]</p>
 }
+
+<!-- Kayıt Ol butonu -->
+<div style="margin-top: 20px;">
+    <p>Henüz bir hesabınız yok mu? <a href="@Url.Action("Register", "JobSeekerRegister")">Kayıt Ol</a></p>
+</div>

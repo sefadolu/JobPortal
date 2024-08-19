@@ -6,10 +6,12 @@ namespace JobPortal.MVC.Controllers
     public class EmployerLoginController : Controller
     {
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public EmployerLoginController(SignInManager<IdentityUser> signInManager)
+        public EmployerLoginController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
         {
             _signInManager = signInManager;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -21,14 +23,32 @@ namespace JobPortal.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string email, string password)
         {
-            var result = await _signInManager.PasswordSignInAsync(email, password, isPersistent: false, lockoutOnFailure: false);
+            var user = await _userManager.FindByEmailAsync(email);
 
-            if (result.Succeeded)
+            if (user != null)
             {
-                return RedirectToAction("Index", "Home");
+                // Kullanıcının "Employer" rolünde olup olmadığını kontrol edelim
+                var isEmployer = await _userManager.IsInRoleAsync(user, "Employer");
+                if (!isEmployer)
+                {
+                    ModelState.AddModelError(string.Empty, "Bu sayfadan sadece işverenler giriş yapabilir.");
+                    return View();
+                }
+
+                var result = await _signInManager.PasswordSignInAsync(email, password, isPersistent: false, lockoutOnFailure: false);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+
+                ModelState.AddModelError(string.Empty, "Giriş başarısız oldu. Lütfen bilgilerinizi kontrol edin ve tekrar deneyin.");
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Bu email adresine ait bir hesap bulunamadı.");
             }
 
-            ModelState.AddModelError(string.Empty, "Giriş başarısız oldu. Lütfen bilgilerinizi kontrol edin ve tekrar deneyin.");
             return View();
         }
 
