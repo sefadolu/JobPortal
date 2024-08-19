@@ -1,5 +1,7 @@
 using JobPortal.Entities.DbContexts;
+using JobPortal.MVC.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobPortal.MVC
@@ -22,6 +24,9 @@ namespace JobPortal.MVC
             builder.Services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<JobDbContext>()
                 .AddDefaultTokenProviders();
+
+            builder.Services.AddTransient<IEmailSender, EmailSender>();
+
 
             var app = builder.Build();
 

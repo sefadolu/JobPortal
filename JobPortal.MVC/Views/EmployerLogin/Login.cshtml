@@ -21,7 +21,8 @@
     <p style="color: red;">@ViewData["ErrorMessage"]</p>
 }
 
-<!-- Kayıt Ol butonu -->
+<!-- Kayıt Ol ve Şifremi Unuttum Butonları -->
 <div style="margin-top: 20px;">
     <p>Henüz bir hesabınız yok mu? <a href="@Url.Action("Register", "EmployerRegister")">Kayıt Ol</a></p>
+    <p>Şifrenizi mi unuttunuz? <a href="@Url.Action("ForgotPassword", "EmployerLogin")">Şifremi Unuttum</a></p>
 </div>
