@@ -47,10 +47,16 @@ namespace JobPortal.Entities.EntityConfigs.Concrete
                 .HasForeignKey(a => a.JobSeekerId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasMany(js => js.EducationAndCertifications)
-                .WithOne(eac => eac.JobSeeker)
-                .HasForeignKey(eac => eac.JobSeekerId)
+            builder.HasMany(js => js.Educations)
+                .WithOne(e => e.JobSeeker)
+                .HasForeignKey(e => e.JobSeekerId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(js => js.Certifications)
+                .WithOne(c => c.JobSeeker)
+                .HasForeignKey(c => c.JobSeekerId)
+                .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }

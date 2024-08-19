@@ -19,7 +19,8 @@ namespace JobPortal.Entities.DbContexts
         public DbSet<JobSeeker> JobSeekers { get; set; }
         public DbSet<Employer> Employers { get; set; }
         public DbSet<Application> Applications { get; set; }
-        public DbSet<EducationAndCertification> EducationAndCertifications { get; set; }
+        public DbSet<Education> Educations { get; set; }
+        public DbSet<Certification> Certifications { get; set; }
         public DbSet<CompanyProfile> CompanyProfiles { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Sector> Sectors { get; set; }
@@ -37,7 +38,8 @@ namespace JobPortal.Entities.DbContexts
             modelBuilder.ApplyConfiguration(new EmployerConfig());
             modelBuilder.ApplyConfiguration(new ApplicationConfig());
             modelBuilder.ApplyConfiguration(new CompanyProfileConfig());
-            modelBuilder.ApplyConfiguration(new EducationAndCertificationConfig());
+            modelBuilder.ApplyConfiguration(new EducationConfig());
+            modelBuilder.ApplyConfiguration(new CertificationConfig());
             modelBuilder.ApplyConfiguration(new DepartmentConfig());
             modelBuilder.ApplyConfiguration(new SectorConfig());
 

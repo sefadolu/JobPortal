@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace JobPortal.DAL.Repository.Concrete
 {
-    public class EducationAndCertificationRepository : Repository<EducationAndCertification>
+    public class EducationRepository : Repository<Education>
     {
-        public EducationAndCertificationRepository(JobDbContext context) : base(context)
+        public EducationRepository(JobDbContext context) : base(context)
         {
         }
 
-        // Eğitim ve sertifikaları getirme
-        public async Task<IEnumerable<EducationAndCertification>> GetEducationAndCertificationsBySeekerIdAsync(int seekerId)
+        // İş arayanın eğitim bilgilerini getirme
+        public async Task<IEnumerable<Education>> GetEducationsBySeekerIdAsync(int seekerId)
         {
             return await _dbSet.Where(education => education.JobSeekerId == seekerId).ToListAsync();
         }

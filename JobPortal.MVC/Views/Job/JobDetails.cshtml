@@ -11,5 +11,9 @@
     @if (User.IsInRole("Employer"))
     {
         <a href="@Url.Action("Applicants", "Job", new { jobId = Model.Id })">Başvuranları Görüntüle</a>
+        <br />
+        <form method="post" asp-action="DeleteJob" asp-route-id="@Model.Id" style="margin-top: 10px;">
+            <button type="submit" class="btn btn-danger" onclick="return confirm('İlanı kaldırmak istediğinizden emin misiniz?');">İlanı Kaldır</button>
+        </form>
     }
 </p>

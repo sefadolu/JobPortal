@@ -14,7 +14,8 @@ namespace JobPortal.Entities.Models.Concrete
         public string? Skills { get; set; }
 
         public ICollection<Application>? Applications { get; set; }
-        public ICollection<EducationAndCertification>? EducationAndCertifications { get; set; } // Burada ilişki tanımlanıyor
+        public ICollection<Education>?Educations { get; set; }
+        public ICollection<Certification>?Certifications { get; set; }
 
     }
 }

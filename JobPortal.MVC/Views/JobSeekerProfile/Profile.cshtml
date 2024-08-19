@@ -54,24 +54,46 @@
         }
     </div>
 
-    <!-- Eğitim ve Sertifikalar -->
-    @if (Model.EducationAndCertifications != null && Model.EducationAndCertifications.Any())
+    <!-- Eğitim Bilgileri -->
+    <h3>Eğitim Bilgileri</h3>
+    @if (Model.Educations != null && Model.Educations.Any())
     {
-        <h3>Eğitim ve Sertifikalar</h3>
         <ul>
-            @foreach (var education in Model.EducationAndCertifications)
+            @foreach (var education in Model.Educations)
             {
                 <li>
-                    <strong>Enstitü Adı:</strong> @education.InstitutionName <br />
-                    <strong>Derece:</strong> @education.Degree <br />
-                    <strong>Mezuniyet Tarihi:</strong> @education.GraduationDate.ToString("dd/MM/yyyy") <br />
+                    <strong>Okul Adı:</strong> @education.SchoolName <br />
+                    <strong>Bölüm:</strong> @education.Department <br />
+                    <strong>Mezuniyet Derecesi:</strong> @education.GraduationDegree <br />
+                    <strong>Durum:</strong> @education.Status <br />
+                    <strong>Mezuniyet Yılı:</strong> @education.GraduationYear <br />
                 </li>
             }
         </ul>
     }
     else
     {
-        <p>Henüz eklenmiş eğitim veya sertifika bilgisi bulunmuyor.</p>
+        <p>Henüz eklenmiş bir eğitim bilgisi bulunmuyor.</p>
+    }
+
+    <!-- Sertifika Bilgileri -->
+    <h3>Sertifika Bilgileri</h3>
+    @if (Model.Certifications != null && Model.Certifications.Any())
+    {
+        <ul>
+            @foreach (var certification in Model.Certifications)
+            {
+                <li>
+                    <strong>Kurum Adı:</strong> @certification.InstitutionName <br />
+                    <strong>Sertifika Adı:</strong> @certification.CertificateName <br />
+                    <strong>Sertifika Alınma Tarihi:</strong> @certification.CertificationDate.ToString("dd/MM/yyyy") <br />
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>Henüz eklenmiş bir sertifika bilgisi bulunmuyor.</p>
     }
 
     <!-- Profili Düzenle ve Şifre Değiştir -->
@@ -80,5 +102,11 @@
     </div>
     <div>
         <a href="@Url.Action("ChangePassword", "JobSeekerProfile")" class="btn btn-secondary">Şifremi Değiştir</a>
+    </div>
+    <!-- Hesabımı Sil -->
+    <div style="margin-top: 30px;">
+        <form method="post" asp-action="DeleteAccount">
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Hesabınızı silmek istediğinizden emin misiniz?');">Hesabımı Sil</button>
+        </form>
     </div>
 </div>

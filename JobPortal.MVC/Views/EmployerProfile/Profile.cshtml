@@ -33,4 +33,10 @@
     <div>
     <a href="@Url.Action("ChangePassword", "EmployerProfile")">Şifremi Değiştir</a>
     </div>
+    <!-- Hesabımı Sil -->
+    <div style="margin-top: 30px;">
+        <form method="post" asp-action="DeleteAccount">
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Hesabınızı silmek istediğinizden emin misiniz?');">Hesabımı Sil</button>
+        </form>
+    </div>
 </div>

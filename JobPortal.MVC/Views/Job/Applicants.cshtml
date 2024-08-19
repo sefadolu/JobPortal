@@ -25,6 +25,56 @@
                     <strong>Özgeçmiş:</strong>
                     <a href="@Url.Content($"~/resumes/{applicant.Resume}")" target="_blank">CV'yi Görüntüle</a>
                 </div>
+                <!-- Eğitim Bilgileri -->
+                @if (applicant.Educations != null && applicant.Educations.Any())
+                {
+                    <div style="margin-top: 20px;">
+                        <h3>Eğitim Bilgileri</h3>
+                        <ul style="list-style-type: none; padding: 0;">
+                            @foreach (var education in applicant.Educations)
+                            {
+                                <li>
+                                    <strong>Okul Adı:</strong> @education.SchoolName <br />
+                                    <strong>Bölüm:</strong> @education.Department <br />
+                                    <strong>Mezuniyet Derecesi:</strong> @education.GraduationDegree <br />
+                                    <strong>Mezuniyet Durumu:</strong> @education.Status <br />
+                                    <strong>Mezuniyet Yılı:</strong> @education.GraduationYear <br />
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    <div style="margin-top: 10px;">
+                        <strong>Eğitim Bilgisi bulunmamaktadır.</strong>
+                    </div>
+                }
+
+                <!-- Sertifika Bilgileri -->
+                @if (applicant.Certifications != null && applicant.Certifications.Any())
+                {
+                    <div style="margin-top: 20px;">
+                        <h3>Sertifika Bilgileri</h3>
+                        <ul style="list-style-type: none; padding: 0;">
+                            @foreach (var certification in applicant.Certifications)
+                            {
+                                <li>
+                                    <strong>Kurum Adı:</strong> @certification.InstitutionName <br />
+                                    <strong>Sertifika Adı:</strong> @certification.CertificateName <br />
+                                    <strong>Alınma Tarihi:</strong> @certification.CertificationDate.ToString("dd/MM/yyyy") <br />
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    <div style="margin-top: 10px;">
+                        <strong>Sertifika Bilgisi bulunmamaktadır.</strong>
+                    </div>
+                }
+
             </li>
         }
     </ul>

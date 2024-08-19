@@ -135,5 +135,39 @@ namespace JobPortal.MVC.Controllers
 
             return View();
         }
+        [Authorize(Roles = "Employer")]
+        [HttpPost]
+        public async Task<IActionResult> DeleteAccount()
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return RedirectToAction("Login", "EmployerLogin");
+            }
+
+            var employer = await _context.Employers
+                .Include(e => e.CompanyProfile)
+                .FirstOrDefaultAsync(e => e.Email == user.Email);
+
+            if (employer == null)
+            {
+                return NotFound("Profil bulunamadı.");
+            }
+
+            // İlgili Employer ve CompanyProfile kaydını sil
+            _context.Employers.Remove(employer);
+            await _context.SaveChangesAsync();
+
+            var result = await _userManager.DeleteAsync(user);
+
+            if (result.Succeeded)
+            {
+                await _signInManager.SignOutAsync();
+                return RedirectToAction("Login", "EmployerLogin", new { Message = "Hesabınız başarıyla silindi." });
+            }
+
+            return RedirectToAction("Profile", new { Message = "Hesabınız silinirken bir hata oluştu." });
+        }
     }
 }

@@ -157,7 +157,7 @@ namespace JobPortal.MVC.Controllers
             if (existingApplication != null)
             {
                 // Zaten başvurduysa hata mesajı göster
-                ModelState.AddModelError("", "Bu ilana zaten başvurdunuz.");
+                ModelState.AddModelError("", "Bu ilana başvurdunuz.");
                 return RedirectToAction("JobDetails", new { id = jobId });
             }
 

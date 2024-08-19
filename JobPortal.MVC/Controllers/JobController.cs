@@ -143,6 +143,10 @@ namespace JobPortal.MVC.Controllers
             var job = await _context.Jobs
                 .Include(j => j.Applications)
                 .ThenInclude(a => a.JobSeeker)
+                .ThenInclude(js => js.Educations)
+                .Include(j => j.Applications)
+                .ThenInclude(a => a.JobSeeker)
+                .ThenInclude(js => js.Certifications)
                 .FirstOrDefaultAsync(j => j.Id == jobId && j.EmployerId == employer.Id);
 
             if (job == null)
@@ -153,6 +157,31 @@ namespace JobPortal.MVC.Controllers
             var applicants = job.Applications.Select(a => a.JobSeeker).ToList();
 
             return View(applicants);
+        }
+        [Authorize(Roles = "Employer")]
+        [HttpPost]
+        public async Task<IActionResult> DeleteJob(int id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var employer = await _context.Employers.FirstOrDefaultAsync(e => e.Email == user.Email);
+
+            if (employer == null)
+            {
+                return NotFound("İşveren bulunamadı.");
+            }
+
+            var job = await _context.Jobs
+                .FirstOrDefaultAsync(j => j.Id == id && j.EmployerId == employer.Id);
+
+            if (job == null)
+            {
+                return NotFound("İlan bulunamadı.");
+            }
+
+            _context.Jobs.Remove(job);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("JobList", new { Message = "İlan başarıyla kaldırıldı." });
         }
     }
 }

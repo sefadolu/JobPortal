@@ -33,7 +33,8 @@ namespace JobPortal.MVC.Controllers
             }
 
             var jobSeeker = _context.JobSeekers
-                .Include(js => js.EducationAndCertifications)
+                .Include(js => js.Educations)
+                .Include(js => js.Certifications)
                 .FirstOrDefault(js => js.Email == user.Email);
 
             if (jobSeeker == null)
@@ -54,7 +55,8 @@ namespace JobPortal.MVC.Controllers
             }
 
             var jobSeeker = _context.JobSeekers
-                .Include(js => js.EducationAndCertifications)
+                .Include(js => js.Educations)
+                .Include(js => js.Certifications)
                 .FirstOrDefault(js => js.Email == user.Email);
 
             if (jobSeeker == null)
@@ -66,7 +68,7 @@ namespace JobPortal.MVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditProfile(JobSeeker model, IFormFile resumeFile, IFormFile profilePictureFile)
+        public async Task<IActionResult> EditProfile(JobSeeker model, IFormFile resumeFile, IFormFile profilePictureFile, string DeletedEducations, string DeletedCertifications)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -75,12 +77,29 @@ namespace JobPortal.MVC.Controllers
             }
 
             var jobSeeker = _context.JobSeekers
-                .Include(js => js.EducationAndCertifications)
+                .Include(js => js.Educations)
+                .Include (js => js.Certifications)
                 .FirstOrDefault(js => js.Email == user.Email);
 
             if (jobSeeker == null)
             {
                 return NotFound("Profil bulunamadı.");
+            }
+
+            // Silinen Eğitimleri kaldır
+            if (!string.IsNullOrEmpty(DeletedEducations))
+            {
+                var educationIds = DeletedEducations.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList();
+                var educationsToDelete = jobSeeker.Educations.Where(e => educationIds.Contains(e.Id)).ToList();
+                _context.Educations.RemoveRange(educationsToDelete);
+            }
+
+            // Silinen Sertifikaları kaldır
+            if (!string.IsNullOrEmpty(DeletedCertifications))
+            {
+                var certificationIds = DeletedCertifications.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList();
+                var certificationsToDelete = jobSeeker.Certifications.Where(c => certificationIds.Contains(c.Id)).ToList();
+                _context.Certifications.RemoveRange(certificationsToDelete);
             }
 
             // Formdan gelen alanları doğrudan güncelle
@@ -90,21 +109,42 @@ namespace JobPortal.MVC.Controllers
             jobSeeker.Address = !string.IsNullOrEmpty(model.Address) ? model.Address : jobSeeker.Address;
             jobSeeker.Skills = !string.IsNullOrEmpty(model.Skills) ? model.Skills : jobSeeker.Skills;
 
-            // Eğitim ve sertifikaları güncelle veya yeni kayıt ekle
-            foreach (var education in model.EducationAndCertifications)
+            // Eğitim bilgilerini güncelle
+            if (model.Educations != null && model.Educations.Any())
             {
-                if (education.Id == 0) // Yeni eğitim kaydı
+                foreach (var education in model.Educations)
                 {
-                    jobSeeker.EducationAndCertifications.Add(education);
-                }
-                else // Mevcut eğitim kaydı güncelleniyor
-                {
-                    var existingEducation = jobSeeker.EducationAndCertifications.FirstOrDefault(e => e.Id == education.Id);
+                    var existingEducation = jobSeeker.Educations?.FirstOrDefault(e => e.Id == education.Id);
                     if (existingEducation != null)
                     {
-                        existingEducation.InstitutionName = education.InstitutionName;
-                        existingEducation.Degree = education.Degree;
-                        existingEducation.GraduationDate = education.GraduationDate;
+                        existingEducation.SchoolName = education.SchoolName;
+                        existingEducation.Department = education.Department;
+                        existingEducation.GraduationDegree = education.GraduationDegree;
+                        existingEducation.Status = education.Status;
+                        existingEducation.GraduationYear = education.GraduationYear;
+                    }
+                    else
+                    {
+                        jobSeeker.Educations.Add(education);
+                    }
+                }
+            }
+
+            // Sertifika bilgilerini güncelle
+            if (model.Certifications != null && model.Certifications.Any())
+            {
+                foreach (var certification in model.Certifications)
+                {
+                    var existingCertification = jobSeeker.Certifications?.FirstOrDefault(c => c.Id == certification.Id);
+                    if (existingCertification != null)
+                    {
+                        existingCertification.InstitutionName = certification.InstitutionName;
+                        existingCertification.CertificateName = certification.CertificateName;
+                        existingCertification.CertificationDate = certification.CertificationDate;
+                    }
+                    else
+                    {
+                        jobSeeker.Certifications.Add(certification);
                     }
                 }
             }
@@ -181,6 +221,7 @@ namespace JobPortal.MVC.Controllers
             return RedirectToAction("Profile");
         }
 
+
         // Şifre Değiştirme GET
         [HttpGet]
         public IActionResult ChangePassword()
@@ -217,6 +258,41 @@ namespace JobPortal.MVC.Controllers
             }
 
             return View();
+        }
+        [Authorize(Roles = "JobSeeker")]
+        [HttpPost]
+        public async Task<IActionResult> DeleteAccount()
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return RedirectToAction("Login", "JobSeekerLogin");
+            }
+
+            var jobSeeker = await _context.JobSeekers
+                .Include(js => js.Educations)
+                .Include(js => js.Certifications)
+                .FirstOrDefaultAsync(js => js.Email == user.Email);
+
+            if (jobSeeker == null)
+            {
+                return NotFound("Profil bulunamadı.");
+            }
+
+            // İlgili JobSeeker ve AspNetUser kaydını sil
+            _context.JobSeekers.Remove(jobSeeker);
+            await _context.SaveChangesAsync();
+
+            var result = await _userManager.DeleteAsync(user);
+
+            if (result.Succeeded)
+            {
+                await _signInManager.SignOutAsync();
+                return RedirectToAction("Login", "JobSeekerLogin", new { Message = "Hesabınız başarıyla silindi." });
+            }
+
+            return RedirectToAction("Profile", new { Message = "Hesabınız silinirken bir hata oluştu." });
         }
     }
 }

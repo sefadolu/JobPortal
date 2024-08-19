@@ -18,9 +18,14 @@ namespace JobPortal.BL.Concrete
             return await _jobSeekerRepository.GetAppliedJobsAsync(jobSeekerId);
         }
 
-        public async Task<IEnumerable<EducationAndCertification>> GetEducationAndCertificationsAsync(int jobSeekerId)
+        public async Task<IEnumerable<Education>> GetEducationsAsync(int jobSeekerId)
         {
-            return await _jobSeekerRepository.GetEducationAndCertificationsAsync(jobSeekerId);
+            return await _jobSeekerRepository.GetEducationsAsync(jobSeekerId);
         }
+        public async Task<IEnumerable<Certification>> GetCertificationsAsync(int jobSeekerId)
+        {
+            return await _jobSeekerRepository.GetCertificationsAsync(jobSeekerId);
+        }
+
     }
 }
