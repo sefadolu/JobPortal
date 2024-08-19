@@ -65,7 +65,6 @@ namespace JobPortal.MVC.Controllers
                 return View(model);
             }
 
-            // Kullanıcı ve işveren bilgilerini al
             var user = await _userManager.GetUserAsync(User);
             var employer = await _context.Employers.FirstOrDefaultAsync(e => e.Email == user.Email);
 
@@ -77,11 +76,9 @@ namespace JobPortal.MVC.Controllers
 
             model.Job.EmployerId = employer.Id;
             model.Job.PostedDate = DateTime.Now;
-            // Seçilen SectorId ve DepartmentId'yi Job modeline atayın
             model.Job.SectorId = model.SectorId;
             model.Job.DepartmentId = model.DepartmentId;
 
-            // Veritabanına ekle
             _context.Jobs.Add(model.Job);
             await _context.SaveChangesAsync();
 
@@ -102,8 +99,8 @@ namespace JobPortal.MVC.Controllers
 
             var jobs = await _context.Jobs
                 .Where(j => j.EmployerId == employer.Id)
-                .Include(j => j.Sector) // Sektörü de dahil edelim
-                .Include(j => j.Department) // Departmanı da dahil edelim
+                .Include(j => j.Sector)
+                .Include(j => j.Department)
                 .ToListAsync();
 
             return View(jobs);
@@ -126,11 +123,83 @@ namespace JobPortal.MVC.Controllers
             return View(job);
         }
 
+        // İlan düzenleme formunu yükleme
+        [HttpGet]
+        public async Task<IActionResult> EditJob(int id)
+        {
+            var job = await _context.Jobs.FirstOrDefaultAsync(j => j.Id == id);
+
+            if (job == null)
+            {
+                return NotFound("İlan bulunamadı.");
+            }
+
+            var jobViewModel = new JobViewModel
+            {
+                Job = job,
+                SectorId = job.SectorId,
+                DepartmentId = job.DepartmentId,
+                Sectors = await _context.Sectors.Select(s => new SelectListItem
+                {
+                    Value = s.Id.ToString(),
+                    Text = s.Name
+                }).ToListAsync(),
+                Departments = await _context.Departments.Select(d => new SelectListItem
+                {
+                    Value = d.Id.ToString(),
+                    Text = d.Name
+                }).ToListAsync()
+            };
+
+            return View(jobViewModel);
+        }
+
+        // İlan düzenleme işlemi
+        [HttpPost]
+        public async Task<IActionResult> EditJob(JobViewModel model)
+        {
+            if (model.SectorId == 0 || model.DepartmentId == 0)
+            {
+                ModelState.AddModelError("", "Geçerli bir sektör veya departman seçmediniz.");
+                model.Sectors = await _context.Sectors.Select(s => new SelectListItem
+                {
+                    Value = s.Id.ToString(),
+                    Text = s.Name
+                }).ToListAsync();
+                model.Departments = await _context.Departments.Select(d => new SelectListItem
+                {
+                    Value = d.Id.ToString(),
+                    Text = d.Name
+                }).ToListAsync();
+
+                return View(model);
+            }
+
+            // Düzenlenecek ilanı buluyoruz
+            var job = await _context.Jobs.FirstOrDefaultAsync(j => j.Id == model.Job.Id);
+            if (job == null)
+            {
+                return NotFound("İlan bulunamadı.");
+            }
+
+            // Güncelleme işlemi
+            job.Title = model.Job.Title;
+            job.Description = model.Job.Description;
+            job.Location = model.Job.Location;
+            job.Salary = model.Job.Salary;
+            job.SectorId = model.SectorId;
+            job.DepartmentId = model.DepartmentId;
+
+            _context.Jobs.Update(job);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("JobDetails", new { id = job.Id });
+        }
+
         [Authorize(Roles = "Employer")]
         [HttpGet]
         public async Task<IActionResult> Applicants(int jobId)
         {
-            // Giriş yapmış kullanıcıyı al
             var user = await _userManager.GetUserAsync(User);
             var employer = await _context.Employers.FirstOrDefaultAsync(e => e.Email == user.Email);
 
@@ -139,7 +208,6 @@ namespace JobPortal.MVC.Controllers
                 return NotFound("İşveren bulunamadı.");
             }
 
-            // İş ilanını ve başvuran adayları bul
             var job = await _context.Jobs
                 .Include(j => j.Applications)
                 .ThenInclude(a => a.JobSeeker)
@@ -151,13 +219,14 @@ namespace JobPortal.MVC.Controllers
 
             if (job == null)
             {
-                return NotFound("İlan bulunamadı."); // İlan bulunamazsa hata
+                return NotFound("İlan bulunamadı.");
             }
 
             var applicants = job.Applications.Select(a => a.JobSeeker).ToList();
 
             return View(applicants);
         }
+
         [Authorize(Roles = "Employer")]
         [HttpPost]
         public async Task<IActionResult> DeleteJob(int id)

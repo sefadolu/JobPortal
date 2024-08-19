@@ -15,5 +15,7 @@
         <form method="post" asp-action="DeleteJob" asp-route-id="@Model.Id" style="margin-top: 10px;">
             <button type="submit" class="btn btn-danger" onclick="return confirm('İlanı kaldırmak istediğinizden emin misiniz?');">İlanı Kaldır</button>
         </form>
+        <br />
+        <a href="@Url.Action("EditJob", "Job", new { id = Model.Id })" class="btn btn-primary">İlanı Düzenle</a>
     }
 </p>
