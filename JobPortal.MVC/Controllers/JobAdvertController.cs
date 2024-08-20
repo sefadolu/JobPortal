@@ -45,7 +45,7 @@ namespace JobPortal.MVC.Controllers
                 .Include(j => j.Sector)
                 .Include(j => j.Department)
                 .Include(j => j.Employer)
-                    .ThenInclude(e => e.CompanyProfile) // Şirket profilini dahil ediyoruz
+                    .ThenInclude(e => e.CompanyProfile) 
                 .ToListAsync();
 
             var jobViewModel = new JobViewModel
@@ -64,7 +64,6 @@ namespace JobPortal.MVC.Controllers
                 AppliedJobIds = new List<int>()
             };
 
-            // Sadece iş arayanlar için başvurularını çekiyoruz
             if (User.Identity.IsAuthenticated && User.IsInRole("JobSeeker"))
             {
                 var user = await _userManager.GetUserAsync(User);
@@ -90,7 +89,7 @@ namespace JobPortal.MVC.Controllers
                 .Include(j => j.Sector)
                 .Include(j => j.Department)
                 .Include(j => j.Employer)
-                    .ThenInclude(e => e.CompanyProfile) // Şirket profilini dahil ediyoruz
+                    .ThenInclude(e => e.CompanyProfile) 
                 .FirstOrDefaultAsync(j => j.Id == id);
 
             if (job == null)
@@ -104,7 +103,6 @@ namespace JobPortal.MVC.Controllers
                 AppliedJobIds = new List<int>()
             };
 
-            // İş arayanlar için başvuru kontrolü
             if (User.Identity.IsAuthenticated && User.IsInRole("JobSeeker"))
             {
                 var user = await _userManager.GetUserAsync(User);
@@ -135,7 +133,7 @@ namespace JobPortal.MVC.Controllers
                 return NotFound("Şirket profili bulunamadı.");
             }
 
-            return View(employer.CompanyProfile); // Sadece CompanyProfile modelini view'e gönderiyoruz
+            return View(employer.CompanyProfile); 
         }
 
         // Başvuru işlemi
@@ -156,7 +154,6 @@ namespace JobPortal.MVC.Controllers
 
             if (existingApplication != null)
             {
-                // Zaten başvurduysa hata mesajı göster
                 ModelState.AddModelError("", "Bu ilana başvurdunuz.");
                 return RedirectToAction("JobDetails", new { id = jobId });
             }

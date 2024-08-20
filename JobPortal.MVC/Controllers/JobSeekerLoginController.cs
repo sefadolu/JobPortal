@@ -11,7 +11,7 @@ namespace JobPortal.MVC.Controllers
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IEmailSender _emailSender; // Interface olarak kullanılıyor
+        private readonly IEmailSender _emailSender; 
 
         public JobSeekerLoginController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IEmailSender emailSender)
         {
@@ -101,7 +101,6 @@ namespace JobPortal.MVC.Controllers
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var callbackUrl = Url.Action("ResetPassword", "JobSeekerLogin", new { token, email = user.Email }, Request.Scheme);
 
-            // E-posta gönderimi yapılır
             await _emailSender.SendEmailAsync(user.Email, "Şifre Sıfırlama Talebi",
                 $"Lütfen şifrenizi sıfırlamak için <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>buraya tıklayın</a>.");
 
@@ -119,34 +118,34 @@ namespace JobPortal.MVC.Controllers
         {
             if (token == null || email == null)
             {
-                return RedirectToAction("Login"); // Eğer token ya da email null ise login sayfasına yönlendirme
+                return RedirectToAction("Login"); 
             }
-            var model = new ResetPasswordViewModel { Token = token, Email = email }; // Email ve token'i model'e aktar
-            return View(model); // ResetPassword sayfasına yönlendir
+            var model = new ResetPasswordViewModel { Token = token, Email = email }; 
+            return View(model); 
         }
 
         [HttpPost]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
-            if (!ModelState.IsValid) // Form doğrulaması başarısızsa
+            if (!ModelState.IsValid) 
             {
                 return View(model);
             }
 
             var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user == null) // Eğer kullanıcı bulunamazsa
+            if (user == null) 
             {
-                // Kullanıcı bulunamıyorsa, direkt Login sayfasına yönlendir
+                
                 return RedirectToAction("Login");
             }
 
             var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
-            if (result.Succeeded) // Şifre sıfırlama başarılıysa
+            if (result.Succeeded) 
             {
                 return RedirectToAction("ResetPasswordConfirmation");
             }
 
-            // Hata durumunda hataları göster
+            
             foreach (var error in result.Errors)
             {
                 ModelState.AddModelError(string.Empty, error.Description);

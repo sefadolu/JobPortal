@@ -155,7 +155,6 @@ namespace JobPortal.MVC.Controllers
                 return NotFound("Profil bulunamadı.");
             }
 
-            // İlgili Employer ve CompanyProfile kaydını sil
             _context.Employers.Remove(employer);
             await _context.SaveChangesAsync();
 

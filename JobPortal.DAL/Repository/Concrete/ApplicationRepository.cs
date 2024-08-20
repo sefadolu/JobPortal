@@ -15,7 +15,6 @@ namespace JobPortal.DAL.Repository.Concrete
         {
         }
 
-        // Başvuruları getirme metodları
         public async Task<IEnumerable<Application>> GetApplicationsByJobIdAsync(int jobId)
         {
             return await _dbSet.Where(app => app.JobId == jobId).ToListAsync();

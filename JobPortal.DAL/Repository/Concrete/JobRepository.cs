@@ -15,13 +15,11 @@ namespace JobPortal.DAL.Repository.Concrete
         {
         }
 
-        // İş ilanını kaldırma
         public async Task DeleteJobAsync(int jobId)
         {
             await DeleteAsync(jobId);
         }
 
-        // Sektöre göre iş ilanlarını filtreleyen metod
         public async Task<IEnumerable<Job>> GetJobsBySectorAsync(int sectorId)
         {
             return await _dbSet
@@ -29,7 +27,6 @@ namespace JobPortal.DAL.Repository.Concrete
                 .ToListAsync();
         }
 
-        // Departmana göre iş ilanlarını filtreleyen metod
         public async Task<IEnumerable<Job>> GetJobsByDepartmentAsync(int departmentId)
         {
             return await _dbSet
@@ -37,7 +34,6 @@ namespace JobPortal.DAL.Repository.Concrete
                 .ToListAsync();
         }
 
-        // İş türüne göre iş ilanlarını filtreleyen metod (Tam zamanlı, Yarı zamanlı, Stajyer)
         public async Task<IEnumerable<Job>> GetJobsByJobTypeAsync(string jobType)
         {
             return await _dbSet
@@ -45,7 +41,6 @@ namespace JobPortal.DAL.Repository.Concrete
                 .ToListAsync();
         }
 
-        // Çalışma türüne göre iş ilanlarını filtreleyen metod (Remote, Hibrit, Ofis)
         public async Task<IEnumerable<Job>> GetJobsByWorkTypeAsync(string workType)
         {
             return await _dbSet
@@ -53,7 +48,6 @@ namespace JobPortal.DAL.Repository.Concrete
                 .ToListAsync();
         }
 
-        // İş arayan tarafından başvurulmuş iş ilanlarını getiren metod
         public async Task<IEnumerable<Job>> GetJobsBySeekerIdAsync(int seekerId)
         {
             return await _context.Applications
@@ -62,7 +56,6 @@ namespace JobPortal.DAL.Repository.Concrete
                 .ToListAsync();
         }
 
-        // İş ilanına başvuran iş arayanların profillerini getiren metod
         public async Task<IEnumerable<JobSeeker>> GetJobSeekersByJobIdAsync(int jobId)
         {
             return await _context.Applications

@@ -15,7 +15,6 @@ namespace JobPortal.DAL.Repository.Concrete
         {
         }
 
-        // Tüm departmanları getiren metod
         public async Task<IEnumerable<Department>> GetAllDepartmentsAsync()
         {
             return await _dbSet.ToListAsync();

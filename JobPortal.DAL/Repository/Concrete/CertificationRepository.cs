@@ -13,9 +13,8 @@ namespace JobPortal.DAL.Repository.Concrete
     {
         public CertificationRepository(JobDbContext context) : base(context)
         {
-        }
 
-        // İş arayanın sertifika bilgilerini getirme
+        }
         public async Task<IEnumerable<Certification>> GetCertificationsBySeekerIdAsync(int seekerId)
         {
             return await _dbSet.Where(certification => certification.JobSeekerId == seekerId).ToListAsync();

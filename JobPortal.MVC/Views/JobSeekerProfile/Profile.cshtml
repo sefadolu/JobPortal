@@ -8,9 +8,7 @@
         </div>
     }
 
-    <!-- Kişisel Bilgiler Kartı -->
     <div class="card mb-4">
-        <!-- Profil Fotoğrafı Kart Üstünde -->
         <div class="card-header text-center">
             @if (!string.IsNullOrEmpty(Model.ProfilePicture))
             {
@@ -18,10 +16,8 @@
             }
         </div>
 
-        <!-- Kart Gövdesi -->
         <div class="card-body">
             <h3 class="card-title">Kişisel Bilgiler</h3>
-            <!-- Bilgiler Sol Hizalanmış Şekilde -->
             <div class="row">
                 <div class="col-md-12">
                     <p><strong>Ad:</strong> @Model.FirstName</p>
@@ -31,7 +27,6 @@
                     <p><strong>Adres:</strong> @Model.Address</p>
                     <p><strong>Yetenekler:</strong> @Model.Skills</p>
 
-                    <!-- Özgeçmiş -->
                     <p>
                         <strong>Özgeçmiş:</strong>
                         @if (!string.IsNullOrEmpty(Model.Resume))
@@ -48,7 +43,6 @@
         </div>
     </div>
 
-    <!-- Eğitim Bilgileri Kartı -->
     <div class="card mb-4">
         <div class="card-body">
             <h3 class="card-title">Eğitim Bilgileri</h3>
@@ -74,7 +68,6 @@
         </div>
     </div>
 
-    <!-- Sertifika Bilgileri Kartı -->
     <div class="card mb-4">
         <div class="card-body">
             <h3 class="card-title">Sertifika Bilgileri</h3>
@@ -98,7 +91,6 @@
         </div>
     </div>
 
-    <!-- Profili Düzenle, Şifre Değiştir ve Hesap Sil -->
     <div class="text-center my-4">
         <a href="@Url.Action("EditProfile", "JobSeekerProfile")" class="btn btn-dark mx-2">Profili Düzenle</a>
         <a href="@Url.Action("ChangePassword", "JobSeekerProfile")" class="btn btn-dark mx-2">Şifremi Değiştir</a>

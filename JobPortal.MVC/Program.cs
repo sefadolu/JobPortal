@@ -12,15 +12,12 @@ namespace JobPortal.MVC
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            // Configure DbContext with MySQL
             builder.Services.AddDbContext<JobDbContext>(options =>
                 options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
                     new MySqlServerVersion(new Version(8, 0, 38))));
 
-            // Configure Identity services
             builder.Services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<JobDbContext>()
                 .AddDefaultTokenProviders();
@@ -30,15 +27,13 @@ namespace JobPortal.MVC
 
             var app = builder.Build();
 
-            // Rollerin oluþturulmasý için gerekli servisleri oluþturun
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
                 var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-                await CreateRolesAsync(roleManager); // Rolleri oluþturma iþlemi
+                await CreateRolesAsync(roleManager); 
             }
 
-            // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
@@ -50,7 +45,7 @@ namespace JobPortal.MVC
 
             app.UseRouting();
 
-            app.UseAuthentication(); // Kimlik doðrulama middleware'i ekleyin
+            app.UseAuthentication(); 
             app.UseAuthorization();
 
             app.MapControllerRoute(
@@ -60,10 +55,8 @@ namespace JobPortal.MVC
             app.Run();
         }
 
-        // Rolleri oluþturacak method
         private static async Task CreateRolesAsync(RoleManager<IdentityRole> roleManager)
         {
-            // Gerekli roller burada tanýmlanýr
             var roles = new[] { "JobSeeker", "Employer" };
             foreach (var role in roles)
             {

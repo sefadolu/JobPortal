@@ -32,7 +32,7 @@ namespace JobPortal.MVC.Services
                 {
                     Port = int.Parse(_configuration["EmailSettings:SmtpPort"]),
                     Credentials = new NetworkCredential(_configuration["EmailSettings:Username"], _configuration["EmailSettings:Password"]),
-                    EnableSsl = true,  // SSL bağlantısının etkinleştirildiğinden emin olun
+                    EnableSsl = true, 
                 };
 
                 var mailMessage = new MailMessage
@@ -48,7 +48,6 @@ namespace JobPortal.MVC.Services
             }
             catch (Exception ex)
             {
-                // Hata yakalama ve loglama
                 throw new InvalidOperationException($"E-posta gönderimi sırasında bir hata oluştu: {ex.Message}", ex);
             }
         }

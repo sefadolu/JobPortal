@@ -13,9 +13,8 @@ namespace JobPortal.DAL.Repository.Concrete
     {
         public EducationRepository(JobDbContext context) : base(context)
         {
-        }
 
-        // İş arayanın eğitim bilgilerini getirme
+        }
         public async Task<IEnumerable<Education>> GetEducationsBySeekerIdAsync(int seekerId)
         {
             return await _dbSet.Where(education => education.JobSeekerId == seekerId).ToListAsync();

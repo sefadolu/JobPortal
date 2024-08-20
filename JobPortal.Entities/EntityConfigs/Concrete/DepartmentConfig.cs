@@ -26,7 +26,6 @@ namespace JobPortal.Entities.EntityConfigs.Concrete
                 .WithOne(j => j.Department)
                 .HasForeignKey(j => j.DepartmentId);
 
-            // HasData ile departmanları ekleyelim
             builder.HasData(
                 new Department { Id = 1, Name = "Akademik" },
                 new Department { Id = 2, Name = "AR-GE" },

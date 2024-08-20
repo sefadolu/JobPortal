@@ -13,15 +13,14 @@ html {
 body {
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Sayfa içeriði ve footer arasýndaki dengeyi saðlamak için */
-    margin: 0; /* Margin kaldýrýlarak sayfa düzeni bozulmaz */
+    min-height: 100vh; 
+    margin: 0; 
 }
 
 main {
-    flex: 1; /* Ýçeriðin esnek þekilde uzamasýný saðlar */
+    flex: 1; 
 }
 
-/* Footer */
 footer {
     background-color: #343a40;
     color: white;
@@ -32,7 +31,6 @@ footer {
     width: 100%;
 }
 
-/* Kart Stilleri */
 .card {
     background-color: #f5f5f5;
     border: 1px solid #333;
@@ -71,7 +69,6 @@ footer {
     color: #6c757d;
 }
 
-/* Butonlar */
 .btn-dark {
     background-color: #333;
     color: #fff;
@@ -105,7 +102,6 @@ footer {
         text-decoration: underline;
     }
 
-/* Form Elemanlarý */
 .form-select, .form-control {
     padding: 12px;
     border-radius: 6px;
@@ -118,7 +114,6 @@ footer {
         box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
     }
 
-/* Genel Sayfa Ayarlarý */
 .row > .col-md-6 {
     margin-bottom: 30px;
 }
@@ -128,13 +123,11 @@ h2 {
     color: #333;
 }
 
-/* Kartlar arasýnda boþluk */
 .card {
     margin-bottom: 30px;
     padding: 10px;
 }
 
-/* Footer altýnda boþluk býrak */
 .content {
     padding-bottom: 100px;
 }

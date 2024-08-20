@@ -22,7 +22,7 @@ namespace JobPortal.MVC.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            return View(); // Giriş formu yüklenir
+            return View();
         }
 
         [HttpPost]
@@ -103,7 +103,6 @@ namespace JobPortal.MVC.Controllers
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var callbackUrl = Url.Action("ResetPassword", "EmployerLogin", new { token, email = user.Email }, Request.Scheme);
 
-            // E-posta gönderimi yapılır
             await _emailSender.SendEmailAsync(user.Email, "Şifre Sıfırlama Talebi",
                 $"Lütfen şifrenizi sıfırlamak için <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>buraya tıklayın</a>.");
 

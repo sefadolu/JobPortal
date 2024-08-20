@@ -75,14 +75,12 @@ namespace JobPortal.MVC.Controllers
                     Text = d.Name
                 }).ToListAsync();
 
-                // İş türleri (Tam Zamanlı, Yarı Zamanlı, Stajyer gibi)
                 model.JobTypes = new List<SelectListItem>
         {
             new SelectListItem { Value = "Tam Zamanlı", Text = "Tam Zamanlı" },
             new SelectListItem { Value = "Yarı Zamanlı", Text = "Yarı Zamanlı" },
             new SelectListItem { Value = "Stajyer", Text = "Stajyer" }
         };
-                // Çalışma türleri (Remote, Hibrit, Ofis gibi)
                 model.WorkTypes = new List<SelectListItem>
         {
             new SelectListItem { Value = "Remote", Text = "Remote" },
@@ -231,22 +229,20 @@ namespace JobPortal.MVC.Controllers
                 return View(model);
             }
 
-            // Düzenlenecek ilanı buluyoruz
             var job = await _context.Jobs.FirstOrDefaultAsync(j => j.Id == model.Job.Id);
             if (job == null)
             {
                 return NotFound("İlan bulunamadı.");
             }
 
-            // Güncelleme işlemi
             job.Title = model.Job.Title;
             job.Description = model.Job.Description;
             job.Location = model.Job.Location;
             job.Salary = model.Job.Salary;
             job.SectorId = model.SectorId;
             job.DepartmentId = model.DepartmentId;
-            job.JobType = model.JobType; // İş türünü güncelleme
-            job.WorkType = model.WorkType; // Çalışma türünü güncelleme
+            job.JobType = model.JobType; 
+            job.WorkType = model.WorkType; 
 
 
 

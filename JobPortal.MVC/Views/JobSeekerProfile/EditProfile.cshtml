@@ -118,14 +118,12 @@
         var element = document.getElementById('education-' + educationId);
 
         if (element) {
-            element.remove(); // Eğitim satırını tamamen DOM'dan kaldır
+            element.remove(); 
 
             if (educationId.startsWith('new-')) {
-                // Yeni eklenmiş bir eğitimse (Id'ye sahip değilse)
                 return;
             }
 
-            // Silinen eğitimleri topluyoruz
             var deletedEducations = document.getElementById('deleted-educations');
             deletedEducations.value += educationId + ',';
         }
@@ -136,14 +134,12 @@
         var element = document.getElementById('certification-' + certificationId);
 
         if (element) {
-            element.remove(); // Sertifika satırını tamamen DOM'dan kaldır
+            element.remove(); 
 
             if (certificationId.startsWith('new-')) {
-                // Yeni eklenmiş bir sertifika ise (Id'ye sahip değilse)
                 return;
             }
 
-            // Silinen sertifikaları topluyoruz
             var deletedCertifications = document.getElementById('deleted-certifications');
             deletedCertifications.value += certificationId + ',';
         }

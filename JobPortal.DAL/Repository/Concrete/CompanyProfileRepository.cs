@@ -10,7 +10,6 @@ namespace JobPortal.DAL.Repository.Concrete
         {
         }
 
-        // Şirket profilini getirme
         public async Task<CompanyProfile> GetCompanyProfileByEmployerIdAsync(int employerId)
         {
             return await _dbSet.FirstOrDefaultAsync(profile => profile.Employer.Id == employerId);

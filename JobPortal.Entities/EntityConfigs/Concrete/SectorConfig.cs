@@ -26,8 +26,7 @@ namespace JobPortal.Entities.EntityConfigs.Concrete
                 .WithOne(j => j.Sector)
                 .HasForeignKey(j => j.SectorId);
 
-            // HasData ile sektörleri ekleyelim
-            // Kategori Seed Verileri
+          
             builder.HasData(
                 new Sector { Id = 1, Name = "Bilişim" },
                 new Sector { Id = 2, Name = "Üretim / Endüstriyel Ürünler" },

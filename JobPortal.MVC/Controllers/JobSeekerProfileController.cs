@@ -13,7 +13,7 @@ namespace JobPortal.MVC.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly JobDbContext _context;
-        private readonly IWebHostEnvironment _environment; // Dosya kaydetme için gerekli
+        private readonly IWebHostEnvironment _environment; 
 
         public JobSeekerProfileController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, JobDbContext context, IWebHostEnvironment environment)
         {
@@ -248,7 +248,7 @@ namespace JobPortal.MVC.Controllers
             var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
             if (result.Succeeded)
             {
-                await _signInManager.RefreshSignInAsync(user); // Kullanıcı oturumunu güncelle
+                await _signInManager.RefreshSignInAsync(user); 
                 return RedirectToAction("Profile", new { Message = "Şifreniz başarıyla değiştirildi." });
             }
 

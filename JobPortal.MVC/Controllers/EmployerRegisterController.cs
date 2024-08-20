@@ -23,7 +23,7 @@ namespace JobPortal.MVC.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            return View(); // Kayıt formu yüklenir
+            return View(); 
         }
 
         [HttpPost]
@@ -42,15 +42,13 @@ namespace JobPortal.MVC.Controllers
 
                 if (result.Succeeded)
                 {
-                    // "Employer" rolünü kontrol et ve varsa kullanıcıya ata
                     if (!await _roleManager.RoleExistsAsync("Employer"))
                     {
                         await _roleManager.CreateAsync(new IdentityRole("Employer"));
                     }
 
-                    await _userManager.AddToRoleAsync(user, "Employer"); // "Employer" rolünü ata
+                    await _userManager.AddToRoleAsync(user, "Employer"); 
 
-                    // İşveren verilerini kaydet
                     var employer = new Employer
                     {
                         Name = name,
@@ -61,7 +59,6 @@ namespace JobPortal.MVC.Controllers
                     _context.Employers.Add(employer);
                     await _context.SaveChangesAsync();
 
-                    // Kullanıcıyı sisteme giriş yap
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
                     return RedirectToAction("Index", "Home");

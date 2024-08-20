@@ -44,17 +44,15 @@ namespace JobPortal.Entities.EntityConfigs.Concrete
                 .HasForeignKey(j => j.EmployerId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-           // Sector ilişkisi
             builder.HasOne(j => j.Sector)
                 .WithMany(s => s.Jobs)
                 .HasForeignKey(j => j.SectorId)
-                .OnDelete(DeleteBehavior.Restrict); // Sektör silindiğinde iş ilanlarını etkileme
+                .OnDelete(DeleteBehavior.Restrict); 
 
-           // Department ilişkisi
             builder.HasOne(j => j.Department)
                 .WithMany(d => d.Jobs)
                 .HasForeignKey(j => j.DepartmentId)
-                .OnDelete(DeleteBehavior.Restrict); // Departman silindiğinde iş ilanlarını etkileme
+                .OnDelete(DeleteBehavior.Restrict); 
 
 
             builder.HasMany(j => j.Applications)

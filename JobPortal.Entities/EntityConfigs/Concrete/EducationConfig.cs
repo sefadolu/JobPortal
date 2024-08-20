@@ -38,9 +38,9 @@ namespace JobPortal.Entities.EntityConfigs.Concrete
                 .IsRequired();
 
             builder.HasOne(e => e.JobSeeker)
-                .WithMany(js => js.Educations) // JobSeeker'ın birden fazla eğitimi olabilir
+                .WithMany(js => js.Educations) 
                 .HasForeignKey(e => e.JobSeekerId)
-                .OnDelete(DeleteBehavior.Cascade); // JobSeeker silindiğinde ilgili eğitimler de silinir
+                .OnDelete(DeleteBehavior.Cascade); 
         }
     }
 }

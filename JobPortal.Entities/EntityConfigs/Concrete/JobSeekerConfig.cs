@@ -37,10 +37,10 @@ namespace JobPortal.Entities.EntityConfigs.Concrete
                 .HasMaxLength(1000);
 
             builder.Property(js => js.ProfilePicture)
-                .HasMaxLength(255); // Profil fotoğrafı dosya yolu veya URL'si
+                .HasMaxLength(255); 
 
             builder.Property(js => js.Skills)
-                .HasMaxLength(1000); // Beceriler için yeterli uzunluk
+                .HasMaxLength(1000); 
 
             builder.HasMany(js => js.Applications)
                 .WithOne(a => a.JobSeeker)

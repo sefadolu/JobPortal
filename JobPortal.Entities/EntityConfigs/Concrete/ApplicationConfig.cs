@@ -11,10 +11,8 @@ namespace JobPortal.Entities.EntityConfigs.Concrete
         {
             builder.ToTable("Applications");
 
-            // Primary Key
             builder.HasKey(a => a.Id);
 
-            // Properties
             builder.Property(a => a.Status)
                 .IsRequired()
                 .HasMaxLength(50);
@@ -22,7 +20,6 @@ namespace JobPortal.Entities.EntityConfigs.Concrete
             builder.Property(a => a.ApplicationDate)
                 .IsRequired();
 
-            // Relationships
             builder.HasOne(a => a.Job)
                 .WithMany(j => j.Applications)
                 .HasForeignKey(a => a.JobId)

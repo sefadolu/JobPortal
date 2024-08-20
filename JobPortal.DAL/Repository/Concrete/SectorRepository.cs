@@ -15,7 +15,6 @@ namespace JobPortal.DAL.Repository.Concrete
         {
         }
 
-        // Tüm sektörleri getiren metod
         public async Task<IEnumerable<Sector>> GetAllSectorsAsync()
         {
             return await _dbSet.ToListAsync();

@@ -4,9 +4,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card shadow-sm">
-                <!-- Arka plan rengini değiştirdik -->
                 <div class="card-header bg-dark text-white text-center">
-                    <!-- bg-dark ekledik -->
                     <h2>İşveren Profil</h2>
                 </div>
                 <div class="card-body">
@@ -60,13 +58,11 @@
                         </div>
                     </div>
 
-                    <!-- Butonların renklerini aynı yaptık -->
                     <div class="d-flex justify-content-between mt-4">
                         <a href="@Url.Action("EditProfile", "EmployerProfile")" class="btn btn-dark">Profili Düzenle</a>
                         <a href="@Url.Action("ChangePassword", "EmployerProfile")" class="btn btn-dark">Şifremi Değiştir</a>
                     </div>
 
-                    <!-- Hesabımı Sil -->
                     <div class="mt-5">
                         <form method="post" asp-action="DeleteAccount">
                             <button type="submit" class="btn btn-dark w-100" onclick="return confirm('Hesabınızı silmek istediğinizden emin misiniz?');">Hesabımı Sil</button>

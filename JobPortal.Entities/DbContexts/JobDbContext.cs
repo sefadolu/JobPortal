@@ -32,7 +32,6 @@ namespace JobPortal.Entities.DbContexts
         {
             base.OnModelCreating(modelBuilder);
 
-            // Konfigürasyon sınıflarını burada uygulayın
             modelBuilder.ApplyConfiguration(new JobConfig());
             modelBuilder.ApplyConfiguration(new JobSeekerConfig());
             modelBuilder.ApplyConfiguration(new EmployerConfig());

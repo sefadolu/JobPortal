@@ -10,6 +10,6 @@ namespace JobPortal.Entities.Models.Concrete
     public class Department : BaseEntity
     {
         public string Name { get; set; }
-        public ICollection<Job> Jobs { get; set; }  // Bir departmanın birçok iş ilanı olabilir
+        public ICollection<Job> Jobs { get; set; }  
     }
 }

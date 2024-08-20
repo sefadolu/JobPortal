@@ -10,19 +10,16 @@ namespace JobPortal.DAL.Repository.Concrete
         {
         }
 
-        // İşveren hesabını silme
         public async Task DeleteEmployerAsync(int employerId)
         {
             await DeleteAsync(employerId);
         }
 
-        // Profil bilgilerini güncelleme
         public async Task UpdateEmployerAsync(Employer employer)
         {
             await UpdateAsync(employer);
         }
 
-        // İşverenin açtığı iş ilanlarını getiren metod
         public async Task<IEnumerable<Job>> GetJobsByEmployerIdAsync(int employerId)
         {
             return await _context.Jobs

@@ -7,9 +7,8 @@ namespace JobPortal.Entities.DbContexts
     {
         public JobDbContext CreateDbContext(string[] args)
         {
-            // Proje dizinine göre uygun base path'i ayarlayın
             var configuration = new ConfigurationBuilder()
-                .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../JobPortal.MVC")) // Yolu ayarlayın
+                .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../JobPortal.MVC")) 
                 .AddJsonFile("appsettings.json")
                 .Build();
 

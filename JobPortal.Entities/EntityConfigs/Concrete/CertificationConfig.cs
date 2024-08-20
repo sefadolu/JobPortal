@@ -30,9 +30,9 @@ namespace JobPortal.Entities.EntityConfigs.Concrete
                 .IsRequired();
 
             builder.HasOne(c => c.JobSeeker)
-                .WithMany(js => js.Certifications) // JobSeeker'ın birden fazla sertifikası olabilir
+                .WithMany(js => js.Certifications) 
                 .HasForeignKey(c => c.JobSeekerId)
-                .OnDelete(DeleteBehavior.Cascade); // JobSeeker silindiğinde ilgili sertifikalar da silinir
+                .OnDelete(DeleteBehavior.Cascade); 
         }
     }
 }

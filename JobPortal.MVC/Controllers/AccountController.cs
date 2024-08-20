@@ -23,7 +23,6 @@ namespace JobPortal.MVC.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            // Burada kullanıcı profiliyle ilgili bilgileri döndürebilirsiniz
             return View(user);
         }
 
