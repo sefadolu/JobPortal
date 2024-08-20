@@ -1,56 +1,91 @@
 ﻿@model JobPortal.MVC.ViewModels.JobViewModel
 
-<h2>İş İlanları</h2>
+<div class="container my-5">
+    <h2 class="text-center mb-4">İş İlanları</h2>
 
-<form method="get">
-    <input type="text" name="search" placeholder="Arama yap" value="@Context.Request.Query["search"]" />
-    <select name="sectorId">
-        <option value="">Sektör Seç</option>
-        @foreach (var sector in Model.Sectors)
-        {
-            <option value="@sector.Value">@sector.Text</option>
-        }
-    </select>
-    <select name="departmentId">
-        <option value="">Departman Seç</option>
-        @foreach (var department in Model.Departments)
-        {
-            <option value="@department.Value">@department.Text</option>
-        }
-    </select>
-    <button type="submit">Filtrele</button>
-</form>
-
-<ul>
-    @foreach (var job in Model.Jobs)
-    {
-        <li>
-            <strong>@job.Title</strong> - @job.Location 
-            <br />
-            <strong>Sektör:</strong> @job.Sector.Name
-            <br />
-            <strong>Departman:</strong> @job.Department.Name
-            <br />
-            <strong>Şirket:</strong> 
-            <a href="@Url.Action("CompanyProfile", "JobAdvert", new { employerId = job.Employer.Id })">
-                @job.Employer.CompanyProfile.CompanyName
-            </a>
-            <br />
-            <a href="@Url.Action("JobDetails", new { id = job.Id })">Detaylar</a>
-
-            @if (User.IsInRole("JobSeeker"))
-            {
-                @if (Model.AppliedJobIds.Contains(job.Id))
+    <form method="get" class="row g-3 mb-4">
+        <div class="col-md-4">
+            <input type="text" name="search" class="form-control" placeholder="Arama yap" value="@Context.Request.Query["search"]" />
+        </div>
+        <div class="col-md-3">
+            <select name="sectorId" class="form-select">
+                <option value="">Sektör Seç</option>
+                @foreach (var sector in Model.Sectors)
                 {
-                    <span style="color: green;">Başvuruldu</span> <!-- Başvurulan iş ilanları için işaret -->
+                    <option value="@sector.Value">@sector.Text</option>
                 }
-                else
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select name="departmentId" class="form-select">
+                <option value="">Departman Seç</option>
+                @foreach (var department in Model.Departments)
                 {
-                    <form method="post" asp-action="Apply" asp-route-jobId="@job.Id">
-                        <button type="submit">Başvur</button>
-                    </form>
+                    <option value="@department.Value">@department.Text</option>
                 }
-            }
-        </li>
-    }
-</ul>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-dark w-100">Filtrele</button>
+        </div>
+    </form>
+
+    <div class="row">
+        @foreach (var job in Model.Jobs)
+        {
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body">
+                        <h5 class="card-title">@job.Title</h5>
+                        <p class="card-text">
+                            <strong>@job.Employer.CompanyProfile.CompanyName</strong>
+                            <br />
+                            <span>@job.Location</span> • <span>İş Yerinde</span>
+                        </p>
+                        <p class="text-muted mb-1">Tam Zamanlı</p>
+                        <small class="text-muted">
+                            @if (job.PostedDate != null)
+                            {
+                                @* Zaman farkını hesaplayarak gösteriyoruz *@
+                                var timeSpan = DateTime.Now - job.PostedDate;
+                                if (timeSpan.Days > 0)
+                                {
+                                    @($"{timeSpan.Days} gün önce")
+                                }
+                                else if (timeSpan.Hours > 0)
+                                {
+                                    @($"{timeSpan.Hours} saat önce")
+                                }
+                                else
+                                {
+                                    @("Az önce")
+                                }
+                            }
+                            else
+                            {
+                                @("Tarih bilgisi yok")
+                            }
+                        </small>
+                    </div>
+                    <div class="card-footer bg-white border-0">
+                        <a href="@Url.Action("JobDetails", new { id = job.Id })" class="btn btn-link">Detaylar</a>
+
+                        @if (User.IsInRole("JobSeeker"))
+                        {
+                            @if (Model.AppliedJobIds.Contains(job.Id))
+                            {
+                                <span class="text-success">Başvuruldu</span>
+                            }
+                            else
+                            {
+                                <form method="post" asp-action="Apply" asp-route-jobId="@job.Id" class="d-inline">
+                                    <button type="submit" class="btn btn-primary">Başvur</button>
+                                </form>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
