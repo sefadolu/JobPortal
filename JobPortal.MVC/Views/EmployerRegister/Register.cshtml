@@ -2,29 +2,39 @@
     ViewData["Title"] = "İşveren Kayıt";
 }
 
-<h2>İşveren Kayıt</h2>
-
-<form method="post" action="@Url.Action("Register", "EmployerRegister")">
-    <div>
-        <label for="name">Şirket Adı</label>
-        <input type="text" class="form-control" id="name" name="name" required>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header text-center bg-dark text-white">
+                    <h2>İşveren Kayıt</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="@Url.Action("Register", "EmployerRegister")">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Şirket Adı</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="Email" name="email" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="PhoneNumber" class="form-label">Telefon Numarası</label>
+                            <input type="tel" class="form-control" id="PhoneNumber" name="phoneNumber" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="Password" class="form-label">Şifre</label>
+                            <input type="password" class="form-control" id="Password" name="password" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="ConfirmPassword" class="form-label">Şifre Tekrar</label>
+                            <input type="password" class="form-control" id="ConfirmPassword" name="confirmPassword" required />
+                        </div>
+                        <button type="submit" class="btn btn-dark w-100">Kayıt Ol</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <div>
-        <label for="Email">Email</label>
-        <input type="email" id="Email" name="email" required />
-    </div>
-    <div>
-        <label for="PhoneNumber">Telefon Numarası</label>
-        <input type="tel" id="PhoneNumber" name="phoneNumber" required />
-    </div>
-    <div>
-        <label for="Password">Şifre</label>
-        <input type="password" id="Password" name="password" required />
-    </div>
-    <div>
-        <label for="ConfirmPassword">Şifre Tekrar</label>
-        <input type="password" id="ConfirmPassword" name="confirmPassword" required />
-    </div>
-
-    <button type="submit">Kayıt Ol</button>
-</form>
+</div>

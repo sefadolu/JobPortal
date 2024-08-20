@@ -1,85 +1,87 @@
 ﻿@model IEnumerable<JobPortal.Entities.Models.Concrete.JobSeeker>
 
-<h2>Başvuran Adaylar</h2>
+<div class="container my-5">
+    <h2 class="text-center mb-4">Başvuran Adaylar</h2>
 
-@if (Model != null && Model.Any())
-{
-    <ul style="list-style-type: none; padding: 0;">
-        @foreach (var applicant in Model)
-        {
-            <li style="text-align: center; margin-bottom: 30px; border-bottom: 1px solid #ddd; padding-bottom: 20px;">
-                <!-- Profil Fotoğrafı: En üstte yuvarlak şekilde ortalanmış -->
-                <div style="margin-bottom: 10px;">
-                    <img src="@Url.Content($"~/profilepictures/{applicant.ProfilePicture}")" alt="Profil Fotoğrafı"
-                         style="width: 120px; height: 120px; border-radius: 50%; object-fit: contain;" />
-                </div>
+    @if (Model != null && Model.Any())
+    {
+        <ul class="list-group">
+            @foreach (var applicant in Model)
+            {
+                <li class="list-group-item mb-4 shadow-sm">
+                    <div class="row">
+                        <!-- Profil Fotoğrafı: Üstte solda -->
+                        <div class="col-md-12 mb-3">
+                            <img src="@Url.Content($"~/profilepictures/{applicant.ProfilePicture}")" alt="Profil Fotoğrafı"
+                                 class="rounded-circle float-left" style="width: 120px; height: 120px; object-fit: contain; margin-right: 20px;" />
+                        </div>
 
-                <!-- Adı, Email, Telefon ve CV linki: Ortalanmış şekilde -->
-                <div>
-                    <strong>Adı Soyadı:</strong> @applicant.FirstName @applicant.LastName <br />
-                    <strong>Email:</strong> @applicant.Email <br />
-                    <strong>Telefon:</strong> @applicant.PhoneNumber <br />
-                    <strong>Adres:</strong> @applicant.Address <br />
-                    <strong>Yetenekler:</strong> @applicant.Skills <br />
+                        <!-- Adı, Email, Telefon ve CV linki: Profil fotoğrafının altında sola hizalanmış -->
+                        <div class="col-md-12">
+                            <p><strong>Adı Soyadı:</strong> @applicant.FirstName @applicant.LastName</p>
+                            <p><strong>Email:</strong> @applicant.Email</p>
+                            <p><strong>Telefon:</strong> @applicant.PhoneNumber</p>
+                            <p><strong>Adres:</strong> @applicant.Address</p>
+                            <p><strong>Yetenekler:</strong> @applicant.Skills</p>
 
-                    <strong>Özgeçmiş:</strong>
-                    <a href="@Url.Content($"~/resumes/{applicant.Resume}")" target="_blank">CV'yi Görüntüle</a>
-                </div>
-                <!-- Eğitim Bilgileri -->
-                @if (applicant.Educations != null && applicant.Educations.Any())
-                {
-                    <div style="margin-top: 20px;">
-                        <h3>Eğitim Bilgileri</h3>
-                        <ul style="list-style-type: none; padding: 0;">
-                            @foreach (var education in applicant.Educations)
-                            {
-                                <li>
-                                    <strong>Okul Adı:</strong> @education.SchoolName <br />
-                                    <strong>Bölüm:</strong> @education.Department <br />
-                                    <strong>Mezuniyet Derecesi:</strong> @education.GraduationDegree <br />
-                                    <strong>Mezuniyet Durumu:</strong> @education.Status <br />
-                                    <strong>Mezuniyet Yılı:</strong> @education.GraduationYear <br />
-                                </li>
-                            }
-                        </ul>
+                            <p>
+                                <strong>Özgeçmiş:</strong>
+                                <a href="@Url.Content($"~/resumes/{applicant.Resume}")" target="_blank" class="btn btn-outline-info btn-sm">CV'yi Görüntüle</a>
+                            </p>
+                        </div>
                     </div>
-                }
-                else
-                {
-                    <div style="margin-top: 10px;">
-                        <strong>Eğitim Bilgisi bulunmamaktadır.</strong>
-                    </div>
-                }
 
-                <!-- Sertifika Bilgileri -->
-                @if (applicant.Certifications != null && applicant.Certifications.Any())
-                {
-                    <div style="margin-top: 20px;">
-                        <h3>Sertifika Bilgileri</h3>
-                        <ul style="list-style-type: none; padding: 0;">
-                            @foreach (var certification in applicant.Certifications)
-                            {
-                                <li>
-                                    <strong>Kurum Adı:</strong> @certification.InstitutionName <br />
-                                    <strong>Sertifika Adı:</strong> @certification.CertificateName <br />
-                                    <strong>Alınma Tarihi:</strong> @certification.CertificationDate.ToString("dd/MM/yyyy") <br />
-                                </li>
-                            }
-                        </ul>
-                    </div>
-                }
-                else
-                {
-                    <div style="margin-top: 10px;">
-                        <strong>Sertifika Bilgisi bulunmamaktadır.</strong>
-                    </div>
-                }
+                    <!-- Eğitim Bilgileri -->
+                    @if (applicant.Educations != null && applicant.Educations.Any())
+                    {
+                        <div class="mt-4">
+                            <h4>Eğitim Bilgileri</h4>
+                            <ul class="list-group list-group-flush">
+                                @foreach (var education in applicant.Educations)
+                                {
+                                    <li class="list-group-item">
+                                        <strong>Okul Adı:</strong> @education.SchoolName <br />
+                                        <strong>Bölüm:</strong> @education.Department <br />
+                                        <strong>Mezuniyet Derecesi:</strong> @education.GraduationDegree <br />
+                                        <strong>Mezuniyet Durumu:</strong> @education.Status <br />
+                                        <strong>Mezuniyet Yılı:</strong> @education.GraduationYear
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="mt-3"><strong>Eğitim Bilgisi bulunmamaktadır.</strong></p>
+                    }
 
-            </li>
-        }
-    </ul>
-}
-else
-{
-    <p>Bu ilana henüz başvuran yok.</p>
-}
+                    <!-- Sertifika Bilgileri -->
+                    @if (applicant.Certifications != null && applicant.Certifications.Any())
+                    {
+                        <div class="mt-4">
+                            <h4>Sertifika Bilgileri</h4>
+                            <ul class="list-group list-group-flush">
+                                @foreach (var certification in applicant.Certifications)
+                                {
+                                    <li class="list-group-item">
+                                        <strong>Kurum Adı:</strong> @certification.InstitutionName <br />
+                                        <strong>Sertifika Adı:</strong> @certification.CertificateName <br />
+                                        <strong>Alınma Tarihi:</strong> @certification.CertificationDate.ToString("dd/MM/yyyy")
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="mt-3"><strong>Sertifika Bilgisi bulunmamaktadır.</strong></p>
+                    }
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p class="text-center">Bu ilana henüz başvuran yok.</p>
+    }
+</div>

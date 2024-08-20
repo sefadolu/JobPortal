@@ -1,21 +1,36 @@
 ﻿@model JobPortal.Entities.Models.Concrete.Job
 
-<h2>@Model.Title</h2>
-<p>
-    <strong>Açıklama:</strong> @Model.Description <br />
-    <strong>Konum:</strong> @Model.Location <br />
-    <strong>Maaş:</strong> @Model.Salary TL <br />
-    <strong>Sektör:</strong> @Model.Sector.Name <br />
-    <strong>Departman:</strong> @Model.Department.Name <br />
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title">@Model.Title</h2>
+                    <p class="card-text">
+                        <strong>Açıklama:</strong> @Model.Description <br />
+                        <strong>Konum:</strong> @Model.Location <br />
+                        <strong>Maaş:</strong> @Model.Salary TL <br />
+                        <strong>Sektör:</strong> @Model.Sector?.Name <br />
+                        <strong>Departman:</strong> @Model.Department?.Name <br />
+                        <strong>Çalışma Şekli:</strong> @Model.WorkType <br />
+                        <strong>İş Türü:</strong> @Model.JobType <br />
+                    </p>
 
-    @if (User.IsInRole("Employer"))
-    {
-        <a href="@Url.Action("Applicants", "Job", new { jobId = Model.Id })">Başvuranları Görüntüle</a>
-        <br />
-        <form method="post" asp-action="DeleteJob" asp-route-id="@Model.Id" style="margin-top: 10px;">
-            <button type="submit" class="btn btn-danger" onclick="return confirm('İlanı kaldırmak istediğinizden emin misiniz?');">İlanı Kaldır</button>
-        </form>
-        <br />
-        <a href="@Url.Action("EditJob", "Job", new { id = Model.Id })" class="btn btn-primary">İlanı Düzenle</a>
-    }
-</p>
+                    @if (User.IsInRole("Employer"))
+                    {
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="@Url.Action("Applicants", "Job", new { jobId = Model.Id })" class="btn btn-dark">Başvuranları Görüntüle</a>
+
+                            <div>
+                                <form method="post" asp-action="DeleteJob" asp-route-id="@Model.Id" style="display: inline-block;">
+                                    <button type="submit" class="btn btn-dark" onclick="return confirm('İlanı kaldırmak istediğinizden emin misiniz?');">İlanı Kaldır</button>
+                                </form>
+                                <a href="@Url.Action("EditJob", "Job", new { id = Model.Id })" class="btn btn-dark ml-2">İlanı Düzenle</a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

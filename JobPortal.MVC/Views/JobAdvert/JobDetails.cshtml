@@ -1,32 +1,78 @@
 ﻿@model JobPortal.MVC.ViewModels.JobViewModel
 
-<h2>@Model.Job.Title</h2>
-<p>@Model.Job.Description</p>
-<p><strong>Konum:</strong> @Model.Job.Location</p>
-<p><strong>Sektör:</strong> @Model.Job.Sector.Name</p>
-<p><strong>Departman:</strong> @Model.Job.Department.Name</p>
-<p>
-    <strong>Şirket:</strong>
-    <a href="@Url.Action("CompanyProfile", "JobAdvert", new { employerId = Model.Job.Employer.Id })">
-        @Model.Job.Employer.CompanyProfile.CompanyName
-    </a>
-</p>
+<div class="container mt-5">
+    <div class="card shadow-sm" style="background-color: #f9f9f9; border-radius: 10px;">
+        <div class="card-body">
+            <!-- İlanın ne zaman eklendiği sağ üst köşede -->
+            <p class="text-muted" style="position: absolute; top: 10px; right: 20px;">
+                @if (Model.Job.PostedDate != null)
+                {
+                    var timeSpan = DateTime.Now - Model.Job.PostedDate;
+                    if (timeSpan.Days > 0)
+                    {
+                        @($"{timeSpan.Days} gün önce")
+                    }
+                    else if (timeSpan.Hours > 0)
+                    {
+                        @($"{timeSpan.Hours} saat önce")
+                    }
+                    else
+                    {
+                        @("Az önce")
+                    }
+                }
+                else
+                {
+                    @("Tarih bilgisi yok")
+                }
+            </p>
 
-@if (User.Identity.IsAuthenticated && User.IsInRole("JobSeeker"))
-{
-    if (Model.AppliedJobIds.Contains(Model.Job.Id))
-    {
-        <p><strong>Başvuruldu!</strong></p>
-    }
-    else
-    {
-        <form method="post" asp-action="Apply" asp-route-jobId="@Model.Job.Id">
-            <button type="submit">Başvur</button>
-        </form>
-    }
-}
+            <!-- İlan Başlığı ve Şirket İsmi -->
+            <h1 class="card-title text-center mb-2">@Model.Job.Title</h1>
+            <h5 class="text-center text-muted mb-4">
+                <a href="@Url.Action("CompanyProfile", "JobAdvert", new { employerId = Model.Job.Employer.Id })" class="text-decoration-none text-muted">
+                    @Model.Job.Employer.CompanyProfile.CompanyName
+                </a>
+            </h5>
 
-else if (!User.Identity.IsAuthenticated)
-{
-    <p><strong>Başvurmak için lütfen <a href="@Url.Action("Login", "JobSeekerLogin")">giriş yapınız</a></strong></p>
-}
+            <!-- Açıklama Alanı, dinamik uzunlukta olacak -->
+            <p class="card-text mb-4" style="white-space: pre-wrap;">
+                @Model.Job.Description
+            </p>
+
+            <!-- Diğer Bilgiler İki Sütun Olarak Ortalanmış -->
+            <div class="row justify-content-center">
+                <div class="col-md-4 text-center">
+                    <p><strong>Konum:</strong> @Model.Job.Location</p>
+                    <p><strong>Sektör:</strong> @Model.Job.Sector.Name</p>
+                    <p><strong>Departman:</strong> @Model.Job.Department.Name</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <p><strong>İş Tipi:</strong> @Model.Job.JobType</p>
+                    <p><strong>Çalışma Tipi:</strong> @Model.Job.WorkType</p>
+                </div>
+            </div>
+
+            <!-- Başvuru -->
+            @if (User.Identity.IsAuthenticated && User.IsInRole("JobSeeker"))
+            {
+                if (Model.AppliedJobIds.Contains(Model.Job.Id))
+                {
+                    <p class="text-success text-center"><strong>Başvuruldu!</strong></p>
+                }
+                else
+                {
+                    <div class="text-center">
+                        <form method="post" asp-action="Apply" asp-route-jobId="@Model.Job.Id">
+                            <button type="submit" class="btn btn-primary">Başvur</button>
+                        </form>
+                    </div>
+                }
+            }
+            else if (!User.Identity.IsAuthenticated)
+            {
+                <p class="text-center"><strong>Başvurmak için lütfen <a href="@Url.Action("Login", "JobSeekerLogin")" class="text-decoration-none">giriş yapınız</a></strong></p>
+            }
+        </div>
+    </div>
+</div>

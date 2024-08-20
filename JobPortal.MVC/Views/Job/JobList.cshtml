@@ -1,15 +1,30 @@
 ﻿@model IEnumerable<JobPortal.Entities.Models.Concrete.Job>
 
-<h2>İş İlanları Listesi</h2>
+<h2 class="text-center my-4">İlanlarım</h2>
 
-<ul>
-    @foreach (var job in Model)
-    {
-        <li>
-            <strong>@job.Title</strong> - @job.Location - @job.Salary TL <br />
-            <strong>Sektör:</strong> @job.Sector.Name <br />
-            <strong>Departman:</strong> @job.Department.Name <br />
-            <a href="@Url.Action("JobDetails", "Job", new { id = job.Id })">Detaylar</a>
-        </li>
-    }
-</ul>
+<div class="container">
+    <div class="row">
+        @foreach (var job in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm border-0 rounded">
+                    <div class="card-body">
+                        <!-- Başlığı daha büyük ve koyu hale getiriyoruz -->
+                        <h5 class="card-title mb-3" style="font-weight: 700; font-size: 1.25rem;"><strong>@job.Title</strong></h5>
+                        <!-- İçerikler arasında boşluk ekleniyor -->
+                        <p class="card-text"><strong>Konum:</strong> @job.Location</p>
+                        <p class="card-text"><strong>Ücret:</strong> @job.Salary.ToString("F0") TL</p>
+                        <p class="card-text"><strong>Sektör:</strong> @job.Sector?.Name</p>
+                        <p class="card-text"><strong>Departman:</strong> @job.Department?.Name</p>
+                        <p class="card-text"><strong>Çalışma Şekli:</strong> @job.WorkType</p>
+                        <p class="card-text"><strong>İş Türü:</strong> @job.JobType</p>
+                    </div>
+                    <!-- Butonlar daha yuvarlak kenarlı ve ortalanmış -->
+                    <div class="card-footer bg-white text-center">
+                        <a href="@Url.Action("JobDetails", "Job", new { id = job.Id })" class="btn btn-dark w-100" style="border-radius: 25px;">Detaylar</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -3,34 +3,60 @@
 }
 
 <div class="container text-center">
-    <header class="my-5">
+    <header class="my-4">
+        <!-- Burada my-5 yerine my-4 kullanarak logoyu yukarı alıyoruz -->
         <img src="~/images/logo8.png" alt="Site Logosu" class="img-fluid mx-auto d-block" style="max-width: 500px; background-color: transparent;" />
     </header>
 
-    <nav class="mt-3">
-        <!-- mt-5'ten mt-3'e çekerek yukarı alıyoruz -->
-        <!-- İş Arayan dropdown -->
-        <div class="dropdown mb-3 custom-dropdown">
-            <button class="btn btn-lg btn-dark dropdown-toggle w-100" type="button" id="jobSeekerDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                İş Arayan
-            </button>
-            <ul class="dropdown-menu rounded-corners" aria-labelledby="jobSeekerDropdown">
-                <li><a class="dropdown-item" href="@Url.Action("Login", "JobSeekerLogin")">Giriş Yap</a></li>
-                <li><a class="dropdown-item" href="@Url.Action("Register", "JobSeekerRegister")">Kayıt Ol</a></li>
-            </ul>
-        </div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        @if (User.IsInRole("JobSeeker"))
+        {
+            <!-- İş Arayan kullanıcı için içerik -->
+            <div class="alert alert-success mt-3">
+                <!-- Burada mt-4 yerine mt-3 ile yazıyı yukarı alıyoruz -->
+                <h3>Size Uygun İş İlanları İçin</h3>
+            </div>
+            <div class="d-grid gap-2">
+                <a href="@Url.Action("JobList", "JobAdvert")" class="btn btn-dark btn-lg mt-2">İş İlanları</a> <!-- Burada butonu daha yukarı almak için mt-3 yerine mt-2 -->
+            </div>
+        }
+        else if (User.IsInRole("Employer"))
+        {
+            <!-- İşveren kullanıcı için içerik -->
+            <div class="d-grid gap-2">
+                <a href="@Url.Action("JobList", "Job")" class="btn btn-dark btn-lg">İlanlarım</a>
+                <a href="@Url.Action("AddJob", "Job")" class="btn btn-dark btn-lg">İş İlanı Ver</a>
+            </div>
+        }
+    }
+    else
+    {
+        <!-- Eğer kullanıcı giriş yapmadıysa İş Arayan ve İşveren butonları gösterilsin -->
+        <nav class="mt-3">
+            <!-- İş Arayan dropdown -->
+            <div class="dropdown mb-3 custom-dropdown">
+                <button class="btn btn-lg btn-dark dropdown-toggle w-100" type="button" id="jobSeekerDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    İş Arayan
+                </button>
+                <ul class="dropdown-menu rounded-corners" aria-labelledby="jobSeekerDropdown">
+                    <li><a class="dropdown-item" href="@Url.Action("Login", "JobSeekerLogin")">Giriş Yap</a></li>
+                    <li><a class="dropdown-item" href="@Url.Action("Register", "JobSeekerRegister")">Kayıt Ol</a></li>
+                </ul>
+            </div>
 
-        <!-- İşveren dropdown -->
-        <div class="dropdown custom-dropdown">
-            <button class="btn btn-lg btn-dark dropdown-toggle w-100" type="button" id="employerDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                İşveren
-            </button>
-            <ul class="dropdown-menu rounded-corners" aria-labelledby="employerDropdown">
-                <li><a class="dropdown-item" href="@Url.Action("Login", "EmployerLogin")">Giriş Yap</a></li>
-                <li><a class="dropdown-item" href="@Url.Action("Register", "EmployerRegister")">Kayıt Ol</a></li>
-            </ul>
-        </div>
-    </nav>
+            <!-- İşveren dropdown -->
+            <div class="dropdown custom-dropdown">
+                <button class="btn btn-lg btn-dark dropdown-toggle w-100" type="button" id="employerDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    İşveren
+                </button>
+                <ul class="dropdown-menu rounded-corners" aria-labelledby="employerDropdown">
+                    <li><a class="dropdown-item" href="@Url.Action("Login", "EmployerLogin")">Giriş Yap</a></li>
+                    <li><a class="dropdown-item" href="@Url.Action("Register", "EmployerRegister")">Kayıt Ol</a></li>
+                </ul>
+            </div>
+        </nav>
+    }
 </div>
 
 <style>
@@ -69,27 +95,29 @@
         }
 
     .dropdown-menu {
-        max-height: 100px; /* Açılır menünün yüksekliğini kısıtlıyoruz */
-        overflow-y: auto; /* Gerektiğinde scrollbar oluşturulacak */
-        border-radius: 10px; /* Köşeleri yuvarlıyoruz */
-        padding: 5px; /* İçerik boşluğunu azaltıyoruz */
+        overflow-y: auto;
+        border-radius: 10px;
+        padding: 5px;
     }
 
         .dropdown-menu a {
             padding: 8px;
             font-size: 14px;
-            text-align: center; /* Metinlerin ortalanması */
+            text-align: center;
         }
 
-    /* Sadece Index.cshtml'deki dropdownları ortalayacak CSS */
     .custom-dropdown .dropdown-menu {
         left: 50%;
         transform: translateX(-50%);
-        width: 200px; /* Menü genişliği buton genişliğine uygun */
+        width: 200px;
     }
 
-    /* İş arayan ve işveren butonlarını yukarıya çekme */
-    nav.mt-3 {
-        margin-top: 0.5rem; /* Butonları 4 cm (1.5 rem) yukarı çekiyoruz */
+    .alert-success {
+        margin-top: -10px; /* Yazıyı daha yukarı çekiyoruz */
+    }
+
+    .d-grid {
+        margin-top: -5px; /* Butonları yukarı çekiyoruz */
+        margin-bottom: 40px; /* Buton ile footer arasına boşluk ekliyoruz */
     }
 </style>

@@ -1,32 +1,43 @@
 ﻿@model JobPortal.Entities.Models.Concrete.Employer
 
-<h2>İşveren Profilini Düzenle</h2>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white text-center">
+                    <h2>İşveren Profilini Düzenle</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div class="mb-3">
+                            <label for="CompanyName" class="form-label"><strong>Şirket Adı:</strong></label>
+                            <input type="text" class="form-control" id="CompanyName" name="CompanyProfile.CompanyName" value="@Model.CompanyProfile?.CompanyName" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="Email" class="form-label"><strong>Email:</strong></label>
+                            <input type="email" class="form-control" id="Email" name="Email" value="@Model.Email" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="PhoneNumber" class="form-label"><strong>Telefon Numarası:</strong></label>
+                            <input type="text" class="form-control" id="PhoneNumber" name="CompanyProfile.PhoneNumber" value="@Model.CompanyProfile?.PhoneNumber" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="Website" class="form-label"><strong>Website:</strong></label>
+                            <input type="text" class="form-control" id="Website" name="CompanyProfile.Website" value="@Model.CompanyProfile?.Website" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="Location" class="form-label"><strong>Lokasyon:</strong></label>
+                            <input type="text" class="form-control" id="Location" name="CompanyProfile.Location" value="@Model.CompanyProfile?.Location" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="Description" class="form-label"><strong>Şirket Açıklaması:</strong></label>
+                            <textarea id="Description" class="form-control" name="CompanyProfile.Description" rows="4">@Model.CompanyProfile?.Description</textarea>
+                        </div>
 
-<form method="post">
-    <div>
-        <label for="CompanyName">Şirket Adı:</label>
-        <input type="text" id="CompanyName" name="CompanyProfile.CompanyName" value="@Model.CompanyProfile?.CompanyName" />
+                        <button type="submit" class="btn btn-primary w-100">Kaydet</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <div>
-        <label for="Email">Email:</label>
-        <input type="email" id="Email" name="Email" value="@Model.Email" />
-    </div>
-    <div>
-        <label for="PhoneNumber">Telefon Numarası:</label>
-        <input type="text" id="PhoneNumber" name="CompanyProfile.PhoneNumber" value="@Model.CompanyProfile?.PhoneNumber" />
-    </div>
-    <div>
-        <label for="Website">Website:</label>
-        <input type="text" id="Website" name="CompanyProfile.Website" value="@Model.CompanyProfile?.Website" />
-    </div>
-    <div>
-        <label for="Location">Lokasyon:</label>
-        <input type="text" id="Location" name="CompanyProfile.Location" value="@Model.CompanyProfile?.Location" />
-    </div>
-    <div>
-        <label for="Description">Şirket Açıklaması:</label>
-        <textarea id="Description" name="CompanyProfile.Description">@Model.CompanyProfile?.Description</textarea>
-    </div>
-
-    <button type="submit">Kaydet</button>
-</form>
+</div>

@@ -43,17 +43,7 @@ namespace JobPortal.Entities.DbContexts
             modelBuilder.ApplyConfiguration(new DepartmentConfig());
             modelBuilder.ApplyConfiguration(new SectorConfig());
 
-            modelBuilder.Entity<JobSeeker>().HasData(
-                new JobSeeker
-                {
-                    Id = 1,
-                    FirstName = "Ali",
-                    LastName = "Veli",
-                    Email = "ali.veli@example.com",
-                    PhoneNumber = "1234567890"
-                    // Diğer gerekli alanlar...
-                }
-            );
+            
 
 
         }

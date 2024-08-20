@@ -38,7 +38,20 @@ namespace JobPortal.MVC.Controllers
                 {
                     Value = d.Id.ToString(),
                     Text = d.Name
-                }).ToListAsync()
+                }).ToListAsync(),
+
+                JobTypes = new List<SelectListItem>
+        {
+            new SelectListItem { Value = "Tam zamanlı", Text = "Tam zamanlı" },
+            new SelectListItem { Value = "Yarı zamanlı", Text = "Yarı zamanlı" },
+            new SelectListItem { Value = "Stajyer", Text = "Stajyer" }
+        },
+                WorkTypes = new List<SelectListItem>
+        {
+            new SelectListItem { Value = "Remote", Text = "Remote" },
+            new SelectListItem { Value = "Hibrit", Text = "Hibrit" },
+            new SelectListItem { Value = "Yerinde", Text = "Yerinde" }
+        }
             };
 
             return View(jobViewModel);
@@ -62,6 +75,21 @@ namespace JobPortal.MVC.Controllers
                     Text = d.Name
                 }).ToListAsync();
 
+                // İş türleri (Tam Zamanlı, Yarı Zamanlı, Stajyer gibi)
+                model.JobTypes = new List<SelectListItem>
+        {
+            new SelectListItem { Value = "Tam Zamanlı", Text = "Tam Zamanlı" },
+            new SelectListItem { Value = "Yarı Zamanlı", Text = "Yarı Zamanlı" },
+            new SelectListItem { Value = "Stajyer", Text = "Stajyer" }
+        };
+                // Çalışma türleri (Remote, Hibrit, Ofis gibi)
+                model.WorkTypes = new List<SelectListItem>
+        {
+            new SelectListItem { Value = "Remote", Text = "Remote" },
+            new SelectListItem { Value = "Hibrit", Text = "Hibrit" },
+            new SelectListItem { Value = "Ofis", Text = "Ofis" }
+        };
+
                 return View(model);
             }
 
@@ -78,6 +106,8 @@ namespace JobPortal.MVC.Controllers
             model.Job.PostedDate = DateTime.Now;
             model.Job.SectorId = model.SectorId;
             model.Job.DepartmentId = model.DepartmentId;
+            model.Job.WorkType = model.WorkType; 
+            model.Job.JobType = model.JobType;  
 
             _context.Jobs.Add(model.Job);
             await _context.SaveChangesAsync();
@@ -148,7 +178,20 @@ namespace JobPortal.MVC.Controllers
                 {
                     Value = d.Id.ToString(),
                     Text = d.Name
-                }).ToListAsync()
+                }).ToListAsync(),
+
+                JobTypes = new List<SelectListItem>
+        {
+            new SelectListItem { Value = "Tam Zamanlı", Text = "Tam Zamanlı", Selected = job.JobType == "Tam Zamanlı" },
+            new SelectListItem { Value = "Yarı Zamanlı", Text = "Yarı Zamanlı", Selected = job.JobType == "Yarı Zamanlı" },
+            new SelectListItem { Value = "Stajyer", Text = "Stajyer", Selected = job.JobType == "Stajyer" }
+        },
+                WorkTypes = new List<SelectListItem>
+        {
+            new SelectListItem { Value = "Remote", Text = "Remote", Selected = job.WorkType == "Remote" },
+            new SelectListItem { Value = "Hibrit", Text = "Hibrit", Selected = job.WorkType == "Hibrit" },
+            new SelectListItem { Value = "Ofis", Text = "Ofis", Selected = job.WorkType == "Ofis" }
+        }
             };
 
             return View(jobViewModel);
@@ -172,6 +215,19 @@ namespace JobPortal.MVC.Controllers
                     Text = d.Name
                 }).ToListAsync();
 
+                model.JobTypes = new List<SelectListItem>
+        {
+            new SelectListItem { Value = "Tam Zamanlı", Text = "Tam Zamanlı" },
+            new SelectListItem { Value = "Yarı Zamanlı", Text = "Yarı Zamanlı" },
+            new SelectListItem { Value = "Stajyer", Text = "Stajyer" }
+        };
+                model.WorkTypes = new List<SelectListItem>
+        {
+            new SelectListItem { Value = "Remote", Text = "Remote" },
+            new SelectListItem { Value = "Hibrit", Text = "Hibrit" },
+            new SelectListItem { Value = "Ofis", Text = "Ofis" }
+        };
+
                 return View(model);
             }
 
@@ -189,6 +245,10 @@ namespace JobPortal.MVC.Controllers
             job.Salary = model.Job.Salary;
             job.SectorId = model.SectorId;
             job.DepartmentId = model.DepartmentId;
+            job.JobType = model.JobType; // İş türünü güncelleme
+            job.WorkType = model.WorkType; // Çalışma türünü güncelleme
+
+
 
             _context.Jobs.Update(job);
             await _context.SaveChangesAsync();

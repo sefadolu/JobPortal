@@ -4,10 +4,13 @@
     <h2 class="text-center mb-4">İş İlanları</h2>
 
     <form method="get" class="row g-3 mb-4">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <input type="text" name="search" class="form-control" placeholder="Arama yap" value="@Context.Request.Query["search"]" />
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
+            <input type="text" name="location" class="form-control" placeholder="Şehir Girin" value="@Context.Request.Query["location"]" />
+        </div>
+        <div class="col-md-2">
             <select name="sectorId" class="form-select">
                 <option value="">Sektör Seç</option>
                 @foreach (var sector in Model.Sectors)
@@ -16,7 +19,7 @@
                 }
             </select>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <select name="departmentId" class="form-select">
                 <option value="">Departman Seç</option>
                 @foreach (var department in Model.Departments)
@@ -33,59 +36,62 @@
     <div class="row">
         @foreach (var job in Model.Jobs)
         {
-            <div class="col-md-6 mb-4">
-                <div class="card shadow-sm border-0">
-                    <div class="card-body">
-                        <h5 class="card-title">@job.Title</h5>
-                        <p class="card-text">
-                            <strong>@job.Employer.CompanyProfile.CompanyName</strong>
-                            <br />
-                            <span>@job.Location</span> • <span>İş Yerinde</span>
-                        </p>
-                        <p class="text-muted mb-1">Tam Zamanlı</p>
-                        <small class="text-muted">
-                            @if (job.PostedDate != null)
-                            {
-                                @* Zaman farkını hesaplayarak gösteriyoruz *@
-                                var timeSpan = DateTime.Now - job.PostedDate;
-                                if (timeSpan.Days > 0)
+            @if (string.IsNullOrEmpty(Context.Request.Query["location"]) || job.Location.IndexOf(Context.Request.Query["location"], StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body">
+                            <h5 class="card-title">@job.Title</h5>
+                            <p class="card-text">
+                                <strong>@job.Employer.CompanyProfile.CompanyName</strong>
+                                <br />
+                                <span>@job.Location</span> •
+                                <span>@job.WorkType</span> <!-- Çalışma Tipi Dinamik -->
+                            </p>
+                            <p class="text-muted mb-1">@job.JobType</p> <!-- İş Tipi Dinamik -->
+                            <small class="text-muted">
+                                @if (job.PostedDate != null)
                                 {
-                                    @($"{timeSpan.Days} gün önce")
-                                }
-                                else if (timeSpan.Hours > 0)
-                                {
-                                    @($"{timeSpan.Hours} saat önce")
+                                    var timeSpan = DateTime.Now - job.PostedDate;
+                                    if (timeSpan.Days > 0)
+                                    {
+                                        @($"{timeSpan.Days} gün önce")
+                                    }
+                                    else if (timeSpan.Hours > 0)
+                                    {
+                                        @($"{timeSpan.Hours} saat önce")
+                                    }
+                                    else
+                                    {
+                                        @("Az önce")
+                                    }
                                 }
                                 else
                                 {
-                                    @("Az önce")
+                                    @("Tarih bilgisi yok")
+                                }
+                            </small>
+                        </div>
+                        <div class="card-footer bg-white border-0">
+                            <a href="@Url.Action("JobDetails", new { id = job.Id })" class="btn btn-link">Detaylar</a>
+
+                            @if (User.IsInRole("JobSeeker"))
+                            {
+                                @if (Model.AppliedJobIds.Contains(job.Id))
+                                {
+                                    <span class="text-success">Başvuruldu</span>
+                                }
+                                else
+                                {
+                                    <form method="post" asp-action="Apply" asp-route-jobId="@job.Id" class="d-inline">
+                                        <button type="submit" class="btn btn-primary">Başvur</button>
+                                    </form>
                                 }
                             }
-                            else
-                            {
-                                @("Tarih bilgisi yok")
-                            }
-                        </small>
-                    </div>
-                    <div class="card-footer bg-white border-0">
-                        <a href="@Url.Action("JobDetails", new { id = job.Id })" class="btn btn-link">Detaylar</a>
-
-                        @if (User.IsInRole("JobSeeker"))
-                        {
-                            @if (Model.AppliedJobIds.Contains(job.Id))
-                            {
-                                <span class="text-success">Başvuruldu</span>
-                            }
-                            else
-                            {
-                                <form method="post" asp-action="Apply" asp-route-jobId="@job.Id" class="d-inline">
-                                    <button type="submit" class="btn btn-primary">Başvur</button>
-                                </form>
-                            }
-                        }
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
         }
     </div>
 </div>

@@ -10,6 +10,12 @@ namespace JobPortal.BL.Abstract
         // Departmana göre iş ilanlarını getiren metod
         Task<IEnumerable<Job>> GetJobsByDepartmentAsync(int departmentId);
 
+        // İş türüne göre iş ilanlarını getiren metod
+        Task<IEnumerable<Job>> GetJobsByJobTypeAsync(string jobType);
+
+        // Çalışma türüne göre iş ilanlarını getiren metod
+        Task<IEnumerable<Job>> GetJobsByWorkTypeAsync(string workType);
+
         // İş arayanın başvurduğu iş ilanlarını getiren metod
         Task<IEnumerable<Job>> GetJobsBySeekerIdAsync(int seekerId);
 

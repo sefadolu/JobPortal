@@ -19,7 +19,7 @@ namespace JobPortal.Entities.EntityConfigs.Concrete
 
             builder.Property(j => j.Description)
                 .IsRequired()
-                .HasMaxLength(1000);
+                .HasMaxLength(5000);
 
             builder.Property(j => j.Location)
                 .IsRequired()
@@ -30,6 +30,14 @@ namespace JobPortal.Entities.EntityConfigs.Concrete
 
             builder.Property(j => j.PostedDate)
                 .IsRequired();
+
+            builder.Property(j => j.JobType)
+                .IsRequired()
+                .HasMaxLength(50);
+
+            builder.Property(j => j.WorkType)
+                .IsRequired()
+                .HasMaxLength(50);
 
             builder.HasOne(j => j.Employer)
                 .WithMany(e => e.Jobs)

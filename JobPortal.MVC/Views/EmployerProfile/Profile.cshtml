@@ -1,42 +1,79 @@
 ﻿@model JobPortal.Entities.Models.Concrete.Employer
 
-<h2>İşveren Profil</h2>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <!-- Arka plan rengini değiştirdik -->
+                <div class="card-header bg-dark text-white text-center">
+                    <!-- bg-dark ekledik -->
+                    <h2>İşveren Profil</h2>
+                </div>
+                <div class="card-body">
+                    <h3 class="mb-4">Şirket Bilgileri</h3>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label><strong>Şirket Adı:</strong></label>
+                        </div>
+                        <div class="col-md-8">
+                            <span>@Model.CompanyProfile?.CompanyName</span>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label><strong>Email:</strong></label>
+                        </div>
+                        <div class="col-md-8">
+                            <span>@Model.Email</span>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label><strong>Telefon Numarası:</strong></label>
+                        </div>
+                        <div class="col-md-8">
+                            <span>@Model.CompanyProfile?.PhoneNumber</span>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label><strong>Website:</strong></label>
+                        </div>
+                        <div class="col-md-8">
+                            <span><a href="@Model.CompanyProfile?.Website" target="_blank">@Model.CompanyProfile?.Website</a></span>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label><strong>Lokasyon:</strong></label>
+                        </div>
+                        <div class="col-md-8">
+                            <span>@Model.CompanyProfile?.Location</span>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label><strong>Şirket Açıklaması:</strong></label>
+                        </div>
+                        <div class="col-md-8">
+                            <span>@Model.CompanyProfile?.Description</span>
+                        </div>
+                    </div>
 
-<div>
-    <h3>Şirket Bilgileri</h3>
-    <div>
-        <label>Şirket Adı:</label>
-        <span>@Model.CompanyProfile?.CompanyName </span>
-    </div>
-    <div>
-        <label>Email:</label>
-        <span>@Model.Email</span>
-    </div>
-    <div>
-        <label>Telefon Numarası:</label>
-        <span>@Model.CompanyProfile?.PhoneNumber </span>
-    </div>
-    <div>
-        <label>Website:</label>
-        <span><a href="@Model.CompanyProfile?.Website" target="_blank">@Model.CompanyProfile?.Website</a></span>
-    </div>
-    <div>
-        <label>Lokasyon:</label>
-        <span>@Model.CompanyProfile?.Location </span>
-    </div>
-    <div>
-        <label>Şirket Açıklaması:</label>
-        <span>@Model.CompanyProfile?.Description </span>
-    </div>
+                    <!-- Butonların renklerini aynı yaptık -->
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="@Url.Action("EditProfile", "EmployerProfile")" class="btn btn-dark">Profili Düzenle</a>
+                        <a href="@Url.Action("ChangePassword", "EmployerProfile")" class="btn btn-dark">Şifremi Değiştir</a>
+                    </div>
 
-    <a href="@Url.Action("EditProfile", "EmployerProfile")">Profili Düzenle</a>
-    <div>
-    <a href="@Url.Action("ChangePassword", "EmployerProfile")">Şifremi Değiştir</a>
-    </div>
-    <!-- Hesabımı Sil -->
-    <div style="margin-top: 30px;">
-        <form method="post" asp-action="DeleteAccount">
-            <button type="submit" class="btn btn-danger" onclick="return confirm('Hesabınızı silmek istediğinizden emin misiniz?');">Hesabımı Sil</button>
-        </form>
+                    <!-- Hesabımı Sil -->
+                    <div class="mt-5">
+                        <form method="post" asp-action="DeleteAccount">
+                            <button type="submit" class="btn btn-dark w-100" onclick="return confirm('Hesabınızı silmek istediğinizden emin misiniz?');">Hesabımı Sil</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

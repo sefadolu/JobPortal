@@ -1,49 +1,73 @@
 ﻿@model JobPortal.MVC.ViewModels.JobViewModel
 
-<h2>İş İlanı Ver</h2>
+<div class="container my-5">
+    <h2 class="text-center mb-4">İş İlanı Ver</h2>
 
-<form asp-action="AddJob" method="post">
-    <div>
-        <label for="Title">Başlık:</label>
-        <input type="text" id="Title" name="Job.Title" value="@Model.Job.Title" required />
-    </div>
+    <form asp-action="AddJob" method="post">
+        <div class="mb-3">
+            <label for="Title" class="form-label">Başlık:</label>
+            <input type="text" id="Title" name="Job.Title" class="form-control" value="@Model.Job.Title" required />
+        </div>
 
-    <div>
-        <label for="Description">Açıklama:</label>
-        <textarea id="Description" name="Job.Description" rows="5" required>@Model.Job.Description</textarea>
-    </div>
+        <div class="mb-3">
+            <label for="Description" class="form-label">Açıklama:</label>
+            <textarea id="Description" name="Job.Description" class="form-control" rows="5" required>@Model.Job.Description</textarea>
+        </div>
 
-    <div>
-        <label for="Location">Konum:</label>
-        <input type="text" id="Location" name="Job.Location" value="@Model.Job.Location" required />
-    </div>
+        <div class="mb-3">
+            <label for="Location" class="form-label">Konum:</label>
+            <input type="text" id="Location" name="Job.Location" class="form-control" value="@Model.Job.Location" required />
+        </div>
 
-    <div>
-        <label for="Salary">Maaş:</label>
-        <input type="number" id="Salary" name="Job.Salary" value="@Model.Job.Salary" required />
-    </div>
+        <div class="mb-3">
+            <label for="Salary" class="form-label">Maaş:(Maaş bilgisi adayla paylaşılmayacaktır.)</label>
+            <input type="number" id="Salary" name="Job.Salary" class="form-control" value="@Model.Job.Salary" required />
+        </div>
 
-    <div>
-        <label for="SectorId">Sektör:</label>
-        <select id="SectorId" name="SectorId" required>
-            <option value="">Sektör Seçin</option>
-            @foreach (var sector in Model.Sectors)
-            {
-                <option value="@sector.Value">@sector.Text</option>
-            }
-        </select>
-    </div>
+        <div class="mb-3">
+            <label for="JobType" class="form-label">İş Türü:</label>
+            <select id="JobType" name="JobType" class="form-select" required>
+                <option value="">İş Türü Seçin</option>
+                @foreach (var jobType in Model.JobTypes)
+                {
+                    <option value="@jobType.Value">@jobType.Text</option>
+                }
+            </select>
+        </div>
 
-    <div>
-        <label for="DepartmentId">Departman:</label>
-        <select id="DepartmentId" name="DepartmentId" required>
-            <option value="">Departman Seçin</option>
-            @foreach (var department in Model.Departments)
-            {
-                <option value="@department.Value">@department.Text</option>
-            }
-        </select>
-    </div>
+        <div class="mb-3">
+            <label for="WorkType" class="form-label">Çalışma Türü:</label>
+            <select id="WorkType" name="WorkType" class="form-select" required>
+                <option value="">Çalışma Türü Seçin</option>
+                @foreach (var workType in Model.WorkTypes)
+                {
+                    <option value="@workType.Value">@workType.Text</option>
+                }
+            </select>
+        </div>
 
-    <button type="submit">İlan Ver</button>
-</form>
+        <div class="mb-3">
+            <label for="SectorId" class="form-label">Sektör:</label>
+            <select id="SectorId" name="SectorId" class="form-select" required>
+                <option value="">Sektör Seçin</option>
+                @foreach (var sector in Model.Sectors)
+                {
+                    <option value="@sector.Value">@sector.Text</option>
+                }
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="DepartmentId" class="form-label">Departman:</label>
+            <select id="DepartmentId" name="DepartmentId" class="form-select" required>
+                <option value="">Departman Seçin</option>
+                @foreach (var department in Model.Departments)
+                {
+                    <option value="@department.Value">@department.Text</option>
+                }
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">İlan Ver</button>
+    </form>
+</div>

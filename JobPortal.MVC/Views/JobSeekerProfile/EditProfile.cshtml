@@ -1,64 +1,73 @@
 ﻿@model JobPortal.Entities.Models.Concrete.JobSeeker
 
-<h2>Profili Düzenle</h2>
+<h2 class="text-center my-4">Profili Düzenle</h2>
 
-<form method="post" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data" class="container">
     <!-- Kişisel Bilgiler -->
-    <div>
-        <label for="FirstName">Ad:</label>
-        <input type="text" id="FirstName" name="FirstName" value="@Model.FirstName" />
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="FirstName" class="form-label">Ad:</label>
+            <input type="text" id="FirstName" name="FirstName" value="@Model.FirstName" class="form-control" />
+        </div>
+        <div class="col-md-6">
+            <label for="LastName" class="form-label">Soyad:</label>
+            <input type="text" id="LastName" name="LastName" value="@Model.LastName" class="form-control" />
+        </div>
     </div>
-    <div>
-        <label for="LastName">Soyad:</label>
-        <input type="text" id="LastName" name="LastName" value="@Model.LastName" />
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="PhoneNumber" class="form-label">Telefon Numarası:</label>
+            <input type="text" id="PhoneNumber" name="PhoneNumber" value="@Model.PhoneNumber" class="form-control" />
+        </div>
+        <div class="col-md-6">
+            <label for="Address" class="form-label">Adres:</label>
+            <input type="text" id="Address" name="Address" value="@Model.Address" class="form-control" />
+        </div>
     </div>
-    <div>
-        <label for="PhoneNumber">Telefon Numarası:</label>
-        <input type="text" id="PhoneNumber" name="PhoneNumber" value="@Model.PhoneNumber" />
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="Resume" class="form-label">Özgeçmiş Yükle (PDF):</label>
+            <input type="file" id="Resume" name="ResumeFile" accept=".pdf" class="form-control" />
+        </div>
+        <div class="col-md-6">
+            <label for="ProfilePicture" class="form-label">Profil Fotoğrafı Yükle (JPG, PNG):</label>
+            <input type="file" id="ProfilePicture" name="profilePictureFile" accept="image/*" class="form-control" />
+        </div>
     </div>
-    <div>
-        <label for="Address">Adres:</label>
-        <input type="text" id="Address" name="Address" value="@Model.Address" />
-    </div>
-    <div>
-        <label for="Resume">Özgeçmiş Yükle (PDF):</label>
-        <input type="file" id="Resume" name="ResumeFile" accept=".pdf" />
-    </div>
-    <div>
-        <label for="ProfilePicture">Profil Fotoğrafı Yükle (JPG, PNG):</label>
-        <input type="file" id="ProfilePicture" name="profilePictureFile" accept="image/*" />
-    </div>
-    <div>
-        <label for="Skills">Yetenekler:</label>
-        <input type="text" id="Skills" name="Skills" value="@Model.Skills" />
+
+    <div class="mb-3">
+        <label for="Skills" class="form-label">Yetenekler:</label>
+        <input type="text" id="Skills" name="Skills" value="@Model.Skills" class="form-control" />
     </div>
 
     <!-- Eğitim Bilgileri -->
-    <h3>Eğitim Bilgileri</h3>
-    <div id="education-section">
+    <h3 class="my-4">Eğitim Bilgileri</h3>
+    <div id="education-section" class="mb-3">
         @if (Model.Educations != null && Model.Educations.Any())
         {
             var educationIndex = 0;
             foreach (var education in Model.Educations)
             {
-                <div class="education-item" id="education-@education.Id">
+                <div class="education-item mb-3 border p-3 rounded" id="education-@education.Id">
                     <input type="hidden" name="Educations[@educationIndex].Id" value="@education.Id" />
-                    <label for="SchoolName">Okul Adı:</label>
-                    <input type="text" name="Educations[@educationIndex].SchoolName" value="@education.SchoolName" /><br />
+                    <label for="SchoolName" class="form-label">Okul Adı:</label>
+                    <input type="text" name="Educations[@educationIndex].SchoolName" value="@education.SchoolName" class="form-control" /><br />
 
-                    <label for="Department">Bölüm:</label>
-                    <input type="text" name="Educations[@educationIndex].Department" value="@education.Department" /><br />
+                    <label for="Department" class="form-label">Bölüm:</label>
+                    <input type="text" name="Educations[@educationIndex].Department" value="@education.Department" class="form-control" /><br />
 
-                    <label for="GraduationDegree">Mezuniyet Derecesi:</label>
-                    <input type="text" name="Educations[@educationIndex].GraduationDegree" value="@education.GraduationDegree" /><br />
+                    <label for="GraduationDegree" class="form-label">Mezuniyet Derecesi:</label>
+                    <input type="text" name="Educations[@educationIndex].GraduationDegree" value="@education.GraduationDegree" class="form-control" /><br />
 
-                    <label for="Status">Durum:</label>
-                    <input type="text" name="Educations[@educationIndex].Status" value="@education.Status" /><br />
+                    <label for="Status" class="form-label">Durum:</label>
+                    <input type="text" name="Educations[@educationIndex].Status" value="@education.Status" class="form-control" /><br />
 
-                    <label for="GraduationYear">Mezuniyet Yılı:</label>
-                    <input type="number" name="Educations[@educationIndex].GraduationYear" value="@education.GraduationYear" /><br />
+                    <label for="GraduationYear" class="form-label">Mezuniyet Yılı:</label>
+                    <input type="number" name="Educations[@educationIndex].GraduationYear" value="@education.GraduationYear" class="form-control" /><br />
 
-                    <button type="button" onclick="removeEducation('@education.Id')">Eğitimi Sil</button>
+                    <button type="button" onclick="removeEducation('@education.Id')" class="btn btn-danger">Eğitimi Sil</button>
                 </div>
                 educationIndex++;
             }
@@ -67,25 +76,25 @@
     <input type="hidden" id="deleted-educations" name="DeletedEducations" />
 
     <!-- Sertifika Bilgileri -->
-    <h3>Sertifika Bilgileri</h3>
-    <div id="certification-section">
+    <h3 class="my-4">Sertifika Bilgileri</h3>
+    <div id="certification-section" class="mb-3">
         @if (Model.Certifications != null && Model.Certifications.Any())
         {
             var certificationIndex = 0;
             foreach (var certification in Model.Certifications)
             {
-                <div class="certification-item" id="certification-@certification.Id">
+                <div class="certification-item mb-3 border p-3 rounded" id="certification-@certification.Id">
                     <input type="hidden" name="Certifications[@certificationIndex].Id" value="@certification.Id" />
-                    <label for="InstitutionName">Kurum Adı:</label>
-                    <input type="text" name="Certifications[@certificationIndex].InstitutionName" value="@certification.InstitutionName" /><br />
+                    <label for="InstitutionName" class="form-label">Kurum Adı:</label>
+                    <input type="text" name="Certifications[@certificationIndex].InstitutionName" value="@certification.InstitutionName" class="form-control" /><br />
 
-                    <label for="CertificateName">Sertifika Adı:</label>
-                    <input type="text" name="Certifications[@certificationIndex].CertificateName" value="@certification.CertificateName" /><br />
+                    <label for="CertificateName" class="form-label">Sertifika Adı:</label>
+                    <input type="text" name="Certifications[@certificationIndex].CertificateName" value="@certification.CertificateName" class="form-control" /><br />
 
-                    <label for="CertificationDate">Sertifika Alınma Tarihi:</label>
-                    <input type="date" name="Certifications[@certificationIndex].CertificationDate" value="@certification.CertificationDate.ToString("yyyy-MM-dd")" /><br />
+                    <label for="CertificationDate" class="form-label">Sertifika Alınma Tarihi:</label>
+                    <input type="date" name="Certifications[@certificationIndex].CertificationDate" value="@certification.CertificationDate.ToString("yyyy-MM-dd")" class="form-control" /><br />
 
-                    <button type="button" onclick="removeCertification('@certification.Id')">Sertifikayı Sil</button>
+                    <button type="button" onclick="removeCertification('@certification.Id')" class="btn btn-danger">Sertifikayı Sil</button>
                 </div>
                 certificationIndex++;
             }
@@ -93,27 +102,51 @@
     </div>
     <input type="hidden" id="deleted-certifications" name="DeletedCertifications" />
 
-    <button type="button" onclick="addEducation()">Yeni Eğitim Ekle</button>
-    <button type="button" onclick="addCertification()">Yeni Sertifika Ekle</button>
+    <div class="my-3">
+        <button type="button" onclick="addEducation()" class="btn btn-primary">Yeni Eğitim Ekle</button>
+        <button type="button" onclick="addCertification()" class="btn btn-primary">Yeni Sertifika Ekle</button>
+    </div>
 
-    <button type="submit">Kaydet</button>
+    <div class="text-center my-4">
+        <button type="submit" class="btn btn-success">Kaydet</button>
+    </div>
 </form>
 
 <script>
     // Eğitim Silme İşlemi
     function removeEducation(educationId) {
         var element = document.getElementById('education-' + educationId);
-        element.style.display = 'none'; // Eğitim satırını gizle
-        var deletedEducations = document.getElementById('deleted-educations');
-        deletedEducations.value += educationId + ','; // Silinen eğitimleri topla
+
+        if (element) {
+            element.remove(); // Eğitim satırını tamamen DOM'dan kaldır
+
+            if (educationId.startsWith('new-')) {
+                // Yeni eklenmiş bir eğitimse (Id'ye sahip değilse)
+                return;
+            }
+
+            // Silinen eğitimleri topluyoruz
+            var deletedEducations = document.getElementById('deleted-educations');
+            deletedEducations.value += educationId + ',';
+        }
     }
 
     // Sertifika Silme İşlemi
     function removeCertification(certificationId) {
         var element = document.getElementById('certification-' + certificationId);
-        element.style.display = 'none'; // Sertifika satırını gizle
-        var deletedCertifications = document.getElementById('deleted-certifications');
-        deletedCertifications.value += certificationId + ','; // Silinen sertifikaları topla
+
+        if (element) {
+            element.remove(); // Sertifika satırını tamamen DOM'dan kaldır
+
+            if (certificationId.startsWith('new-')) {
+                // Yeni eklenmiş bir sertifika ise (Id'ye sahip değilse)
+                return;
+            }
+
+            // Silinen sertifikaları topluyoruz
+            var deletedCertifications = document.getElementById('deleted-certifications');
+            deletedCertifications.value += certificationId + ',';
+        }
     }
 
     // Yeni Eğitim Ekleme
@@ -121,25 +154,25 @@
         var container = document.getElementById("education-section");
         var index = container.getElementsByClassName('education-item').length;
         var template = `
-                    <div class="education-item" id="new-education-` + index + `">
-                        <input type="hidden" name="Educations[` + index + `].Id" value="0" />
-                        <label for="SchoolName">Okul Adı:</label>
-                        <input type="text" name="Educations[` + index + `].SchoolName" /><br />
+            <div class="education-item mb-3 border p-3 rounded" id="education-new-${index}">
+                <input type="hidden" name="Educations[${index}].Id" value="0" />
+                <label for="SchoolName" class="form-label">Okul Adı:</label>
+                <input type="text" name="Educations[${index}].SchoolName" class="form-control"/><br />
 
-                        <label for="Department">Bölüm:</label>
-                        <input type="text" name="Educations[` + index + `].Department" /><br />
+                <label for="Department" class="form-label">Bölüm:</label>
+                <input type="text" name="Educations[${index}].Department" class="form-control"/><br />
 
-                        <label for="GraduationDegree">Mezuniyet Derecesi:</label>
-                        <input type="text" name="Educations[` + index + `].GraduationDegree" /><br />
+                <label for="GraduationDegree" class="form-label">Mezuniyet Derecesi:</label>
+                <input type="text" name="Educations[${index}].GraduationDegree" class="form-control"/><br />
 
-                        <label for="Status">Durum:</label>
-                        <input type="text" name="Educations[` + index + `].Status" /><br />
+                <label for="Status" class="form-label">Durum:</label>
+                <input type="text" name="Educations[${index}].Status" class="form-control"/><br />
 
-                        <label for="GraduationYear">Mezuniyet Yılı:</label>
-                        <input type="number" name="Educations[` + index + `].GraduationYear" /><br />
+                <label for="GraduationYear" class="form-label">Mezuniyet Yılı:</label>
+                <input type="number" name="Educations[${index}].GraduationYear" class="form-control"/><br />
 
-                        <button type="button" onclick="removeEducation('new-education-` + index + `')">Eğitimi Sil</button>
-                    </div>`;
+                <button type="button" onclick="removeEducation('new-${index}')" class="btn btn-danger">Eğitimi Sil</button>
+            </div>`;
         container.innerHTML += template;
     }
 
@@ -148,19 +181,19 @@
         var container = document.getElementById("certification-section");
         var index = container.getElementsByClassName('certification-item').length;
         var template = `
-                    <div class="certification-item" id="new-certification-` + index + `">
-                        <input type="hidden" name="Certifications[` + index + `].Id" value="0" />
-                        <label for="InstitutionName">Kurum Adı:</label>
-                        <input type="text" name="Certifications[` + index + `].InstitutionName" /><br />
+            <div class="certification-item mb-3 border p-3 rounded" id="certification-new-${index}">
+                <input type="hidden" name="Certifications[${index}].Id" value="0" />
+                <label for="InstitutionName" class="form-label">Kurum Adı:</label>
+                <input type="text" name="Certifications[${index}].InstitutionName" class="form-control"/><br />
 
-                        <label for="CertificateName">Sertifika Adı:</label>
-                        <input type="text" name="Certifications[` + index + `].CertificateName" /><br />
+                <label for="CertificateName" class="form-label">Sertifika Adı:</label>
+                <input type="text" name="Certifications[${index}].CertificateName" class="form-control"/><br />
 
-                        <label for="CertificationDate">Sertifika Alınma Tarihi:</label>
-                        <input type="date" name="Certifications[` + index + `].CertificationDate" /><br />
+                <label for="CertificationDate" class="form-label">Sertifika Alınma Tarihi:</label>
+                <input type="date" name="Certifications[${index}].CertificationDate" class="form-control"/><br />
 
-                        <button type="button" onclick="removeCertification('new-certification-` + index + `')">Sertifikayı Sil</button>
-                    </div>`;
+                <button type="button" onclick="removeCertification('new-${index}')" class="btn btn-danger">Sertifikayı Sil</button>
+            </div>`;
         container.innerHTML += template;
     }
 </script>

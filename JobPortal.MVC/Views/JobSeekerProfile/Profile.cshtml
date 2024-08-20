@@ -1,112 +1,109 @@
 ﻿@model JobPortal.Entities.Models.Concrete.JobSeeker
 
-@if (!string.IsNullOrEmpty(ViewContext.HttpContext.Request.Query["Message"]))
-{
-    <div class="alert alert-success">
-        @ViewContext.HttpContext.Request.Query["Message"]
-    </div>
-}
-
-<h2 style="text-align: center;">Profil</h2>
-
-<div style="display: flex; flex-direction: column; align-items: center;">
-
-    <!-- Profil Fotoğrafı -->
-    <div>
-        @if (!string.IsNullOrEmpty(Model.ProfilePicture))
-        {
-            <img src="@Url.Content($"~/profilepictures/{Model.ProfilePicture}")" alt="Profil Fotoğrafı" width="120" height="120" style="border-radius: 50%; object-fit: contain;" />
-        }
-    </div>
-
-    <!-- Profil Bilgileri -->
-    <div style="margin-top: 20px; text-align:center;">
-        <label><strong>Ad:</strong></label>
-        <span>@Model.FirstName</span>
-    </div>
-    <div>
-        <label><strong>Soyad:</strong></label>
-        <span>@Model.LastName</span>
-    </div>
-    <div>
-        <label><strong>Email:</strong></label>
-        <span>@Model.Email</span>
-    </div>
-    <div>
-        <label><strong>Telefon Numarası:</strong></label>
-        <span>@Model.PhoneNumber</span>
-    </div>
-    <div>
-        <label><strong>Adres:</strong></label>
-        <span>@Model.Address</span>
-    </div>
-    <div>
-        <label><strong>Yetenekler:</strong></label>
-        <span>@Model.Skills</span>
-    </div>
-
-    <!-- Özgeçmiş -->
-    <div style="margin-top:20px;">
-        <label><strong>Özgeçmiş:</strong></label>
-        @if (!string.IsNullOrEmpty(Model.Resume))
-        {
-            <a href="@Url.Content($"~/resumes/{Model.Resume}")" target="_blank">Özgeçmişi Görüntüle</a>
-        }
-    </div>
-
-    <!-- Eğitim Bilgileri -->
-    <h3>Eğitim Bilgileri</h3>
-    @if (Model.Educations != null && Model.Educations.Any())
+<div class="container my-5">
+    @if (!string.IsNullOrEmpty(ViewContext.HttpContext.Request.Query["Message"]))
     {
-        <ul>
-            @foreach (var education in Model.Educations)
+        <div class="alert alert-success text-center">
+            @ViewContext.HttpContext.Request.Query["Message"]
+        </div>
+    }
+
+    <!-- Kişisel Bilgiler Kartı -->
+    <div class="card mb-4">
+        <!-- Profil Fotoğrafı Kart Üstünde -->
+        <div class="card-header text-center">
+            @if (!string.IsNullOrEmpty(Model.ProfilePicture))
             {
-                <li>
-                    <strong>Okul Adı:</strong> @education.SchoolName <br />
-                    <strong>Bölüm:</strong> @education.Department <br />
-                    <strong>Mezuniyet Derecesi:</strong> @education.GraduationDegree <br />
-                    <strong>Durum:</strong> @education.Status <br />
-                    <strong>Mezuniyet Yılı:</strong> @education.GraduationYear <br />
-                </li>
+                <img src="@Url.Content($"~/profilepictures/{Model.ProfilePicture}")" alt="Profil Fotoğrafı" width="150" height="150" class="rounded-circle shadow-sm" />
             }
-        </ul>
-    }
-    else
-    {
-        <p>Henüz eklenmiş bir eğitim bilgisi bulunmuyor.</p>
-    }
+        </div>
 
-    <!-- Sertifika Bilgileri -->
-    <h3>Sertifika Bilgileri</h3>
-    @if (Model.Certifications != null && Model.Certifications.Any())
-    {
-        <ul>
-            @foreach (var certification in Model.Certifications)
+        <!-- Kart Gövdesi -->
+        <div class="card-body">
+            <h3 class="card-title">Kişisel Bilgiler</h3>
+            <!-- Bilgiler Sol Hizalanmış Şekilde -->
+            <div class="row">
+                <div class="col-md-12">
+                    <p><strong>Ad:</strong> @Model.FirstName</p>
+                    <p><strong>Soyad:</strong> @Model.LastName</p>
+                    <p><strong>Email:</strong> @Model.Email</p>
+                    <p><strong>Telefon Numarası:</strong> @Model.PhoneNumber</p>
+                    <p><strong>Adres:</strong> @Model.Address</p>
+                    <p><strong>Yetenekler:</strong> @Model.Skills</p>
+
+                    <!-- Özgeçmiş -->
+                    <p>
+                        <strong>Özgeçmiş:</strong>
+                        @if (!string.IsNullOrEmpty(Model.Resume))
+                        {
+                            <a href="@Url.Content($"~/resumes/{Model.Resume}")" target="_blank" class="btn btn-outline-info">Özgeçmişi Görüntüle</a>
+                        }
+                        else
+                        {
+                            <span>Henüz eklenmiş bir özgeçmiş bulunmuyor.</span>
+                        }
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Eğitim Bilgileri Kartı -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h3 class="card-title">Eğitim Bilgileri</h3>
+            @if (Model.Educations != null && Model.Educations.Any())
             {
-                <li>
-                    <strong>Kurum Adı:</strong> @certification.InstitutionName <br />
-                    <strong>Sertifika Adı:</strong> @certification.CertificateName <br />
-                    <strong>Sertifika Alınma Tarihi:</strong> @certification.CertificationDate.ToString("dd/MM/yyyy") <br />
-                </li>
+                <ul class="list-group">
+                    @foreach (var education in Model.Educations)
+                    {
+                        <li class="list-group-item">
+                            <strong>Okul Adı:</strong> @education.SchoolName <br />
+                            <strong>Bölüm:</strong> @education.Department <br />
+                            <strong>Mezuniyet Derecesi:</strong> @education.GraduationDegree <br />
+                            <strong>Durum:</strong> @education.Status <br />
+                            <strong>Mezuniyet Yılı:</strong> @education.GraduationYear <br />
+                        </li>
+                    }
+                </ul>
             }
-        </ul>
-    }
-    else
-    {
-        <p>Henüz eklenmiş bir sertifika bilgisi bulunmuyor.</p>
-    }
+            else
+            {
+                <p>Henüz eklenmiş bir eğitim bilgisi bulunmuyor.</p>
+            }
+        </div>
+    </div>
 
-    <!-- Profili Düzenle ve Şifre Değiştir -->
-    <div style="margin-top: 30px;">
-        <a href="@Url.Action("EditProfile", "JobSeekerProfile")" class="btn btn-primary">Profili Düzenle</a>
+    <!-- Sertifika Bilgileri Kartı -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h3 class="card-title">Sertifika Bilgileri</h3>
+            @if (Model.Certifications != null && Model.Certifications.Any())
+            {
+                <ul class="list-group">
+                    @foreach (var certification in Model.Certifications)
+                    {
+                        <li class="list-group-item">
+                            <strong>Kurum Adı:</strong> @certification.InstitutionName <br />
+                            <strong>Sertifika Adı:</strong> @certification.CertificateName <br />
+                            <strong>Sertifika Alınma Tarihi:</strong> @certification.CertificationDate.ToString("dd/MM/yyyy") <br />
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p>Henüz eklenmiş bir sertifika bilgisi bulunmuyor.</p>
+            }
+        </div>
     </div>
-    <div>
-        <a href="@Url.Action("ChangePassword", "JobSeekerProfile")" class="btn btn-secondary">Şifremi Değiştir</a>
-    </div>
-    <!-- Hesabımı Sil -->
-    <div style="margin-top: 30px;">
-        <form method="post" asp-action="DeleteAccount">
-            <button type="submit" class="btn btn-danger" onclick="return confirm('Hesabınızı silmek istediğinizden emin misiniz?');">Hesabımı Sil</button>
+
+    <!-- Profili Düzenle, Şifre Değiştir ve Hesap Sil -->
+    <div class="text-center my-4">
+        <a href="@Url.Action("EditProfile", "JobSeekerProfile")" class="btn btn-dark mx-2">Profili Düzenle</a>
+        <a href="@Url.Action("ChangePassword", "JobSeekerProfile")" class="btn btn-dark mx-2">Şifremi Değiştir</a>
+        <form method="post" asp-action="DeleteAccount" class="d-inline">
+            <button type="submit" class="btn btn-red mx-2" onclick="return confirm('Hesabınızı silmek istediğinizden emin misiniz?');">Hesabımı Sil</button>
         </form>
     </div>
 </div>

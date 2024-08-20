@@ -22,7 +22,7 @@
             }
 
             .navbar-nav .nav-link {
-                padding: 0 15px; /* Yatay boşlukları dengelemek için */
+                padding: 0 20px; /* Yatay boşlukları dengelemek için */
                 margin: 0;
                 line-height: 40px; /* Aynı yükseklikte hizalanması için */
                 height: 40px; /* İki öğe de aynı yüksekliğe sahip olacak */
@@ -31,33 +31,33 @@
             }
 
             .navbar-nav .dropdown-toggle {
-                padding-left: 0; /* Gereksiz boşluğu engellemek için */
-                padding-right: 10px; /* Sağ tarafa az boşluk */
-                margin: 0; /* Margin sıfırla */
-                width: auto; /* Genişliği otomatik olarak ayarlayın */
+                padding-right: 20px;
+                margin: 0;
+                width: auto;
             }
 
         .navbar .navbar-nav .nav-link {
-            color: white; /* Text rengini beyaz yap */
+            color: white;
         }
 
-        .navbar .navbar-nav .nav-link:hover {
-            background-color: #495057;
-        }
+            .navbar .navbar-nav .nav-link:hover {
+                background-color: #495057;
+            }
 
-        /* Dropdown menü ayarları */
         .dropdown-menu {
-            min-width: 150px;
+            left: auto;
+            right: 0; /* Sağa hizala */
+    min-width: 180px; /* Genişliği arttıralım */
             border-radius: 5px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-            background-color: #343a40; /* Dropdown arka planını navbar ile aynı yap */
+            background-color: #343a40;
             color: white;
         }
 
             .dropdown-menu a {
                 color: white;
                 padding: 10px;
-                text-align: left; /* Metinleri sola hizalı yap */
+                text-align: left;
                 font-weight: bold;
             }
 
@@ -71,10 +71,9 @@
             color: white;
             text-align: center;
             padding: 20px;
-            position: relative;
+            position: absolute;
             bottom: 0;
             width: 100%;
-            margin-top: auto;
         }
 
         button[type="submit"] {
@@ -97,8 +96,8 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link" href="@Url.Action("JobList", "JobAdvert")">İş İlanları</a>
                         </li>
@@ -108,7 +107,7 @@
                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     @User.Identity.Name
                                 </a>
-                                <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                                     @if (User.IsInRole("JobSeeker"))
                                     {
                                         <li><a class="dropdown-item" href="@Url.Action("Profile", "JobSeekerProfile")">Profil</a></li>
@@ -117,7 +116,7 @@
                                     {
                                         <li><a class="dropdown-item" href="@Url.Action("Profile", "EmployerProfile")">Profil</a></li>
                                         <li><a class="dropdown-item" href="@Url.Action("AddJob", "Job")">İş İlanı Ver</a></li>
-                                        <li><a class="dropdown-item" href="@Url.Action("JobList", "Job")">İlanlar</a></li>
+                                        <li><a class="dropdown-item" href="@Url.Action("JobList", "Job")">İlanlarım</a></li>
                                     }
                                     <li>
                                         <form method="post" action="@Url.Action("Logout", "Account")" style="margin: 0;">
@@ -133,7 +132,7 @@
                                 <a class="nav-link dropdown-toggle" href="#" id="loginDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Giriş Yap
                                 </a>
-                                <ul class="dropdown-menu" aria-labelledby="loginDropdown">
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="loginDropdown">
                                     <li><a class="dropdown-item" href="@Url.Action("Login", "JobSeekerLogin")">İş Arayan Girişi</a></li>
                                     <li><a class="dropdown-item" href="@Url.Action("Login", "EmployerLogin")">İşveren Girişi</a></li>
                                 </ul>

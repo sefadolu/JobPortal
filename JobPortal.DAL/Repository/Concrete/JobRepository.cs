@@ -24,13 +24,33 @@ namespace JobPortal.DAL.Repository.Concrete
         // Sektöre göre iş ilanlarını filtreleyen metod
         public async Task<IEnumerable<Job>> GetJobsBySectorAsync(int sectorId)
         {
-            return await _dbSet.Where(job => job.SectorId == sectorId).ToListAsync();
+            return await _dbSet
+                .Where(job => job.SectorId == sectorId)
+                .ToListAsync();
         }
 
         // Departmana göre iş ilanlarını filtreleyen metod
         public async Task<IEnumerable<Job>> GetJobsByDepartmentAsync(int departmentId)
         {
-            return await _dbSet.Where(job => job.DepartmentId == departmentId).ToListAsync();
+            return await _dbSet
+                .Where(job => job.DepartmentId == departmentId)
+                .ToListAsync();
+        }
+
+        // İş türüne göre iş ilanlarını filtreleyen metod (Tam zamanlı, Yarı zamanlı, Stajyer)
+        public async Task<IEnumerable<Job>> GetJobsByJobTypeAsync(string jobType)
+        {
+            return await _dbSet
+                .Where(job => job.JobType == jobType)
+                .ToListAsync();
+        }
+
+        // Çalışma türüne göre iş ilanlarını filtreleyen metod (Remote, Hibrit, Ofis)
+        public async Task<IEnumerable<Job>> GetJobsByWorkTypeAsync(string workType)
+        {
+            return await _dbSet
+                .Where(job => job.WorkType == workType)
+                .ToListAsync();
         }
 
         // İş arayan tarafından başvurulmuş iş ilanlarını getiren metod
@@ -41,6 +61,7 @@ namespace JobPortal.DAL.Repository.Concrete
                 .Select(app => app.Job)
                 .ToListAsync();
         }
+
         // İş ilanına başvuran iş arayanların profillerini getiren metod
         public async Task<IEnumerable<JobSeeker>> GetJobSeekersByJobIdAsync(int jobId)
         {
