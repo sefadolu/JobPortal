@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JobPortal.Entities.Migrations
 {
     [DbContext(typeof(JobDbContext))]
-    [Migration("20240816224928_removeCategory")]
-    partial class removeCategory
+    [Migration("20240821001546_initDb")]
+    partial class initDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,6 +54,37 @@ namespace JobPortal.Entities.Migrations
                     b.HasIndex("JobSeekerId");
 
                     b.ToTable("Applications", (string)null);
+                });
+
+            modelBuilder.Entity("JobPortal.Entities.Models.Concrete.Certification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CertificateName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<DateTime>("CertificationDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("InstitutionName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<int>("JobSeekerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JobSeekerId");
+
+                    b.ToTable("Certifications", (string)null);
                 });
 
             modelBuilder.Entity("JobPortal.Entities.Models.Concrete.CompanyProfile", b =>
@@ -544,7 +575,7 @@ namespace JobPortal.Entities.Migrations
                         });
                 });
 
-            modelBuilder.Entity("JobPortal.Entities.Models.Concrete.EducationAndCertification", b =>
+            modelBuilder.Entity("JobPortal.Entities.Models.Concrete.Education", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -552,27 +583,37 @@ namespace JobPortal.Entities.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Degree")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<DateTime>("GraduationDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("InstitutionName")
+                    b.Property<string>("Department")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
+                    b.Property<string>("GraduationDegree")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<int>("GraduationYear")
+                        .HasColumnType("int");
+
                     b.Property<int>("JobSeekerId")
                         .HasColumnType("int");
+
+                    b.Property<string>("SchoolName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("JobSeekerId");
 
-                    b.ToTable("EducationAndCertifications", (string)null);
+                    b.ToTable("Educations", (string)null);
                 });
 
             modelBuilder.Entity("JobPortal.Entities.Models.Concrete.Employer", b =>
@@ -617,11 +658,16 @@ namespace JobPortal.Entities.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("varchar(1000)");
+                        .HasMaxLength(5000)
+                        .HasColumnType("varchar(5000)");
 
                     b.Property<int>("EmployerId")
                         .HasColumnType("int");
+
+                    b.Property<string>("JobType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("Location")
                         .IsRequired()
@@ -641,6 +687,11 @@ namespace JobPortal.Entities.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("varchar(200)");
+
+                    b.Property<string>("WorkType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("Id");
 
@@ -699,16 +750,6 @@ namespace JobPortal.Entities.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("JobSeekers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Email = "ali.veli@example.com",
-                            FirstName = "Ali",
-                            LastName = "Veli",
-                            PhoneNumber = "1234567890"
-                        });
                 });
 
             modelBuilder.Entity("JobPortal.Entities.Models.Concrete.Sector", b =>
@@ -742,7 +783,7 @@ namespace JobPortal.Entities.Migrations
                         new
                         {
                             Id = 3,
-                            Name = "Elektrik % Elektronik"
+                            Name = "Elektrik & Elektronik"
                         },
                         new
                         {
@@ -1196,10 +1237,21 @@ namespace JobPortal.Entities.Migrations
                     b.Navigation("JobSeeker");
                 });
 
-            modelBuilder.Entity("JobPortal.Entities.Models.Concrete.EducationAndCertification", b =>
+            modelBuilder.Entity("JobPortal.Entities.Models.Concrete.Certification", b =>
                 {
                     b.HasOne("JobPortal.Entities.Models.Concrete.JobSeeker", "JobSeeker")
-                        .WithMany("EducationAndCertifications")
+                        .WithMany("Certifications")
+                        .HasForeignKey("JobSeekerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("JobSeeker");
+                });
+
+            modelBuilder.Entity("JobPortal.Entities.Models.Concrete.Education", b =>
+                {
+                    b.HasOne("JobPortal.Entities.Models.Concrete.JobSeeker", "JobSeeker")
+                        .WithMany("Educations")
                         .HasForeignKey("JobSeekerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1319,7 +1371,9 @@ namespace JobPortal.Entities.Migrations
                 {
                     b.Navigation("Applications");
 
-                    b.Navigation("EducationAndCertifications");
+                    b.Navigation("Certifications");
+
+                    b.Navigation("Educations");
                 });
 
             modelBuilder.Entity("JobPortal.Entities.Models.Concrete.Sector", b =>
