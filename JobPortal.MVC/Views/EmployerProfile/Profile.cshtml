@@ -1,6 +1,12 @@
 ﻿@model JobPortal.Entities.Models.Concrete.Employer
 
 <div class="container my-5">
+    @if (!string.IsNullOrEmpty(ViewContext.HttpContext.Request.Query["Message"]))
+    {
+        <div class="alert alert-success text-center">
+            @ViewContext.HttpContext.Request.Query["Message"]
+        </div>
+    }
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card shadow-sm">

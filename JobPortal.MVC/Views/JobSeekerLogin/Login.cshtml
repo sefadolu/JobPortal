@@ -10,6 +10,18 @@
                     <h2>İş Arayan Girişi</h2>
                 </div>
                 <div class="card-body">
+
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                {
+                                    <li>@error.ErrorMessage</li>
+                                }
+                            </ul>
+                        </div>
+                    }
                     <form method="post" action="@Url.Action("Login", "JobSeekerLogin")">
                         <div class="mb-3">
                             <label for="Email" class="form-label">Email</label>

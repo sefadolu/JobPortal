@@ -2,6 +2,8 @@
     ViewData["Title"] = "İş Arayan Kayıt";
 }
 
+
+
 <div class="container my-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
@@ -10,6 +12,18 @@
                     <h2>İş Arayan Kayıt</h2>
                 </div>
                 <div class="card-body">
+
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                {
+                                    <li>@error.ErrorMessage</li>
+                                }
+                            </ul>
+                        </div>
+                    }
                     <form method="post" action="@Url.Action("Register", "JobSeekerRegister")">
                         <div class="mb-3">
                             <label for="FirstName" class="form-label">Ad</label>

@@ -2,7 +2,9 @@ using JobPortal.Entities.DbContexts;
 using JobPortal.MVC.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace JobPortal.MVC
 {
@@ -14,12 +16,23 @@ namespace JobPortal.MVC
 
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+            builder.Services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new[] { new CultureInfo("tr"), new CultureInfo("en") };
+                options.DefaultRequestCulture = new RequestCulture("tr");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
+
             builder.Services.AddDbContext<JobDbContext>(options =>
                 options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
                     new MySqlServerVersion(new Version(8, 0, 38))));
 
             builder.Services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<JobDbContext>()
+                .AddErrorDescriber<CustomIdentityErrorDescriber>() 
                 .AddDefaultTokenProviders();
 
             builder.Services.AddTransient<IEmailSender, EmailSender>();
@@ -31,8 +44,18 @@ namespace JobPortal.MVC
             {
                 var services = scope.ServiceProvider;
                 var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-                await CreateRolesAsync(roleManager); 
+                await CreateRolesAsync(roleManager);
             }
+
+            var supportedCultures = new[] { new CultureInfo("tr"), new CultureInfo("en") };
+            var localizationOptions = new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("tr"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            };
+
+            app.UseRequestLocalization(localizationOptions);
 
             if (!app.Environment.IsDevelopment())
             {
@@ -45,7 +68,7 @@ namespace JobPortal.MVC
 
             app.UseRouting();
 
-            app.UseAuthentication(); 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
